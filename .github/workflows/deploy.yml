@@ -27,8 +27,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm install --ignore-engines
+      - name: Clean npm cache and reinstall
+        run: |
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          npm install
 
       - name: Build Astro
         run: npm run build
