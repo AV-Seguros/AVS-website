@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AVReal · AXA y Afirme</title>
+  <!-- Google Fonts: Inter (moderno y legible) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <!-- Font Awesome 6 (gratuito) para íconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      /* gris muy claro de fondo */
+      color: #1e293b;
+      line-height: 1.6;
+    }
+
+    /* paleta: navy (#0b2545), rojo llamativo (#c92a2a / #e63946), gris azulado */
+    :root {
+      --navy: #0b2545;
+      --navy-light: #1a3a5e;
+      --red: #c92a2a;
+      --red-bright: #e63946;
+      --gray-bg: #f0f2f5;
+      --gray-card: #f8fafc;
+      --text-dark: #0b1e2f;
+      --text-muted: #475569;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.8rem;
+    }
+
+    /* ----- HEADER / NAV ----- */
+    header {
+      background: var(--navy);
+      color: white;
+      padding: 0.8rem 0;
+      border-bottom: 4px solid var(--red-bright);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    .whatsapp-float {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: #25D366;
+      color: white;
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .whatsapp-float:hover,
+    .whatsapp-float:focus-visible {
+      transform: scale(1.08);
+      box-shadow: 0 8px 32px rgba(37, 211, 102, 0.45);
+      color: white;
+    }
+
+    .whatsapp-float i {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    /* Tooltip / badge con mensaje */
+    .whatsapp-tooltip {
+      position: absolute;
+      right: 76px;
+      background: #1f2937;
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .whatsapp-float:hover .whatsapp-tooltip {
+      opacity: 1;
+    }
+
+    .whatsapp-tooltip::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      border-left: 8px solid #1f2937;
+      border-top: 6px solid transparent;
+      border-bottom: 6px solid transparent;
+    }
+
+    @media (max-width: 480px) {
+      .whatsapp-float {
+        width: 56px;
+        height: 56px;
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .whatsapp-float i {
+        font-size: 1.8rem;
+      }
+
+      .whatsapp-tooltip {
+        display: none;
+        /* En móvil se oculta para no tapar */
+      }
+    }
+
+    .header-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .logo-area i {
+      font-size: 2rem;
+      color: var(--red-bright);
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.4rem;
+      border-radius: 12px;
+    }
+
+    .logo-area h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .logo-area span {
+      font-weight: 400;
+      color: #b0c4de;
+      font-size: 0.9rem;
+      margin-left: 0.3rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 0.2rem;
+    }
+
+    .nav-links a:hover {
+      color: white;
+      border-bottom-color: var(--red-bright);
+    }
+
+    .nav-cta {
+      background: var(--red-bright);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white !important;
+      border: none !important;
+      transition: 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: #b71c1c;
+      transform: scale(1.02);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.6rem;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 780px) {
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.8rem;
+        padding: 1rem 0 0.5rem;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .header-grid {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* ----- SECCIONES ----- */
+    section {
+      padding: 3.5rem 0;
+    }
+
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-center .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(145deg, #f8fafc 0%, #e9edf2 100%);
+      padding: 3.5rem 0 4rem;
+      border-bottom: 1px solid #dce1e8;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero h2 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--navy);
+    }
+
+    .hero h2 .red-highlight {
+      color: var(--red-bright);
+      background: rgba(230, 57, 70, 0.08);
+      padding: 0 0.2rem;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin: 1.2rem 0 2rem;
+      max-width: 90%;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.8rem;
+    }
+
+    .hero-badges span {
+      background: white;
+      padding: 0.4rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      border: 1px solid #dce2ec;
+    }
+
+    .hero-badges i {
+      color: var(--red-bright);
+      margin-right: 0.4rem;
+    }
+
+    .hero-image {
+      background: var(--navy);
+      border-radius: 2rem;
+      padding: 2rem 1.8rem;
+      color: white;
+      box-shadow: 0 20px 40px rgba(11, 37, 69, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-image i {
+      color: var(--red-bright);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.5rem;
+      border-radius: 20px;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-image h3 {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .hero-image ul {
+      list-style: none;
+      margin-top: 1.5rem;
+    }
+
+    .hero-image ul li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-image ul li i {
+      font-size: 1.2rem;
+      color: var(--red-bright);
+      background: transparent;
+      padding: 0;
+      width: 24px;
+    }
+
+    @media (max-width: 780px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* QUIENES SOMOS */
+    .quienes {
+      background: white;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.8rem;
+      margin-top: 2rem;
+    }
+
+    .quienes-item {
+      background: var(--gray-card);
+      padding: 1.8rem 1.8rem 2rem;
+      border-radius: 1.5rem;
+      border-left: 6px solid var(--red-bright);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+    }
+
+    .quienes-item i {
+      font-size: 2rem;
+      color: var(--red-bright);
+      background: rgba(230, 57, 70, 0.06);
+      padding: 0.5rem;
+      border-radius: 16px;
+      margin-bottom: 0.8rem;
+    }
+
+    .quienes-item h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    @media (max-width: 640px) {
+      .grid-2col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* SERVICIOS ADICIONALES */
+    .servicios {
+      background: #f0f4fa;
+    }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .servicio-card {
+      background: white;
+      padding: 1.8rem 1.2rem;
+      border-radius: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+    }
+
+    .servicio-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--red-bright);
+    }
+
+    .servicio-card i {
+      font-size: 2.4rem;
+      color: var(--red-bright);
+      background: rgba(230, 57, 70, 0.04);
+      padding: 0.8rem;
+      border-radius: 20px;
+    }
+
+    .servicio-card h5 {
+      margin: 0.8rem 0 0.3rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* MARCAS */
+    .marcas {
+      background: white;
+    }
+
+    .marcas-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem 4rem;
+      margin-top: 2.5rem;
+      align-items: center;
+    }
+
+    .marca-item {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--navy);
+      background: #f1f5f9;
+      padding: 0.5rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #dee5ed;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      letter-spacing: -0.3px;
+    }
+
+    .marca-item i {
+      color: var(--red-bright);
+      font-size: 1.8rem;
+    }
+
+    /* FORMULARIO DE CONTACTO (con el estilo mejorado) */
+    .contacto {
+      background: var(--navy);
+      color: white;
+      padding: 3.5rem 0;
+    }
+
+    .contacto .section-title {
+      color: white;
+    }
+
+    .contacto .section-sub {
+      color: #cbd5e1;
+    }
+
+    .form-wrapper {
+      background: #f8fafc;
+      border-radius: 2rem;
+      padding: 2.2rem 2.5rem;
+      max-width: 700px;
+      margin: 2rem auto 0;
+      color: #1e293b;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--red-bright);
+      margin-bottom: 0.2rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.7rem 1rem;
+      border-radius: 60px;
+      border: 1px solid #d1d9e6;
+      font-size: 0.95rem;
+      background: white;
+      transition: 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--red-bright);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+    }
+
+    .btn-red {
+      background: var(--red-bright);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 6px 14px rgba(201, 42, 42, 0.25);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-red:hover {
+      background: #b71c1c;
+      transform: scale(1.01);
+    }
+
+    .legal-small {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 540px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .form-wrapper {
+        padding: 1.5rem;
+      }
+    }
+
+    /* FOOTER */
+    footer {
+      background: #0b1a2b;
+      color: #adbccf;
+      padding: 2.5rem 0 1.5rem;
+      border-top: 4px solid var(--red-bright);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-col h6 {
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-col a {
+      display: block;
+      color: #94a9c9;
+      text-decoration: none;
+      font-size: 0.9rem;
+      padding: 0.2rem 0;
+    }
+
+    .footer-col a:hover {
+      color: white;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #1f344a;
+      padding-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+    }
+
+    .footer-bottom i {
+      color: var(--red-bright);
+    }
+
+    @media (max-width: 600px) {
+      .footer-bottom {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+      }
+    }
+
+    /* utilidades */
+    .mt-1 {
+      margin-top: 1.2rem;
+    }
+
+    .mb-1 {
+      margin-bottom: 1rem;
+    }
+
+    .inline-flex {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-outline-light:hover {
+      background: var(--red-bright);
+      border-color: var(--red-bright);
+    }
+
+    /* TESTIMONIOS con slider automático */
+    .testimonios {
+      background: white;
+      padding: 4rem 0;
+    }
+
+    .testimonios .section-title {
+      text-align: center;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .testimonios .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .slider-container {
+      overflow: hidden;
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .slider-track {
+      display: flex;
+      transition: transform 0.7s ease-in-out;
+      will-change: transform;
+    }
+
+    /* Testimonios */
+    .testimonial-card {
+      flex: 0 0 100%;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .testimonial-card .avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .testimonial-card blockquote {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #1e293b;
+      max-width: 600px;
+      margin: 0.5rem auto;
+      padding: 0 0.5rem;
+    }
+
+    .testimonial-card .author {
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 0.3rem;
+    }
+
+    .testimonial-card .city {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+    }
+
+    .slider-dots button {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: none;
+      background: #d1d9e6;
+      cursor: pointer;
+      transition: 0.2s;
+      padding: 0;
+    }
+
+    .slider-dots button.active {
+      background: var(--red-bright);
+      transform: scale(1.2);
+    }
+
+    .slider-dots button:focus-visible {
+      outline: 2px solid var(--navy);
+    }
+
+    /* FAQ */
+    .faq {
+      background: #f0f4fa;
+      padding: 4rem 0;
+    }
+
+    .faq .section-title {
+      text-align: center;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    .faq .section-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .faq-grid {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .faq-item {
+      background: white;
+      border-radius: 1.2rem;
+      padding: 1.2rem 1.8rem;
+      border-left: 5px solid var(--red-bright);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .faq-item summary {
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      color: var(--navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '\f078';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: var(--red-bright);
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-item .faq-answer {
+      padding-top: 0.8rem;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      border-top: 1px solid #eef2f6;
+      margin-top: 0.6rem;
+    }
+
+    .hero-logos {
+      margin-top: 2rem;
+    }
+
+    .hero-logos .logo-badge {
+      background: white;
+      padding: 0.3rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: 1px solid #dce2ec;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .hero-logos .logo-badge i {
+      color: var(--red-bright);
+      margin-right: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER con navegación -->
+  <header>
+    <div class="container header-grid">
+      <div class="logo-area">
+        <i class="fas fa-shield-alt"></i>
+        <h1 style="display: flex; align-items: center;">
+          AV · <span>Seguros Real</span>
+        </h1>
+      </div>
+      <div class="hamburger" onclick="toggleNav()"><i class="fas fa-bars"></i></div>
+      <nav class="nav-links" id="navLinks">
+        <a href="#hero">Inicio</a>
+        <a href="#quienes">Quiénes somos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#marcas">Marcas</a>
+        <a href="#contacto" class="nav-cta"><i class="fas fa-paper-plane"></i> Cotiza ahora</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="hero" class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <h2 id="hero-title">
+          Seguro de auto <br /><span class="red-highlight">con persona real</span> al otro lado
+        </h2>
+        <p>
+          Olvídate de robots y comparadores fríos. Cotización <strong>100% manual</strong>, hecha por un agente físico.<br />
+          <strong>AXA · Afirme</strong>, cobertura nacional.
+        </p>
+        <div class="hero-badges">
+          <span><i class="fas fa-check-circle" aria-hidden="true"></i> Atención personal</span>
+          <span><i class="fas fa-phone-alt" aria-hidden="true"></i> Seguimiento real</span>
+          <span><i class="fas fa-sync-alt" aria-hidden="true"></i> Renovación anual</span>
+          <span><i class="fas fa-tag" aria-hidden="true"></i> 20% descuento</span>
+        </div>
+        <div class="hero-logos">
+          <span class="logo-badge"><i class="fas fa-shield" aria-hidden="true"></i> AXA</span>
+          <span class="logo-badge"><i class="fas fa-building-columns" aria-hidden="true"></i> Afirme</span>
+          <br><br>
+          <span class="logo-badge" style="background:transparent; border-color:transparent; box-shadow:none; margin-top: 1rem;">
+            <i class="fas fa-map-pin" aria-hidden="true"></i> Cobertura en todo México
+          </span>
+        </div>
+      </div>
+
+      <!-- Formulario en HERO -->
+      <div class="hero-form hero-image" role="form" aria-label="Formulario de cotización">
+        <h3><i class="fas fa-file-signature" style="color:var(--red-bright);" aria-hidden="true"></i> Solicita tu cotización</h3>
+        <p class="sub" style="color: #fff;">Rellena el formulario y un agente real te contactará en <strong>24h o menos</strong>.</p>
+        <form id="leadForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre"><i class="fas fa-user" aria-hidden="true" style="color:var(--red-bright);"></i> Nombre *</label>
+              <input type="text" id="nombre" placeholder="Ej. Carlos Martínez" required aria-required="true" />
+            </div>
+            <div class="form-group">
+              <label for="telefono"><i class="fas fa-phone" aria-hidden="true" style="color:var(--red-bright);"></i> Teléfono *</label>
+              <input type="tel" id="telefono" placeholder="55 1234 5678" required aria-required="true" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email"><i class="fas fa-envelope" aria-hidden="true" style="color:var(--red-bright);"></i> Correo *</label>
+              <input type="email" id="email" placeholder="carlos@email.com" required aria-required="true" />
+            </div>
+            <div class="form-group">
+              <label for="cp"><i class="fas fa-map-pin" aria-hidden="true" style="color:var(--red-bright);"></i> C.P.</label>
+              <input type="text" id="cp" placeholder="06100" maxlength="5" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="aseguradora"><i class="fas fa-building" aria-hidden="true" style="color:var(--red-bright);"></i> Aseguradora preferida</label>
+            <select id="aseguradora">
+              <option value="AXA">AXA</option>
+              <option value="Afirme">Afirme</option>
+              <option value="Indistinto">Indistinto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comentarios">Comentarios (opcional)</label>
+            <input type="text" id="comentarios" placeholder="Modelo, año, cobertura deseada..." />
+          </div>
+          <button type="submit" class="btn-red" id="submitBtn"><i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar · cotización manual</button>
+          <div class="legal-small">
+            <i class="fas fa-lock" aria-hidden="true"></i> Tus datos son seguros. Sin spam, solo contacto humano.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonions -->
+  <section id="testimonios" class="testimonios" aria-labelledby="testimonios-title">
+    <div class="container">
+      <h2 id="testimonios-title" class="section-title">Lo que dicen nuestros clientes</h2>
+      <p class="section-sub" style="margin: auto; margin-bottom: 2rem;">Personas reales que confiaron en un agente real.</p>
+
+      <div class="slider-container" aria-label="Testimonios de clientes">
+        <div class="slider-track" id="sliderTrack" role="list">
+          <!-- Los 6 testimonios se generan desde JS -->
+        </div>
+      </div>
+      <div class="slider-dots" id="sliderDots" role="tablist" aria-label="Navegación de testimonios"></div>
+    </div>
+  </section>
+
+  <!-- QUIENES SOMOS -->
+  <section id="quienes" class="quienes">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-title">¿Quiénes somos?</h2>
+        <p class="section-sub">No somos una aseguradora, somos tu aliado. Una persona real que te acompaña en cada paso.</p>
+      </div>
+      <div class="grid-2col">
+        <div class="quienes-item">
+          <i class="fas fa-handshake"></i>
+          <h4>Trato directo</h4>
+          <p>Sin intermediarios, sin bots. Hablas conmigo, resuelvo tus dudas y te doy seguimiento personalizado.</p>
+        </div>
+        <div class="quienes-item">
+          <i class="fas fa-shield-halved"></i>
+          <h4>Las mejores aseguradoras</h4>
+          <p>Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>, dos de las compañías con mayor solidez y respaldo en México.</p>
+        </div>
+        <div class="quienes-item">
+          <i class="fas fa-user-check"></i>
+          <h4>Compromiso de confianza</h4>
+          <p>Acuerdo de palabra entre amigos, pero con la seriedad de un profesional. Tu tranquilidad es mi prioridad.</p>
+        </div>
+        <div class="quienes-item">
+          <i class="fas fa-arrows-spin"></i>
+          <h4>Renovaciones y derivados</h4>
+          <p>Si contratas con nosotros, la renovación anual también cuenta. Y si derivas otros seguros (vida, hogar), también.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS ADICIONALES -->
+  <section id="servicios" class="servicios">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-title">Servicios adicionales</h2>
+        <p class="section-sub">Más que solo auto, estamos para ayudarte con todo lo que necesites.</p>
+      </div>
+      <div class="servicios-grid">
+        <div class="servicio-card">
+          <i class="fas fa-car"></i>
+          <h5>Seguro de auto</h5>
+          <p style="font-size:0.9rem; color:#475569;">Cobertura básica, amplia y total.</p>
+        </div>
+        <div class="servicio-card">
+          <i class="fas fa-life-ring"></i>
+          <h5>Seguro de vida</h5>
+          <p style="font-size:0.9rem; color:#475569;">Protege a tu familia con respaldo.</p>
+        </div>
+        <div class="servicio-card">
+          <i class="fas fa-house"></i>
+          <h5>Seguro de hogar</h5>
+          <p style="font-size:0.9rem; color:#475569;">Tu casa y tus bienes asegurados.</p>
+        </div>
+        <div class="servicio-card">
+          <i class="fas fa-briefcase"></i>
+          <h5>Seguro empresarial</h5>
+          <p style="font-size:0.9rem; color:#475569;">Protege tu negocio con planes flexibles.</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:1.8rem;">
+        <span style="background: #e63946; color:white; padding:0.4rem 1.8rem; border-radius:60px; font-weight:600; font-size:0.9rem;">
+          <i class="fas fa-star"></i> Pregunta por cualquier otro seguro
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARCAS QUE CONFIÁN (en este caso aseguradoras y aliados) -->
+  <section id="marcas" class="marcas">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-title">Marcas que confían en nosotros</h2>
+        <p class="section-sub">Trabajamos con las mejores aseguradoras del país.</p>
+      </div>
+      <div class="marcas-grid">
+        <div class="marca-item"><i class="fas fa-shield"></i> AXA</div>
+        <div class="marca-item"><i class="fas fa-building-columns"></i> Afirme</div>
+        <div class="marca-item" style="background:transparent; border:1px solid #dce2ec;"><i class="fas fa-handshake"></i> Confianza</div>
+        <div class="marca-item" style="background:transparent; border:1px solid #dce2ec;"><i class="fas fa-people-group"></i> +50 clientes</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULARIO DE CONTACTO (lead) -->
+  <section id="contacto" class="contacto">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-title">Solicita tu cotización</h2>
+        <p class="section-sub">Rellena el formulario y en <strong>24h o menos</strong> un agente real se pondrá en contacto contigo.</p>
+      </div>
+      <div class="form-wrapper">
+        <form id="leadForm" onsubmit="return false;">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre"><i class="fas fa-user" style="color:var(--red-bright);"></i> Nombre</label>
+              <input type="text" id="nombre" placeholder="Ej. Carlos Martínez" required />
+            </div>
+            <div class="form-group">
+              <label for="telefono"><i class="fas fa-phone" style="color:var(--red-bright);"></i> Teléfono</label>
+              <input type="tel" id="telefono" placeholder="55 1234 5678" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email"><i class="fas fa-envelope" style="color:var(--red-bright);"></i> Correo</label>
+              <input type="email" id="email" placeholder="carlos@email.com" required />
+            </div>
+            <div class="form-group">
+              <label for="cp"><i class="fas fa-map-pin" style="color:var(--red-bright);"></i> Código postal</label>
+              <input type="text" id="cp" placeholder="06100" maxlength="5" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="aseguradora"><i class="fas fa-building" style="color:var(--red-bright);"></i> Aseguradora preferida</label>
+            <select id="aseguradora">
+              <option value="AXA">AXA</option>
+              <option value="Afirme">Afirme</option>
+              <option value="Indistinto">Indistinto</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comentarios">Comentarios (opcional)</label>
+            <input type="text" id="comentarios" placeholder="Modelo, año, cobertura deseada..." />
+          </div>
+          <button type="submit" class="btn-red" id="submitBtn"><i class="fas fa-paper-plane"></i> Enviar · cotización manual</button>
+          <div class="legal-small">
+            <i class="fas fa-lock"></i> Tus datos son seguros. Sin spam, solo contacto humano.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- F.A.Q -->
+  <section id="faq" class="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <h2 id="faq-title" class="section-title">Preguntas frecuentes</h2>
+      <p class="section-sub">Resolvemos tus dudas más comunes antes de que las tengas.</p>
+      <div class="faq-grid">
+        <details class="faq-item" open>
+          <summary>¿Qué diferencia a SeguroReal de un comparador en línea?</summary>
+          <div class="faq-answer">Que detrás hay una persona real. No es un robot, no es un algoritmo. Soy tu agente físico, te doy seguimiento personalizado, resuelvo tus dudas y te acompaño en siniestros y renovaciones.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Trabajan con más aseguradoras además de AXA y Afirme?</summary>
+          <div class="faq-answer">Por ahora enfocamos nuestros esfuerzos en AXA y Afirme, dos de las aseguradoras con mayor solidez y cobertura en México. Si necesitas otra, podemos evaluarlo caso por caso.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿La cotización es realmente manual?</summary>
+          <div class="faq-answer">Sí, 100% manual. Reviso tus datos, tu perfil y tus necesidades para ofrecerte la mejor opción. No hay automatización que reemplace el criterio humano.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cubren todo México?</summary>
+          <div class="faq-answer">Sí, contamos con cobertura nacional. No importa en qué estado te encuentres, puedes contratar con nosotros.</div>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa con las renovaciones anuales?</summary>
+          <div class="faq-answer">La renovación anual también cuenta para nuestro acuerdo. Y si derivas otros seguros (vida, hogar, empresarial), también aplica.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <a href="https://wa.me/+5218120130995?text=¡Hola!%20Quiero%20cotizar%20mi%20seguro%20de%20auto%20con%20un%20agente%20real." class="whatsapp-float" id="whatsappBtn" target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp para cotizar seguro de auto" title="Chatea con nosotros por WhatsApp">
+    <span class="whatsapp-tooltip" aria-hidden="true">¡Cotiza por WhatsApp!</span>
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
+  </a>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h6><i class="fas fa-shield-alt" style="color:var(--red-bright);"></i> SeguroReal</h6>
+          <p style="font-size:0.85rem;">Atención personalizada, sin robots. Agente físico con respaldo AXA y Afirme.</p>
+        </div>
+        <div class="footer-col">
+          <h6>Enlaces</h6>
+          <a href="#hero">Inicio</a>
+          <a href="#quienes">Quiénes somos</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#marcas">Marcas</a>
+        </div>
+        <div class="footer-col">
+          <h6>Contacto</h6>
+          <a href="#contacto"><i class="fas fa-envelope"></i> Cotiza aquí</a>
+          <a href="#"><i class="fas fa-phone"></i> +52 55 1234 5678</a>
+          <a href="#"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        </div>
+        <div class="footer-col">
+          <h6>Legal</h6>
+          <a href="#">Aviso de privacidad</a>
+          <a href="#">Términos y condiciones</a>
+          <span style="font-size:0.8rem; color:#5f7a9a;">Agente persona física</span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 SegurosReal · Hecho con <i class="fas fa-heart" style="color:var(--red-bright);"></i> para dar el mejor servicio</span>
+        <span><i class="fas fa-check-circle" style="color:var(--red-bright);"></i> Todos los derechos reservados</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript para navegación móvil y simulación de envío -->
+  <script>
+    (function () {
+      // ---- Testimonios datos ----
+      const testimonios = [
+        { name: 'Mariana G.', city: 'CDMX', quote: 'Me encantó que fuera una persona real quien me atendió. Resolvió todas mis dudas y me consiguió un excelente precio.', color: '#0b2545' },
+        { name: 'Jorge L.', city: 'Guadalajara', quote: 'Comparé con varias páginas y nadie me dio la confianza que me dio el agente. La renovación fue súper sencilla.', color: '#1a3a5e' },
+        { name: 'Laura F.', city: 'Monterrey', quote: 'Tuve un accidente y el acompañamiento fue increíble. No me sentí sola en ningún momento. 100% recomendable.', color: '#2c4a6e' },
+        { name: 'Carlos R.', city: 'Puebla', quote: 'Siempre compraba en línea, pero con SeguroReal entendí el valor de tener a alguien que te conoce y te respalda.', color: '#0b2545' },
+        { name: 'Ana P.', city: 'Querétaro', quote: 'La cotización fue rápida y el precio competitivo. Además, me ayudaron con un seguro de vida para mi familia.', color: '#1a3a5e' },
+        { name: 'Fernando M.', city: 'Toluca', quote: 'Excelente servicio, siempre disponibles. No cambié de aseguradora, pero sí de agente. Ahora tengo a alguien que me escucha.', color: '#2c4a6e' }
+      ];
+
+      const track = document.getElementById('sliderTrack');
+      const dotsContainer = document.getElementById('sliderDots');
+      let currentIndex = 0;
+      let intervalId = null;
+
+      // Renderizar testimonios
+      function renderTestimonials() {
+        track.innerHTML = '';
+        testimonios.forEach((t, index) => {
+          const card = document.createElement('div');
+          card.className = 'testimonial-card';
+          card.setAttribute('role', 'listitem');
+          card.setAttribute('aria-label', `Testimonio de ${t.name}, ${t.city}`);
+
+          const initial = t.name.charAt(0);
+          card.innerHTML = `
+                        <div class="avatar" style="background:${t.color};" aria-hidden="true">${initial}</div>
+                        <blockquote>“${t.quote}”</blockquote>
+                        <div class="author">${t.name}</div>
+                        <div class="city">${t.city}</div>
+                    `;
+          track.appendChild(card);
+        });
+
+        // Dots
+        dotsContainer.innerHTML = '';
+        testimonios.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.setAttribute('role', 'tab');
+          dot.setAttribute('aria-label', `Testimonio ${i + 1} de ${testimonios.length}`);
+          dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+          if (i === 0) dot.classList.add('active');
+          dot.addEventListener('click', () => goToSlide(i));
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        const offset = -index * 100;
+        track.style.transform = `translateX(${offset}%)`;
+
+        // Actualizar dots
+        document.querySelectorAll('.slider-dots button').forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+          dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+        });
+      }
+
+      function nextSlide() {
+        const next = (currentIndex + 1) % testimonios.length;
+        goToSlide(next);
+      }
+
+      function startSlider() {
+        if (intervalId) clearInterval(intervalId);
+        intervalId = setInterval(nextSlide, 6000);
+      }
+
+      function resetSlider() {
+        if (intervalId) {
+          clearInterval(intervalId);
+          startSlider();
+        }
+      }
+
+      // Inicializar
+      renderTestimonials();
+      goToSlide(0);
+      startSlider();
+
+      // Pausar al interactuar con dots
+      document.querySelectorAll('.slider-dots button').forEach(btn => {
+        btn.addEventListener('focus', () => { if (intervalId) clearInterval(intervalId); });
+        btn.addEventListener('blur', startSlider);
+      });
+
+      // ---- Navegación móvil ----
+      const hamburger = document.getElementById('hamburgerBtn');
+      const navLinks = document.getElementById('navLinks');
+
+      hamburger.addEventListener('click', function () {
+        const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+        navLinks.classList.toggle('open');
+        this.setAttribute('aria-expanded', expanded);
+      });
+
+      // Cerrar menú al click en enlace
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // ---- Formulario ----
+      const form = document.getElementById('leadForm');
+      const btn = document.getElementById('submitBtn');
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const nombre = document.getElementById('nombre').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const cp = document.getElementById('cp').value.trim();
+
+        if (!nombre || !telefono || !email || !cp) {
+          alert('⚠️ Por favor, completa todos los campos obligatorios.');
+          return;
+        }
+        if (telefono.length < 8 || !email.includes('@')) {
+          alert('📱 Verifica tu teléfono y correo electrónico.');
+          return;
+        }
+
+        const lead = {
+          nombre,
+          telefono,
+          email,
+          cp,
+          aseguradora: document.getElementById('aseguradora').value,
+          comentarios: document.getElementById('comentarios').value.trim() || 'Sin comentarios',
+          fecha: new Date().toISOString()
+        };
+        console.log('✅ Lead capturado (simulación):', lead);
+        alert('🎉 ¡Listo! Un agente real te contactará en menos de 24h.');
+
+        btn.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Enviado';
+        btn.style.background = '#1e7e34';
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar · cotización manual';
+          btn.style.background = '#e63946';
+        }, 3000);
+      });
+
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('whatsappBtn');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          // Puedes enviar un evento a Google Analytics o similar
+          console.log('🔔 Clic en botón flotante WhatsApp');
+          // Ejemplo: gtag('event', 'conversion', {'send_to': 'AW-XXXXX/YYYYY'});
+        });
+      }
+    })();
+  </script>
+
+</body>
+
+</html>
