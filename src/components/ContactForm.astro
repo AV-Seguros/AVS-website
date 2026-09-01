@@ -1,0 +1,238 @@
+---
+// Formulario de contacto principal (sección Contacto)
+---
+
+<section id="contacto" class="contacto">
+  <div class="contacto__container">
+    <div class="contacto__header">
+      <h2 class="contacto__title">Solicita tu cotización</h2>
+      <p class="contacto__sub">
+        Rellena el formulario y en <strong>24h o menos</strong> un agente real se pondrá en contacto
+        contigo.
+      </p>
+    </div>
+    <div class="contacto__form-wrapper">
+      <form id="leadFormContact" action="https://formspree.io/f/mgaekvbe" method="POST">
+        <input type="hidden" name="_subject" value="Nueva cotización desde Contacto - AVReal" />
+        <input type="hidden" name="_source" value="contacto" />
+        <div class="contacto__form-row">
+          <div class="contacto__form-group">
+            <label for="contact-nombre">
+              <i class="fas fa-user" aria-hidden="true"></i> Nombre
+            </label>
+            <input type="text" id="contact-nombre" name="Nombre" placeholder="Ej. Carlos Martínez" required />
+          </div>
+          <div class="contacto__form-group">
+            <label for="contact-telefono">
+              <i class="fas fa-phone" aria-hidden="true"></i> Teléfono
+            </label>
+            <input type="tel" id="contact-telefono" name="Telefono" placeholder="81 2013 0995" required />
+          </div>
+        </div>
+        <div class="contacto__form-row">
+          <div class="contacto__form-group">
+            <label for="contact-email">
+              <i class="fas fa-envelope" aria-hidden="true"></i> Correo
+            </label>
+            <input type="email" id="contact-email" name="Email" placeholder="carlos@email.com" required />
+          </div>
+          <div class="contacto__form-group">
+            <label for="contact-cp">
+              <i class="fas fa-map-pin" aria-hidden="true"></i> Código postal
+            </label>
+            <input type="text" id="contact-cp" name="CP" placeholder="06100" maxlength="5" required />
+          </div>
+        </div>
+        <div class="contacto__form-group">
+          <label for="contact-aseguradora">
+            <i class="fas fa-building" aria-hidden="true"></i> Aseguradora preferida
+          </label>
+          <select id="contact-aseguradora" name="Aseguradora">
+            <option value="AXA">AXA</option>
+            <option value="Afirme">Afirme</option>
+            <option value="Indistinto">Indistinto</option>
+          </select>
+        </div>
+        <div class="contacto__form-group">
+          <label for="contact-comentarios">Comentarios (opcional)</label>
+          <input type="text" id="contact-comentarios" name="Comentarios" placeholder="Modelo, año, cobertura deseada..." />
+        </div>
+        <button type="submit" class="contacto__btn-submit" id="contactSubmitBtn">
+          <i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar · cotización manual
+        </button>
+        <p class="contacto__legal">
+          <i class="fas fa-lock" aria-hidden="true"></i> Tus datos son seguros. Sin spam, solo contacto humano.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const form = document.getElementById('leadFormContact') as HTMLFormElement | null;
+    const btn = document.getElementById('contactSubmitBtn') as HTMLButtonElement | null;
+    if (!form || !btn) return;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const nombre = data.get('Nombre') as string;
+      const telefono = data.get('Telefono') as string;
+      const email = data.get('Email') as string;
+      const cp = data.get('CP') as string;
+
+      if (!nombre || !telefono || !email || !cp) {
+        alert('⚠️ Por favor, completa todos los campos obligatorios.');
+        return;
+      }
+      if (telefono.length < 8 || !email.includes('@')) {
+        alert('📱 Verifica tu teléfono y correo electrónico.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Enviando...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+
+        if (response.ok) {
+          window.location.href = `${import.meta.env.BASE_URL}gracias`;
+        } else {
+          const result = await response.json();
+          throw new Error(result.error || 'Error al enviar');
+        }
+      } catch (err) {
+        alert('❌ Hubo un error al enviar. Intenta de nuevo.');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar · cotización manual';
+      }
+    });
+  })();
+</script>
+
+<style lang="scss">
+  .contacto {
+    background: var(--navy);
+    color: white;
+    padding: 3.5rem 0;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.8rem;
+    }
+
+    &__header {
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    &__sub {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    &__form-wrapper {
+      background: #f8fafc;
+      border-radius: 2rem;
+      padding: 2.2rem 2.5rem;
+      max-width: 700px;
+      margin: 2rem auto 0;
+      color: #1e293b;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15);
+    }
+
+    &__form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    &__form-group {
+      margin-bottom: 1.2rem;
+
+      label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--red-bright);
+        margin-bottom: 0.2rem;
+
+        i {
+          margin-right: 0.3rem;
+        }
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 0.7rem 1rem;
+        border-radius: 60px;
+        border: 1px solid #d1d9e6;
+        font-size: 0.95rem;
+        background: white;
+        transition: 0.2s;
+        font-family: 'Inter', sans-serif;
+
+        &:focus {
+          border-color: var(--red-bright);
+          outline: none;
+          box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+        }
+      }
+    }
+
+    &__btn-submit {
+      background: var(--red-bright);
+      color: white;
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: 0 6px 14px rgba(201, 42, 42, 0.25);
+      letter-spacing: 0.3px;
+
+      &:hover {
+        background: #b71c1c;
+        transform: scale(1.01);
+      }
+    }
+
+    &__legal {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 540px) {
+      &__form-row {
+        grid-template-columns: 1fr;
+      }
+
+      &__form-wrapper {
+        padding: 1.5rem;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,208 @@
+---
+// Sección de Testimonios con slider automático
+const testimonios = [
+  { name: 'Mariana G.', city: 'CDMX', quote: 'Me encantó que fuera una persona real quien me atendió. Resolvió todas mis dudas y me consiguió un excelente precio.', color: '#0b2545' },
+  { name: 'Jorge L.', city: 'Guadalajara', quote: 'Comparé con varias páginas y nadie me dio la confianza que me dio el agente. La renovación fue súper sencilla.', color: '#1a3a5e' },
+  { name: 'Laura F.', city: 'Monterrey', quote: 'Tuve un accidente y el acompañamiento fue increíble. No me sentí sola en ningún momento. 100% recomendable.', color: '#2c4a6e' },
+  { name: 'Carlos R.', city: 'Puebla', quote: 'Siempre compraba en línea, pero con SeguroReal entendí el valor de tener a alguien que te conoce y te respalda.', color: '#0b2545' },
+  { name: 'Ana P.', city: 'Querétaro', quote: 'La cotización fue rápida y el precio competitivo. Además, me ayudaron con un seguro de vida para mi familia.', color: '#1a3a5e' },
+  { name: 'Fernando M.', city: 'Toluca', quote: 'Excelente servicio, siempre disponibles. No cambié de aseguradora, pero sí de agente. Ahora tengo a alguien que me escucha.', color: '#2c4a6e' },
+];
+---
+
+<section id="testimonios" class="testimonios" aria-labelledby="testimonios-title">
+  <div class="testimonios__container">
+    <h2 id="testimonios-title" class="testimonios__title">Lo que dicen nuestros clientes</h2>
+    <p class="testimonios__sub">Personas reales que confiaron en un agente real.</p>
+
+    <div class="testimonios__slider" aria-label="Testimonios de clientes">
+      <div class="testimonios__track" id="sliderTrack" role="list">
+        {testimonios.map((t) => (
+          <div class="testimonios__card" role="listitem" aria-label={`Testimonio de ${t.name}, ${t.city}`}>
+            <div class="testimonios__avatar" style={`background:${t.color};`} aria-hidden="true">
+              {t.name.charAt(0)}
+            </div>
+            <blockquote>&ldquo;{t.quote}&rdquo;</blockquote>
+            <div class="testimonios__author">{t.name}</div>
+            <div class="testimonios__city">{t.city}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div class="testimonios__dots" id="sliderDots" role="tablist" aria-label="Navegación de testimonios">
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const track = document.getElementById('sliderTrack');
+    const dotsContainer = document.getElementById('sliderDots');
+    if (!track || !dotsContainer) return;
+
+    const cards = track.querySelectorAll('.testimonios__card');
+    const total = cards.length;
+    let currentIndex = 0;
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
+    // Render dots
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < total; i++) {
+      const dot = document.createElement('button');
+      dot.setAttribute('role', 'tab');
+      dot.setAttribute('aria-label', `Testimonio ${i + 1} de ${total}`);
+      dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    function goToSlide(index: number) {
+      currentIndex = index;
+      const offset = -index * 100;
+      track!.style.transform = `translateX(${offset}%)`;
+
+      dotsContainer!.querySelectorAll('button').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+        dot.setAttribute('aria-selected', i === index ? 'true' : 'false');
+      });
+    }
+
+    function nextSlide() {
+      goToSlide((currentIndex + 1) % total);
+    }
+
+    function startSlider() {
+      if (intervalId) clearInterval(intervalId);
+      intervalId = setInterval(nextSlide, 6000);
+    }
+
+    function resetSlider() {
+      if (intervalId) {
+        clearInterval(intervalId);
+        startSlider();
+      }
+    }
+
+    goToSlide(0);
+    startSlider();
+
+    dotsContainer.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('focus', () => {
+        if (intervalId) clearInterval(intervalId);
+      });
+      btn.addEventListener('blur', startSlider);
+    });
+  })();
+</script>
+
+<style lang="scss">
+  .testimonios {
+    background: white;
+    padding: 4rem 0;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.8rem;
+    }
+
+    &__title {
+      text-align: center;
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+
+    &__sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2.5rem;
+    }
+
+    &__slider {
+      overflow: hidden;
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    &__track {
+      display: flex;
+      transition: transform 0.7s ease-in-out;
+      will-change: transform;
+    }
+
+    &__card {
+      flex: 0 0 100%;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      blockquote {
+        font-size: 1.1rem;
+        font-style: italic;
+        color: #1e293b;
+        max-width: 600px;
+        margin: 0.5rem auto;
+        padding: 0 0.5rem;
+      }
+    }
+
+    &__avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    &__author {
+      font-weight: 700;
+      color: var(--navy);
+      margin-top: 0.3rem;
+    }
+
+    &__city {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    &__dots {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+
+      button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        background: #d1d9e6;
+        cursor: pointer;
+        transition: 0.2s;
+        padding: 0;
+
+        &.active {
+          background: var(--red-bright);
+          transform: scale(1.2);
+        }
+
+        &:focus-visible {
+          outline: 2px solid var(--navy);
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,101 @@
+---
+// Sección de Marcas que confían
+const base = import.meta.env.BASE_URL;
+const marcas = [
+  { img: `${base}logo-axa.webp`, alt: 'Logo AXA', name: 'AXA', transparent: false },
+  { img: `${base}logo-afirme.jpg`, alt: 'Logo Afirme', name: 'Afirme', transparent: false },
+  { icon: 'fas fa-handshake', name: 'Confianza', transparent: true },
+  { icon: 'fas fa-people-group', name: '+50 clientes', transparent: true },
+];
+---
+
+<section id="marcas" class="marcas">
+  <div class="marcas__container">
+    <div class="marcas__header">
+      <h2 class="marcas__title">Marcas que confían en nosotros</h2>
+      <p class="marcas__sub">Trabajamos con las mejores aseguradoras del país.</p>
+    </div>
+    <div class="marcas__grid">
+      {marcas.map((m) => (
+        <div class:list={['marcas__item', { 'marcas__item--transparent': m.transparent }]}>
+          {'img' in m ? (
+            <img src={m.img} alt={m.alt} class="marcas__logo" />
+          ) : (
+            <i class={m.icon} aria-hidden="true"></i>
+          )}
+          {m.name}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .marcas {
+    background: white;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 1.8rem;
+    }
+
+    &__header {
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    &__sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    &__grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem 4rem;
+      margin-top: 2.5rem;
+      align-items: center;
+    }
+
+    &__logo {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    &__item {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--navy);
+      background: #f1f5f9;
+      padding: 0.5rem 2rem;
+      border-radius: 60px;
+      border: 1px solid #dee5ed;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      letter-spacing: -0.3px;
+
+      i {
+        color: var(--red-bright);
+        font-size: 1.8rem;
+      }
+
+      &--transparent {
+        background: transparent;
+        border: 1px solid #dce2ec;
+      }
+    }
+  }
+</style>

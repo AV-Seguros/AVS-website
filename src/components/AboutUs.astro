@@ -1,0 +1,102 @@
+---
+// Sección "Quiénes somos" con grid de 2 columnas
+const items = [
+  { icon: 'fas fa-handshake', title: 'Trato directo', desc: 'Sin intermediarios, sin bots. Hablas conmigo, resuelvo tus dudas y te doy seguimiento personalizado.' },
+  { icon: 'fas fa-shield-halved', title: 'Las mejores aseguradoras', desc: 'Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>, dos de las compañías con mayor solidez y respaldo en México.' },
+  { icon: 'fas fa-user-check', title: 'Compromiso de confianza', desc: 'Acuerdo de palabra entre amigos, pero con la seriedad de un profesional. Tu tranquilidad es mi prioridad.' },
+  { icon: 'fas fa-arrows-spin', title: 'Renovaciones y derivados', desc: 'Si contratas con nosotros, la renovación anual también cuenta. Y si derivas otros seguros (vida, hogar), también.' },
+];
+---
+
+<section id="quienes" class="quienes">
+  <div class="quienes__container">
+    <div class="quienes__header">
+      <h2 class="quienes__title">¿Quiénes somos?</h2>
+      <p class="quienes__sub">
+        No somos una aseguradora, somos tu aliado. Una persona real que te acompaña en cada paso.
+      </p>
+    </div>
+    <div class="quienes__grid">
+      {items.map((item) => (
+        <div class="quienes__card">
+          <i class={item.icon} aria-hidden="true"></i>
+          <h4>{item.title}</h4>
+          <p set:html={item.desc} />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .quienes {
+    background: white;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 1.8rem;
+    }
+
+    &__header {
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    &__sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.8rem;
+      margin-top: 2rem;
+
+      @media (max-width: 640px) {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    &__card {
+      background: var(--gray-card);
+      padding: 1.8rem 1.8rem 2rem;
+      border-radius: 1.5rem;
+      border-left: 6px solid var(--red-bright);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+
+      i {
+        font-size: 2rem;
+        color: var(--red-bright);
+        background: rgba(230, 57, 70, 0.06);
+        padding: 0.5rem;
+        border-radius: 16px;
+        margin-bottom: 0.8rem;
+        display: inline-block;
+      }
+
+      h4 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.4rem;
+      }
+
+      p {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+    }
+  }
+</style>

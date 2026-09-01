@@ -1,0 +1,168 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="¡Gracias! · AVReal">
+  <section class="gracias">
+    <div class="gracias__card">
+      <div class="gracias__icon">
+        <i class="fas fa-check-circle" aria-hidden="true"></i>
+      </div>
+      <h1 class="gracias__title">¡Gracias por contactarnos!</h1>
+      <p class="gracias__message">
+        Tu solicitud de cotización ha sido recibida correctamente.<br />
+        <strong>Te contactaremos en menos de 24 horas</strong> con una propuesta personalizada.
+      </p>
+      <div class="gracias__details">
+        <p>
+          <i class="fas fa-user" aria-hidden="true"></i>
+          Un agente real revisará tu caso
+        </p>
+        <p>
+          <i class="fas fa-clock" aria-hidden="true"></i>
+          Respuesta garantizada en menos de 24h
+        </p>
+        <p>
+          <i class="fas fa-shield" aria-hidden="true"></i>
+          Cobertura AXA · Afirme
+        </p>
+      </div>
+      <a href={`${import.meta.env.BASE_URL}`} class="gracias__btn">
+        <i class="fas fa-home" aria-hidden="true"></i> Volver al inicio
+      </a>
+      <p class="gracias__redirect" id="redirectMsg">
+        Serás redirigido al inicio en <strong id="countdown">5</strong> segundos...
+      </p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  (function () {
+    let seconds = 5;
+    const countdown = document.getElementById('countdown');
+    const interval = setInterval(() => {
+      seconds--;
+      if (countdown) countdown.textContent = String(seconds);
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = `${import.meta.env.BASE_URL}`;
+      }
+    }, 1000);
+  })();
+</script>
+
+<style lang="scss">
+  .gracias {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #f8fafc 0%, #e9edf2 100%);
+    padding: 2rem;
+
+    &__card {
+      background: white;
+      border-radius: 2rem;
+      padding: 3rem 2.5rem;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 48px rgba(11, 37, 69, 0.12);
+      border: 1px solid #e2e8f0;
+    }
+
+    &__icon {
+      i {
+        font-size: 5rem;
+        color: #1e7e34;
+        margin-bottom: 1rem;
+        animation: popIn 0.5s ease-out;
+      }
+    }
+
+    &__title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.8rem;
+    }
+
+    &__message {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+
+      strong {
+        color: var(--red-bright);
+      }
+    }
+
+    &__details {
+      margin: 2rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+
+      p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        font-size: 0.95rem;
+        color: var(--text-muted);
+
+        i {
+          color: var(--red-bright);
+          font-size: 1.1rem;
+          width: 20px;
+          text-align: center;
+        }
+      }
+    }
+
+    &__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--red-bright);
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: 0.2s;
+      box-shadow: 0 6px 14px rgba(201, 42, 42, 0.25);
+
+      &:hover {
+        background: #b71c1c;
+        transform: scale(1.02);
+      }
+    }
+
+    &__redirect {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: #94a3b8;
+
+      strong {
+        color: var(--navy);
+      }
+    }
+  }
+
+  @keyframes popIn {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,0 +1,129 @@
+---
+// Footer del sitio
+---
+
+<footer class="footer">
+  <div class="footer__container">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h6>
+          <i class="fas fa-shield-alt" aria-hidden="true"></i> SeguroReal
+        </h6>
+        <p class="footer__col-desc">
+          Atención personalizada, sin robots. Agente físico con respaldo AXA y Afirme.
+        </p>
+      </div>
+      <div class="footer__col">
+        <h6>Enlaces</h6>
+        <a href="#hero">Inicio</a>
+        <a href="#quienes">Quiénes somos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#marcas">Marcas</a>
+      </div>
+      <div class="footer__col">
+        <h6>Contacto</h6>
+        <a href="mailto:luisadolfovillarreal@gmail.com"><i class="fas fa-envelope"></i> luisadolfovillarreal@gmail.com</a>
+        <a href="#contacto"><i class="fas fa-paper-plane"></i> Cotiza aquí</a>
+        <a href="tel:+5218120130995"><i class="fas fa-phone"></i> +52 1 81 2013 0995</a>
+        <a href="https://wa.me/+5218120130995" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+      <div class="footer__col">
+        <h6>Legal</h6>
+        <a href="#">Aviso de privacidad</a>
+        <a href="#">Términos y condiciones</a>
+        <span class="footer__col-legal">Agente persona física</span>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>
+        © 2026 SegurosReal · Hecho con
+        <i class="fas fa-heart" aria-hidden="true"></i> para dar el mejor servicio
+      </span>
+      <span>
+        <i class="fas fa-check-circle" aria-hidden="true"></i> Todos los derechos reservados
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style lang="scss">
+  .footer {
+    background: #0b1a2b;
+    color: #adbccf;
+    padding: 2.5rem 0 1.5rem;
+    border-top: 4px solid var(--red-bright);
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.8rem;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    &__col {
+      h6 {
+        color: white;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+
+        i {
+          color: var(--red-bright);
+          margin-right: 0.3rem;
+        }
+      }
+
+      a {
+        display: block;
+        color: #94a9c9;
+        font-size: 0.9rem;
+        padding: 0.2rem 0;
+        transition: 0.2s;
+
+        &:hover {
+          color: white;
+        }
+
+        i {
+          margin-right: 0.4rem;
+        }
+      }
+    }
+
+    &__col-desc {
+      font-size: 0.85rem;
+      color: #94a9c9;
+    }
+
+    &__col-legal {
+      font-size: 0.8rem;
+      color: #5f7a9a;
+    }
+
+    &__bottom {
+      border-top: 1px solid #1f344a;
+      padding-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+
+      i {
+        color: var(--red-bright);
+      }
+
+      @media (max-width: 600px) {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+      }
+    }
+  }
+</style>

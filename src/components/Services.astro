@@ -1,0 +1,123 @@
+---
+// Sección de Servicios adicionales
+const servicios = [
+  { icon: 'fas fa-car', title: 'Seguro de auto', desc: 'Cobertura básica, amplia y total.' },
+  { icon: 'fas fa-life-ring', title: 'Seguro de vida', desc: 'Protege a tu familia con respaldo.' },
+  { icon: 'fas fa-house', title: 'Seguro de hogar', desc: 'Tu casa y tus bienes asegurados.' },
+  { icon: 'fas fa-briefcase', title: 'Seguro empresarial', desc: 'Protege tu negocio con planes flexibles.' },
+];
+---
+
+<section id="servicios" class="servicios">
+  <div class="servicios__container">
+    <div class="servicios__header">
+      <h2 class="servicios__title">Servicios adicionales</h2>
+      <p class="servicios__sub">
+        Más que solo auto, estamos para ayudarte con todo lo que necesites.
+      </p>
+    </div>
+    <div class="servicios__grid">
+      {servicios.map((s) => (
+        <div class="servicios__card">
+          <i class={s.icon} aria-hidden="true"></i>
+          <h5>{s.title}</h5>
+          <p>{s.desc}</p>
+        </div>
+      ))}
+    </div>
+    <div class="servicios__cta">
+      <span class="servicios__cta-badge">
+        <i class="fas fa-star" aria-hidden="true"></i> Pregunta por cualquier otro seguro
+      </span>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .servicios {
+    background: #f0f4fa;
+
+    &__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3.5rem 1.8rem;
+    }
+
+    &__header {
+      text-align: center;
+    }
+
+    &__title {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    &__sub {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    &__card {
+      background: white;
+      padding: 1.8rem 1.2rem;
+      border-radius: 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e2e8f0;
+      transition: 0.2s;
+
+      &:hover {
+        transform: translateY(-4px);
+        border-color: var(--red-bright);
+      }
+
+      i {
+        font-size: 2.4rem;
+        color: var(--red-bright);
+        background: rgba(230, 57, 70, 0.04);
+        padding: 0.8rem;
+        border-radius: 20px;
+      }
+
+      h5 {
+        margin: 0.8rem 0 0.3rem;
+        font-weight: 700;
+        color: var(--navy);
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+      }
+    }
+
+    &__cta {
+      text-align: center;
+      margin-top: 1.8rem;
+    }
+
+    &__cta-badge {
+      background: #e63946;
+      color: white;
+      padding: 0.4rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+</style>

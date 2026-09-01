@@ -1,0 +1,45 @@
+@use "tailwindcss";
+
+// ===========================
+// Variables globales (paleta)
+// ===========================
+:root {
+  --navy: #0b2545;
+  --navy-light: #1a3a5e;
+  --red: #c92a2a;
+  --red-bright: #e63946;
+  --gray-bg: #f0f2f5;
+  --gray-card: #f8fafc;
+  --text-dark: #0b1e2f;
+  --text-muted: #475569;
+}
+
+// ===========================
+// Reset y base
+// ===========================
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--gray-bg);
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
