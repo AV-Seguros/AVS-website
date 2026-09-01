@@ -1,8 +1,13 @@
 ---
-// Hero section con formulario de cotización inline
+import imageHero from "../../public/home/hero-section.jpg";
 ---
 
-<section id="hero" class="hero" aria-labelledby="hero-title">
+<section id="hero" class="hero relative overflow-hidden" aria-labelledby="hero-title">
+  <picture class="absolute left-0 right-0 bottom-0 top-0 w-full -z-1!">
+    <source media="(min-width: 1024px)" srcset={imageHero.src}>
+    <source media="(min-width: 768px)" srcset={imageHero.src}>
+    <img src={imageHero.src} alt="Asesor del seguro en tiempo real" loading="lazy">
+  </picture>
   <div class="hero__container">
     <div class="hero__left">
       <h2 id="hero-title" class="hero__title">
@@ -159,16 +164,29 @@
 
 <style lang="scss">
   .hero {
-    background: linear-gradient(145deg, #f8fafc 0%, #e9edf2 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,1), transparent, transparent, transparent, rgba(255,255,255,1));
     padding: 3.5rem 0 4rem;
     border-bottom: 1px solid #dce1e8;
+    
+    @media (max-width: 780px) {
+      background: linear-gradient(0deg, rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,.1));
+      padding-block: 5rem;
+    }
+
+    picture img {
+      @media (max-width: 780px) {
+        height: auto;
+        min-height: 50vh;
+        object-fit: cover;
+      }
+    }
 
     &__container {
-      max-width: 1200px;
+      max-width: 90%;
       margin: 0 auto;
       padding: 0 1.8rem;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 3rem;
       align-items: center;
     }
@@ -198,6 +216,10 @@
       flex-wrap: wrap;
       gap: 0.8rem;
       margin-top: 1.8rem;
+
+      @media (max-width: 780px) {
+        margin-top: 6rem;
+      }
     }
 
     &__badge {
@@ -224,15 +246,12 @@
     }
 
     &__logo-img {
-      height: 28px;
+      height: 100px;
       width: auto;
       object-fit: contain;
     }
 
     &__logo-badge {
-      background: white;
-      padding: 0.3rem 1.2rem;
-      border-radius: 60px;
       font-weight: 700;
       font-size: 1.1rem;
       border: 1px solid #dce2ec;
@@ -261,6 +280,7 @@
       color: white;
       box-shadow: 0 20px 40px rgba(11, 37, 69, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      grid-column: 3;
     }
 
     &__form-title {
@@ -355,16 +375,70 @@
     @media (max-width: 780px) {
       &__container {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
       }
 
       &__title {
         font-size: 2.2rem;
       }
+
+      &__form {
+        grid-column: 1;
+        border-radius: 1.5rem;
+        padding: 1.8rem 1.2rem;
+      }
+
+      &__badges {
+        gap: 0.5rem;
+      }
+
+      &__badge {
+        font-size: 0.78rem;
+        padding: 0.35rem 1rem;
+      }
+
+      &__logos {
+        gap: 0.6rem;
+      }
+
+      &__logo-img {
+        height: 22px;
+      }
+
+      &__logo-badge {
+        font-size: 0.95rem;
+        padding: 0.25rem 1rem;
+      }
     }
 
     @media (max-width: 540px) {
+      padding: 2rem 0 3rem;
+
+      &__title {
+        font-size: 1.8rem;
+      }
+
+      &__desc {
+        font-size: 1rem;
+      }
+
       &__form-row {
         grid-template-columns: 1fr;
+      }
+
+      &__form {
+        padding: 1.5rem 1rem;
+        border-radius: 1.2rem;
+      }
+
+      &__form-title {
+        font-size: 1.3rem;
+      }
+
+      &__btn-submit {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
       }
     }
   }

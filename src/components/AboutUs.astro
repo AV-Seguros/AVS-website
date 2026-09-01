@@ -2,9 +2,9 @@
 // Sección "Quiénes somos" con grid de 2 columnas
 const items = [
   { icon: 'fas fa-handshake', title: 'Trato directo', desc: 'Sin intermediarios, sin bots. Hablas conmigo, resuelvo tus dudas y te doy seguimiento personalizado.' },
-  { icon: 'fas fa-shield-halved', title: 'Las mejores aseguradoras', desc: 'Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>, dos de las compañías con mayor solidez y respaldo en México.' },
+  { icon: 'fas fa-award', title: 'Las mejores aseguradoras', desc: 'Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>, dos de las compañías con mayor solidez y respaldo en México.' },
   { icon: 'fas fa-user-check', title: 'Compromiso de confianza', desc: 'Acuerdo de palabra entre amigos, pero con la seriedad de un profesional. Tu tranquilidad es mi prioridad.' },
-  { icon: 'fas fa-arrows-spin', title: 'Renovaciones y derivados', desc: 'Si contratas con nosotros, la renovación anual también cuenta. Y si derivas otros seguros (vida, hogar), también.' },
+  { icon: 'fas fa-car-crash', title: 'Daños a terceros', desc: 'Cubre los daños ocasionados por un accidente a terceros, es decir, a otros automóviles, mobiliario urbano e incluso personas.' },
 ];
 ---
 
@@ -24,6 +24,11 @@ const items = [
           <p set:html={item.desc} />
         </div>
       ))}
+    </div>
+    <div class="quienes__cta">
+      <a href="#contacto" class="quienes__cta-btn">
+        <i class="fas fa-paper-plane" aria-hidden="true"></i> Contáctanos ahora
+      </a>
     </div>
   </div>
 </section>
@@ -62,10 +67,6 @@ const items = [
       grid-template-columns: 1fr 1fr;
       gap: 2.8rem;
       margin-top: 2rem;
-
-      @media (max-width: 640px) {
-        grid-template-columns: 1fr;
-      }
     }
 
     &__card {
@@ -74,6 +75,12 @@ const items = [
       border-radius: 1.5rem;
       border-left: 6px solid var(--red-bright);
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      transition: 0.25s;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+      }
 
       i {
         font-size: 2rem;
@@ -96,6 +103,79 @@ const items = [
         color: var(--text-muted);
         font-size: 0.95rem;
         line-height: 1.6;
+      }
+    }
+
+    &__cta {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+
+    &__cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--red-bright);
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: 0.25s;
+      box-shadow: 0 6px 18px rgba(201, 42, 42, 0.3);
+      letter-spacing: 0.3px;
+
+      i {
+        font-size: 1rem;
+        transition: transform 0.25s;
+      }
+
+      &:hover {
+        background: #b71c1c;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(201, 42, 42, 0.35);
+
+        i {
+          transform: translateX(3px);
+        }
+      }
+    }
+
+    @media (max-width: 640px) {
+      &__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 540px) {
+      &__container {
+        padding: 2.5rem 1.2rem;
+      }
+
+      &__title {
+        font-size: 1.7rem;
+      }
+
+      &__sub {
+        font-size: 0.95rem;
+      }
+
+      &__card {
+        padding: 1.4rem 1.2rem 1.6rem;
+        border-radius: 1.2rem;
+
+        i {
+          font-size: 1.6rem;
+        }
+
+        h4 {
+          font-size: 1.1rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+        }
       }
     }
   }

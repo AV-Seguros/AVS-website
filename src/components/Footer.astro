@@ -125,5 +125,31 @@
         text-align: center;
       }
     }
+
+    @media (max-width: 780px) {
+      &__grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+    }
+
+    @media (max-width: 540px) {
+      padding: 2rem 0 1.2rem;
+
+      &__container {
+        padding: 0 1.2rem;
+      }
+
+      &__grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      &__bottom {
+        flex-direction: column;
+        gap: 0.8rem;
+        text-align: center;
+      }
+    }
   }
 </style>

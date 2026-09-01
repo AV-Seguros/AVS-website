@@ -204,5 +204,40 @@ const testimonios = [
         }
       }
     }
+
+    @media (max-width: 780px) {
+      &__card blockquote {
+        font-size: 1rem;
+      }
+
+      &__avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+      }
+    }
+
+    @media (max-width: 540px) {
+      padding: 2.5rem 0;
+
+      &__title {
+        font-size: 1.7rem;
+      }
+
+      &__sub {
+        font-size: 0.95rem;
+      }
+
+      &__card blockquote {
+        font-size: 0.95rem;
+        padding: 0;
+      }
+
+      &__avatar {
+        width: 52px;
+        height: 52px;
+        font-size: 1.4rem;
+      }
+    }
   }
 </style>

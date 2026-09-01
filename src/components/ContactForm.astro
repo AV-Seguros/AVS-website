@@ -225,13 +225,39 @@
       margin-top: 1rem;
     }
 
+    @media (max-width: 780px) {
+      &__form-wrapper {
+        padding: 1.8rem;
+      }
+    }
+
     @media (max-width: 540px) {
+      padding: 2.5rem 0;
+
+      &__container {
+        padding: 0 1.2rem;
+      }
+
+      &__title {
+        font-size: 1.7rem;
+      }
+
+      &__sub {
+        font-size: 0.95rem;
+      }
+
       &__form-row {
         grid-template-columns: 1fr;
       }
 
       &__form-wrapper {
         padding: 1.5rem;
+        border-radius: 1.5rem;
+      }
+
+      &__btn-submit {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
       }
     }
   }

@@ -22,8 +22,8 @@ const faqs = [
     open: false,
   },
   {
-    question: '¿Qué pasa con las renovaciones anuales?',
-    answer: 'La renovación anual también cuenta para nuestro acuerdo. Y si derivas otros seguros (vida, hogar, empresarial), también aplica.',
+    question: '¿Solo puedo contratar un seguro de auto con ustedes?',
+    answer: 'No. Aunque comenzamos con seguros de auto, también podemos asesorarte en otras necesidades de protección, como gastos médicos, vida, hogar o seguros empresariales. Si necesitas algo que no manejamos directamente, buscaremos contigo la alternativa más adecuada.',
     open: false,
   },
 ];
@@ -120,6 +120,32 @@ const faqs = [
       font-size: 0.98rem;
       border-top: 1px solid #eef2f6;
       margin-top: 0.6rem;
+    }
+
+    @media (max-width: 540px) {
+      padding: 2.5rem 0;
+
+      &__title {
+        font-size: 1.7rem;
+      }
+
+      &__sub {
+        font-size: 0.95rem;
+        margin-bottom: 1.8rem;
+      }
+
+      &__item {
+        padding: 1rem 1.2rem;
+        border-radius: 1rem;
+
+        summary {
+          font-size: 0.95rem;
+        }
+      }
+
+      &__answer {
+        font-size: 0.9rem;
+      }
     }
   }
 </style>
