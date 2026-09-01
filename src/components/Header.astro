@@ -1,11 +1,12 @@
 ---
 // Header sticky con navegación y hamburger móvil
+import logo from "../../public/logo.png"
 ---
 
 <header class="header">
   <div class="header__inner">
     <div class="header__logo">
-      <i class="fas fa-shield-alt" aria-hidden="true"></i>
+      <img src={logo.src} alt="logo-avsr" title="Logo AV Seguros Real" class="logo">
       <h1 class="header__brand">
         AV · <span class="header__brand-sub">Seguros Real</span>
       </h1>
@@ -80,6 +81,12 @@
       display: flex;
       align-items: center;
       gap: 0.7rem;
+
+      .logo {
+        width: 50px;
+        background-color: #fff;
+        border-radius: 15px;
+      }
 
       > i {
         font-size: 2rem;
