@@ -1,0 +1,26 @@
+---
+import { siteConfig } from '../config/site';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Route of the page, e.g. "/" or "/servicios/". Resolved against siteConfig.siteUrl. */
+  canonicalPath: string;
+  ogImage?: string;
+  noindex?: boolean;
+  schema?: Record<string, unknown>[];
+}
+
+// ogImage and schema are consumed in sub-milestone 1.1.2.
+const { title, description, canonicalPath, noindex = false } = Astro.props;
+
+// Canonical URLs are always built from the configured origin, never from the
+// request host, so local builds and previews still point at production.
+const canonicalUrl = new URL(canonicalPath, siteConfig.siteUrl).toString();
+const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robotsContent} />
+<link rel="canonical" href={canonicalUrl} />

@@ -1,6 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import Testimonials from '../components/Testimonials.astro';
 import AboutUs from '../components/AboutUs.astro';
@@ -8,12 +7,14 @@ import Services from '../components/Services.astro';
 import Brands from '../components/Brands.astro';
 import ContactForm from '../components/ContactForm.astro';
 import FAQ from '../components/FAQ.astro';
-import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 ---
 
-<Layout>
-  <Header />
+<BaseLayout
+  title="AVReal · AXA y Afirme"
+  description="Seguro de auto con agente real. Cotización 100% manual con respaldo AXA y Afirme."
+  canonicalPath="/"
+>
   <Hero />
   <Testimonials />
   <AboutUs />
@@ -22,5 +23,4 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
   <ContactForm />
   <FAQ />
   <WhatsAppFloat />
-  <Footer />
-</Layout>
+</BaseLayout>
