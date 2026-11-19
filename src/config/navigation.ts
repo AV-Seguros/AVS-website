@@ -1,9 +1,8 @@
 /**
  * Navigation configuration.
  *
- * These arrays mirror the links currently hardcoded in `Header.astro` and
- * `Footer.astro`. Both components are wired to this config in sub-milestone
- * 1.1.4; until then this module is the reference for the planned link set.
+ * Single source of truth for the links rendered by `Header.astro` and
+ * `Footer.astro`. Every `href` points at a real route built by the site.
  */
 
 export interface NavLink {
@@ -13,19 +12,29 @@ export interface NavLink {
 
 /** Links rendered in the header, in display order. */
 export const mainNavigation: NavLink[] = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Quiénes somos', href: '#quienes' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Marcas', href: '#marcas' },
+  { label: 'Servicios', href: '/servicios/' },
+  { label: 'Quiénes somos', href: '/quienes-somos/' },
+  { label: 'Contacto', href: '/contacto/' },
+  { label: 'Preguntas frecuentes', href: '/faq/' },
 ];
 
-/** Links rendered in the footer, in display order. */
+/** Site links rendered in the footer, in display order. */
 export const footerNavigation: NavLink[] = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Quiénes somos', href: '#quienes' },
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Marcas', href: '#marcas' },
-  // Legal links. Their real routes arrive in sub-milestone 1.1.3.
-  { label: 'Aviso de privacidad', href: '#' },
-  { label: 'Términos y condiciones', href: '#' },
+  { label: 'Inicio', href: '/' },
+  ...mainNavigation,
 ];
+
+/** Legal links rendered in the footer, in display order. */
+export const legalNavigation: NavLink[] = [
+  { label: 'Aviso de privacidad', href: '/aviso-de-privacidad/' },
+  { label: 'Términos y condiciones', href: '/terminos-y-condiciones/' },
+];
+
+/**
+ * True when `href` points at the page currently being rendered. Trailing
+ * slashes are ignored so "/servicios/" and "/servicios" match equally.
+ */
+export function isCurrentPath(href: string, pathname: string): boolean {
+  const normalize = (value: string) => value.replace(/\/+$/, '') || '/';
+  return normalize(href) === normalize(pathname);
+}

@@ -1,0 +1,58 @@
+---
+// Visible breadcrumb trail plus BreadcrumbList structured data.
+import { siteConfig } from '../config/site';
+
+export interface Crumb {
+  label: string;
+  href: string;
+}
+
+export interface Props {
+  /** Ancestors of the current page, Home excluded. The last item is the current page. */
+  trail: Crumb[];
+}
+
+const { trail } = Astro.props;
+
+// Home is part of the structured-data trail even though it is not rendered.
+const items = [{ label: 'Inicio', href: '/' }, ...trail];
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((crumb, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: crumb.label,
+    item: new URL(crumb.href, siteConfig.siteUrl).toString(),
+  })),
+};
+---
+
+<nav class="mb-6" aria-label="Ruta de navegación">
+  <ol class="flex flex-wrap items-center gap-2 text-sm text-[var(--text-muted)]">
+    {
+      trail.map((crumb, index) => {
+        const isLast = index === trail.length - 1;
+        return (
+          <li class="flex items-center gap-2">
+            {isLast ? (
+              <span class="font-semibold text-[var(--navy)]" aria-current="page">
+                {crumb.label}
+              </span>
+            ) : (
+              <>
+                <a class="font-medium text-[var(--red)] hover:underline" href={crumb.href}>
+                  {crumb.label}
+                </a>
+                <span aria-hidden="true">/</span>
+              </>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

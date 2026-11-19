@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 ---
 
 <BaseLayout
@@ -8,7 +9,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   canonicalPath="/faq/"
 >
   <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <nav class="mb-6" aria-label="Ruta de navegación" data-placeholder="breadcrumbs"></nav>
+    <Breadcrumbs trail={[{ label: 'Preguntas frecuentes', href: '/faq/' }]} />
 
     <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Preguntas frecuentes</h1>
 
