@@ -6,21 +6,91 @@ export interface Props {
   description: string;
   /** Route of the page, e.g. "/" or "/servicios/". Resolved against siteConfig.siteUrl. */
   canonicalPath: string;
+  /** Absolute path or URL of the social image. Defaults to siteConfig.defaultOgImage. */
   ogImage?: string;
   noindex?: boolean;
+  /** Extra JSON-LD blocks (e.g. FAQPage, BreadcrumbList) appended after the business graph. */
   schema?: Record<string, unknown>[];
 }
 
-// ogImage and schema are consumed in sub-milestone 1.1.2.
-const { title, description, canonicalPath, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  canonicalPath,
+  ogImage = siteConfig.defaultOgImage,
+  noindex = false,
+  schema = [],
+} = Astro.props;
 
 // Canonical URLs are always built from the configured origin, never from the
 // request host, so local builds and previews still point at production.
 const canonicalUrl = new URL(canonicalPath, siteConfig.siteUrl).toString();
+const ogImageUrl = new URL(ogImage, siteConfig.siteUrl).toString();
 const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow';
+
+const { address, socialLinks } = siteConfig;
+
+const postalAddress = {
+  '@type': 'PostalAddress',
+  streetAddress: address.street,
+  addressLocality: address.city,
+  addressRegion: address.region,
+  postalCode: address.postalCode,
+  addressCountry: address.country,
+};
+
+// Organization plus the local agency it operates. Only data already present in
+// site.ts is emitted: deliberately no aggregateRating and no review markup.
+const businessSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteConfig.siteUrl}/#organization`,
+      name: siteConfig.siteName,
+      url: siteConfig.siteUrl,
+      logo: new URL('/logo.png', siteConfig.siteUrl).toString(),
+      email: siteConfig.email,
+      telephone: siteConfig.phone,
+      address: postalAddress,
+      ...(socialLinks.length > 0 ? { sameAs: socialLinks.map((link) => link.url) } : {}),
+    },
+    {
+      '@type': 'InsuranceAgency',
+      '@id': `${siteConfig.siteUrl}/#insuranceagency`,
+      name: siteConfig.siteName,
+      url: siteConfig.siteUrl,
+      image: ogImageUrl,
+      telephone: siteConfig.phone,
+      email: siteConfig.email,
+      address: postalAddress,
+      areaServed: { '@type': 'Country', name: 'Mexico' },
+      employee: { '@type': 'Person', name: siteConfig.advisorName },
+    },
+  ],
+};
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
 <meta name="robots" content={robotsContent} />
 <link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteConfig.siteName} />
+<meta property="og:locale" content="es_MX" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+
+<!-- Twitter card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<!-- Structured data -->
+<script type="application/ld+json" set:html={JSON.stringify(businessSchema)} />
+{schema.map((block) => <script type="application/ld+json" set:html={JSON.stringify(block)} />)}
