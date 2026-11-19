@@ -7,7 +7,12 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://avsegurosreal.com',
   base: '/',
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // /gracias/ is a noindex confirmation screen and must not be indexed.
+      filter: (page) => !page.includes('/gracias/'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   },
