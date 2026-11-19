@@ -1,0 +1,46 @@
+# robots.txt for https://avsegurosreal.com
+#
+# Policy: search engines and answer engines may index and cite the site.
+# Model-training crawlers may not use it as training data.
+
+# --- Search and answer engines: allowed ---
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: *
+Allow: /
+
+# --- Model-training crawlers: blocked ---
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+Sitemap: https://avsegurosreal.com/sitemap-index.xml

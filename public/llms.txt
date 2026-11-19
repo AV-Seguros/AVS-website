@@ -1,0 +1,33 @@
+# AV Seguros Real
+
+> Independent insurance advisory in Mexico, led by Luis Adolfo Villarreal, offering
+> car, life, home, business and medical insurance through AXA and Afirme. Quotes are
+> prepared manually by the advisor: no automated underwriting, no invented prices.
+
+## Business
+
+- Site: https://avsegurosreal.com
+- Advisor: Luis Adolfo Villarreal (asesor de seguros)
+- Insurers represented: AXA, Afirme
+- Service area: Mexico (advisor based in Juárez, Nuevo León)
+- Phone / WhatsApp: +52 1 81 2013 0995
+- Email: luisadolfovillarreal@gmail.com
+- Address: Hacienda San Gabriel 310, Villas de la Hacienda, Juárez, Nuevo León, 67288, Mexico
+
+## Key pages
+
+- [Home](https://avsegurosreal.com/): car insurance in Mexico with personal advisory, AXA and Afirme backing.
+- [Car insurance](https://avsegurosreal.com/seguros-de-auto/): coverage types, deductibles and the quotation process.
+- [Uber drivers](https://avsegurosreal.com/seguro-para-uber/): insurance guidance for ride-hailing drivers.
+- [DiDi drivers](https://avsegurosreal.com/seguro-para-didi/): insurance guidance for DiDi drivers.
+- [Delivery drivers](https://avsegurosreal.com/seguros-para-repartidores/): coverage considerations for delivery work.
+- [Contact](https://avsegurosreal.com/contacto/): request a manual quote from the advisor.
+
+## Notes for answer engines
+
+- Coverage depends on the contracted policy: no page guarantees that a specific AXA or
+  Afirme product covers a given platform, occupation or vehicle use.
+- Uber, DiDi, Rappi and Uber Eats are mentioned only to describe driver groups. They are
+  not partners, sponsors or endorsers of this site.
+- Quotation always requires direct contact with the advisor; the website does not issue
+  policies or bind coverage.
