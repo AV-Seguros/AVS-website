@@ -1,5 +1,11 @@
 ---
-// Footer del sitio
+// Site footer: links, legal links and advisor contact data.
+import { footerNavigation, legalNavigation } from '../config/navigation';
+import { siteConfig } from '../config/site';
+
+const whatsappMessage = '¡Hola! Quiero cotizar mi seguro de auto con un agente real.';
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 ---
 
 <footer class="footer">
@@ -15,22 +21,26 @@
       </div>
       <div class="footer__col">
         <h6>Enlaces</h6>
-        <a href="#hero">Inicio</a>
-        <a href="#quienes">Quiénes somos</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#marcas">Marcas</a>
+        {
+          footerNavigation.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
       </div>
       <div class="footer__col">
         <h6>Contacto</h6>
-        <a href="mailto:luisadolfovillarreal@gmail.com"><i class="fas fa-envelope"></i> luisadolfovillarreal@gmail.com</a>
-        <a href="#contacto"><i class="fas fa-paper-plane"></i> Cotiza aquí</a>
-        <a href="tel:+5218120130995"><i class="fas fa-phone"></i> +52 1 81 2013 0995</a>
-        <a href="https://wa.me/+5218120130995" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href={`mailto:${siteConfig.email}`}><i class="fas fa-envelope" aria-hidden="true"></i> {siteConfig.email}</a>
+        <a href="/contacto/"><i class="fas fa-paper-plane" aria-hidden="true"></i> Cotiza aquí</a>
+        <a href={phoneUrl}><i class="fas fa-phone" aria-hidden="true"></i> {siteConfig.phone}</a>
+        <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
       </div>
       <div class="footer__col">
         <h6>Legal</h6>
-        <a href="#">Aviso de privacidad</a>
-        <a href="#">Términos y condiciones</a>
+        {
+          legalNavigation.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
         <span class="footer__col-legal">Agente persona física</span>
       </div>
     </div>
@@ -85,6 +95,7 @@
         font-size: 0.9rem;
         padding: 0.2rem 0;
         transition: 0.2s;
+        overflow-wrap: break-word;
 
         &:hover {
           color: white;
