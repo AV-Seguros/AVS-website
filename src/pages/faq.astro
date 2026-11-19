@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Preguntas frecuentes · AV Seguros Real"
+  description="Respuestas sobre coberturas, cotización y siniestros de seguros de auto, vida, hogar y negocio."
+  canonicalPath="/faq/"
+>
+  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
+    <nav class="mb-6" aria-label="Ruta de navegación" data-placeholder="breadcrumbs"></nav>
+
+    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Preguntas frecuentes</h1>
+
+    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+      Las dudas que más escuchamos antes de contratar: qué cubre una póliza, cómo se cotiza y qué hacer
+      ante un siniestro.
+    </p>
+
+    <div data-placeholder="content"></div>
+  </main>
+</BaseLayout>

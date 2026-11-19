@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada · AV Seguros Real"
+  description="La página que buscas no existe o cambió de dirección. Vuelve al inicio o contáctanos."
+  canonicalPath="/404/"
+  noindex
+>
+  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
+    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Página no encontrada</h1>
+
+    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+      La dirección que abriste no existe o ya cambió. Puedes volver al inicio o escribirnos directamente.
+    </p>
+
+    <ul class="flex flex-wrap gap-4">
+      <li>
+        <a class="font-semibold text-[var(--red)] hover:underline" href="/">Volver al inicio</a>
+      </li>
+      <li>
+        <a class="font-semibold text-[var(--red)] hover:underline" href="/contacto/">Ir a contacto</a>
+      </li>
+    </ul>
+
+    <div data-placeholder="content"></div>
+  </main>
+</BaseLayout>
