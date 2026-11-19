@@ -41,10 +41,10 @@ export const siteConfig: SiteConfig = {
   whatsappNumber: '5218120130995',
   email: 'luisadolfovillarreal@gmail.com',
   address: {
-    street: 'TODO_STREET_ADDRESS',
-    city: 'TODO_CITY',
-    region: 'TODO_REGION',
-    postalCode: 'TODO_POSTAL_CODE',
+    street: 'Hacienda San Gabriel 310, Villas de la Hacienda',
+    city: 'Juárez',
+    region: 'Nuevo León',
+    postalCode: '67288',
     country: 'MX',
   },
   // No social profiles are linked from the current site.
