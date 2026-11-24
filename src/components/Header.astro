@@ -167,48 +167,100 @@ const servicesActive = isCurrentSection(allProducts, pathname);
 
   const desktopQuery = window.matchMedia('(min-width: 781px)');
 
-  // A panel opened by hover is not the same as one opened deliberately. Without
-  // this flag the mouseenter that precedes a click would open the panel and the
-  // click would immediately close it again.
-  let openedByHover = false;
+  // The panel floats a few pixels below the trigger, so a pointer walking from
+  // the trigger to the panel crosses an area that is no longer inside the
+  // trigger. Closing immediately there made the menu vanish mid-travel; a short
+  // grace period closes it only when the pointer really left. Everything else
+  // (hover, click, focus) feeds this one open/closed state, so the trigger can
+  // never fight itself.
+  const HOVER_CLOSE_DELAY = 220;
+
+  let closeTimer: ReturnType<typeof setTimeout> | undefined;
+  let pinned = false;
+  let pointerInside = false;
+  // Set when Escape closes the panel: the focus that Escape sends back to the
+  // trigger must not reopen it. Cleared as soon as the user moves or clicks.
+  let dismissed = false;
+
+  const clearCloseTimer = () => {
+    if (closeTimer !== undefined) clearTimeout(closeTimer);
+    closeTimer = undefined;
+  };
+
+  const openServices = () => {
+    clearCloseTimer();
+    dismissed = false;
+    setServicesOpen(true);
+  };
+
+  const closeServices = () => {
+    clearCloseTimer();
+    pinned = false;
+    setServicesOpen(false);
+  };
+
+  const scheduleServicesClose = () => {
+    clearCloseTimer();
+    closeTimer = setTimeout(() => {
+      closeTimer = undefined;
+      if (pinned || pointerInside) return;
+      if (navItem?.contains(document.activeElement)) return;
+      setServicesOpen(false);
+    }, HOVER_CLOSE_DELAY);
+  };
 
   hamburger?.addEventListener('click', () => setMenuOpen(!isMenuOpen()));
 
   navTrigger?.addEventListener('click', () => {
-    if (isServicesOpen() && openedByHover) {
-      openedByHover = false;
+    if (isServicesOpen() && pinned) {
+      closeServices();
       return;
     }
 
-    setServicesOpen(!isServicesOpen());
+    pinned = true;
+    openServices();
   });
 
   navItem?.addEventListener('mouseenter', () => {
-    if (!desktopQuery.matches || isServicesOpen()) return;
-    setServicesOpen(true);
-    openedByHover = true;
+    pointerInside = true;
+    dismissed = false;
+    clearCloseTimer();
+    if (desktopQuery.matches) openServices();
   });
 
   navItem?.addEventListener('mouseleave', () => {
-    if (!desktopQuery.matches) return;
+    pointerInside = false;
+    if (desktopQuery.matches && !pinned) scheduleServicesClose();
+  });
 
-    openedByHover = false;
+  // Keyboard users get the same panel by focusing the trigger or tabbing
+  // through it; it closes again once focus leaves the item entirely.
+  navItem?.addEventListener('focusin', () => {
+    if (dismissed) return;
+    openServices();
+  });
 
-    // Keep the panel open while a link inside it holds focus.
-    if (navItem.contains(document.activeElement)) return;
-    setServicesOpen(false);
+  navItem?.addEventListener('focusout', (event) => {
+    const next = event.relatedTarget;
+    if (next instanceof Node && navItem.contains(next)) return;
+
+    dismissed = false;
+
+    if (pinned || (desktopQuery.matches && pointerInside)) return;
+    scheduleServicesClose();
   });
 
   document.addEventListener('click', (event) => {
     if (!isServicesOpen() || !navItem) return;
-    if (!navItem.contains(event.target as Node)) setServicesOpen(false);
+    if (!navItem.contains(event.target as Node)) closeServices();
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
 
     if (isServicesOpen()) {
-      setServicesOpen(false);
+      closeServices();
+      dismissed = true;
       navTrigger?.focus();
       return;
     }
@@ -220,7 +272,7 @@ const servicesActive = isCurrentSection(allProducts, pathname);
   });
 
   desktopQuery.addEventListener('change', () => {
-    setServicesOpen(false);
+    closeServices();
     setMenuOpen(false);
   });
 
@@ -229,7 +281,7 @@ const servicesActive = isCurrentSection(allProducts, pathname);
   navLinks?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       setMenuOpen(false);
-      setServicesOpen(false);
+      closeServices();
     });
   });
 </script>

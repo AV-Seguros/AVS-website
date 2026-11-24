@@ -63,8 +63,12 @@ const theme = themes[textTheme];
 
 // The band is full-bleed when there is an image, so the container keeps the
 // 1200px column while the background reaches both edges of the viewport.
+// The Uber and DiDi artwork carries the platform logo in the top-right corner,
+// so the background is anchored to that corner; `bg-center` would crop it away
+// on wide viewports. Tailwind has no combined "top right" utility, hence the
+// arbitrary property.
 const sectionClass = bgImage
-  ? 'relative isolate overflow-hidden bg-cover bg-center bg-no-repeat'
+  ? 'relative isolate overflow-hidden bg-cover bg-no-repeat [background-position:right_top]'
   : '';
 ---
 

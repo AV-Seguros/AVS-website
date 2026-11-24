@@ -65,6 +65,43 @@ const {
     {showHeaderFooter && <Header />}
     <slot />
     {showHeaderFooter && <Footer />}
+
+    <script>
+      // Scroll reveal: every section that starts below the fold fades in and
+      // rises once as it enters the viewport. Sections already on screen are
+      // left untouched (no LCP delay, no flash) and nothing is hidden when this
+      // script does not run.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (!reduceMotion.matches && 'IntersectionObserver' in window) {
+        const sections = Array.from(document.querySelectorAll<HTMLElement>('main section'));
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              entry.target.setAttribute('data-reveal', 'visible');
+              observer.unobserve(entry.target);
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -8% 0px' },
+        );
+
+        sections.forEach((section) => {
+          if (section.getBoundingClientRect().top <= window.innerHeight * 0.85) return;
+          section.setAttribute('data-reveal', 'pending');
+          observer.observe(section);
+        });
+      }
+    </script>
+
+    <!-- Cloudflare Web Analytics -->
+    <script
+      type="module"
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon='{"token": "7ba64a00f1ca46f9beb32741c732ece5"}'
+    ></script>
+    <!-- End Cloudflare Web Analytics -->
   </body>
 </html>
 
