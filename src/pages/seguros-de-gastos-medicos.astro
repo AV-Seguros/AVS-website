@@ -1,0 +1,390 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/seguros-de-gastos-medicos/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappMessage = 'Hola, busco seguro de gastos médicos. Vengo de la página web.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const trustSignals = [
+  '15 años de experiencia',
+  'Respaldo de 40 años (TVAsesores)',
+  'Cédula CNSF 649610',
+];
+
+const coverageBlocks = [
+  {
+    title: 'Hospitalización',
+    description:
+      'Cuarto, atención en piso y los servicios que la póliza ampare durante una estancia hospitalaria. Es el gasto que más rápido crece y el que da sentido al producto.',
+  },
+  {
+    title: 'Cirugía y honorarios',
+    description:
+      'Intervenciones quirúrgicas, honorarios del cirujano, anestesiólogo y equipo médico, con los límites y condiciones que fije el plan.',
+  },
+  {
+    title: 'Estudios y medicamentos',
+    description:
+      'Estudios, análisis y medicamentos administrados durante la atención cubierta. Cada plan lista qué incluye y bajo qué supuestos.',
+  },
+];
+
+const reviewPoints = [
+  {
+    title: 'Deducible',
+    description:
+      'Lo que pagas antes de que la aseguradora empiece a cubrir. Puede expresarse en unidades o como un monto según el plan.',
+  },
+  {
+    title: 'Coaseguro',
+    description:
+      'El porcentaje del gasto que compartes con la aseguradora después del deducible. Es la razón por la que dos planes con el mismo precio se comportan distinto.',
+  },
+  {
+    title: 'Límite anual',
+    description:
+      'El máximo que la aseguradora pagaría en un año de póliza. No es un saldo disponible: es un tope por evento o por periodo, según el condicionado.',
+  },
+  {
+    title: 'Red hospitalaria',
+    description:
+      'Los hospitales con convenio y las condiciones para atención fuera de la red. Cambia mucho de un plan a otro y define cuánto pagarías de tu bolsillo.',
+  },
+  {
+    title: 'Carencias y preexistencias',
+    description:
+      'Los periodos de espera y el tratamiento de padecimientos previos. Es el punto que más se pregunta y el que más se malinterpreta al contratar.',
+  },
+  {
+    title: 'Forma de pago al hospital',
+    description:
+      'Pago directo a hospitales en convenio o reembolso al asegurado. No todos los planes funcionan igual y conviene saberlo antes, no durante una urgencia.',
+  },
+];
+
+const profiles = [
+  {
+    title: 'Cobertura individual',
+    description:
+      'Para una sola persona. La evaluación de salud se hace sobre esa persona y el límite anual queda a su nombre.',
+  },
+  {
+    title: 'Cobertura familiar',
+    description:
+      'Cada integrante se evalúa por separado, aunque el plan se contrate en conjunto. Agregar a alguien después depende de la aseguradora y de su estado de salud.',
+  },
+  {
+    title: 'Independientes y profesionistas',
+    description:
+      'Sin la cobertura de un empleo, el gasto médico mayor recae en el patrimonio familiar. La póliza pone un tope a esa exposición.',
+  },
+];
+
+const quoteSteps = [
+  {
+    title: '1. Revisamos a quién hay que cubrir',
+    description:
+      'Edades, ciudad y si el plan es individual o familiar. Eso define qué opciones tienen sentido antes de hablar de precios.',
+  },
+  {
+    title: '2. Contestamos el cuestionario de salud',
+    description:
+      'Cada integrante declara su estado de salud. La aseguradora puede pedir estudios o aplicar condiciones según lo declarado.',
+  },
+  {
+    title: '3. Comparamos AXA y Afirme',
+    description:
+      'Cotizamos las dos opciones con deducible, coaseguro y red hospitalaria a la vista, para que compares lo mismo contra lo mismo.',
+  },
+  {
+    title: '4. Eliges y pagas directo a la aseguradora',
+    description:
+      'La póliza la emite y la cobra la aseguradora. Nosotros acompañamos la emisión y quedamos disponibles para cualquier duda o siniestro.',
+  },
+];
+
+const documents = [
+  'Identificación oficial de cada integrante que se va a asegurar.',
+  'Comprobante de domicilio reciente.',
+  'Fecha de nacimiento y ocupación de cada persona.',
+  'Cuestionario de salud contestado por cada integrante.',
+  'Declaración de padecimientos previos, si existen.',
+  'Datos de contacto y beneficiarios, según lo solicite la aseguradora.',
+];
+
+const faqs = [
+  {
+    question: '¿Cuál es la diferencia entre deducible y coaseguro?',
+    answer:
+      'El deducible es la primera parte del gasto que corre por tu cuenta; el coaseguro es el porcentaje que compartes con la aseguradora una vez superado el deducible. Los dos aparecen en la carátula de la póliza y son la razón por la que dos planes con mensualidad parecida pueden costarte muy distinto ante una hospitalización. En la cotización te mostramos ambos números juntos.',
+  },
+  {
+    question: '¿Cubre hospitales fuera de mi ciudad?',
+    answer:
+      'Depende de la red hospitalaria del plan y de si existe atención en convenio en esa ciudad. Algunos planes tienen cobertura nacional con reembolso y otros solo pago directo en hospitales de la lista. Si viajas o vives en una zona con pocos hospitales en convenio, ese es un punto que hay que revisar antes de contratar, no después.',
+  },
+  {
+    question: '¿Cubren padecimientos que ya tengo?',
+    answer:
+      'Los padecimientos preexistentes suelen tener un tratamiento específico en el condicionado: pueden quedar excluidos, sujetos a un periodo de espera o cubiertos con condiciones particulares. No prometemos cobertura de algo que la aseguradora no haya aceptado por escrito. Declararlos con exactitud es lo que evita que una reclamación se rechace más adelante.',
+  },
+  {
+    question: '¿Puedo agregar a mi familia después?',
+    answer:
+      'Normalmente se puede solicitar, pero no es automático: la aseguradora evalúa la salud de la persona que se agrega y puede aplicar condiciones o periodos de espera. Si desde el inicio sabes que quieres cubrir a tu pareja o a tus hijos, conviene cotizarlo como plan familiar y no dejarlo para después, porque la edad y el estado de salud cambian.',
+  },
+  {
+    question: '¿Cubre consultas de rutina y chequeos?',
+    answer:
+      'No damos eso por hecho. Los gastos médicos mayores están pensados para atención de mayor complejidad y muchos planes no incluyen consultas de rutina ni chequeos preventivos, o los incluyen como beneficio adicional con límites propios. Si te interesa ese tipo de atención, lo decimos desde la cotización y revisamos qué ofrece cada plan en su condicionado.',
+  },
+  {
+    question: '¿Quién cobra la póliza?',
+    answer:
+      'AXA o Afirme directamente, nunca nosotros. Somos una agencia y no recibimos tu dinero: la prima se paga a la aseguradora y la póliza la emite ella. Nuestro trabajo es comparar las opciones con los mismos supuestos, explicarte deducible y coaseguro, y acompañarte cuando necesites usar el seguro.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seguro de gastos médicos',
+  serviceType: 'Seguro de gastos médicos mayores',
+  description:
+    'Asesoría manual para comparar seguros de gastos médicos mayores en México y contratar la póliza con AXA o Afirme.',
+  url: pageUrl,
+  areaServed: { '@type': 'Country', name: 'Mexico' },
+  provider: {
+    '@type': 'InsuranceAgency',
+    name: siteConfig.siteName,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Seguro de gastos médicos · AV Seguros Real"
+  description="Cotiza gastos médicos mayores con asesoría manual: hospitalización, cirugía y cobertura familiar. Compara AXA y Afirme en 24h."
+  canonicalPath={PATH}
+  schema={[serviceSchema]}
+>
+  <main>
+    <div class={`${t.container} pt-10`}>
+      <Breadcrumbs trail={[{ label: 'Seguro de gastos médicos', href: PATH }]} />
+    </div>
+
+    <LandingHero
+      headingId="medicos-title"
+      title="Seguro de gastos médicos"
+      subtitle="Un gasto médico mayor no se paga con el saldo del mes. Revisemos qué ampara el plan, cuánto queda en tus manos con el deducible y el coaseguro, y qué hospitales están en convenio."
+      trustSignals={trustSignals}
+      whatsappHref={whatsappHref}
+    />
+
+    <!-- What it is -->
+    <section class="bg-white py-12" aria-labelledby="que-es-title">
+      <div class={t.container}>
+        <h2 id="que-es-title" class={`${t.h2} mb-4`}>Qué es un seguro de gastos médicos mayores</h2>
+
+        <p class={`${t.body} mb-4`}>
+          Es un contrato con una aseguradora que responde por los gastos médicos cubiertos, hasta el
+          límite y bajo las condiciones del plan. No sustituye la atención pública ni funciona como un
+          ahorro para salud: su razón de ser es que una hospitalización no se convierta en una deuda
+          que la familia no pueda pagar.
+        </p>
+
+        <p class={`${t.body} mb-8`}>
+          La diferencia entre un plan y otro no está en el nombre. Está en el deducible, el coaseguro,
+          el límite anual, la red hospitalaria y los padecimientos que el condicionado excluye. Por eso
+          comparamos con esos números a la vista y no solo con la prima.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            coverageBlocks.map((block) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{block.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{block.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-info-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+          Lo que ampara cada plan lo define el condicionado general de la aseguradora, no el nombre
+          comercial. En la cotización te mostramos las condiciones del plan que estás comparando antes
+          de que decidas.
+        </p>
+      </div>
+    </section>
+
+    <!-- Review points -->
+    <section class="py-12" aria-labelledby="revisar-title">
+      <div class={t.container}>
+        <h2 id="revisar-title" class={`${t.h2} mb-4`}>Los seis números que hay que comparar</h2>
+
+        <p class={`${t.body} mb-8`}>
+          Antes de mirar el precio, mira estas seis cosas. Un plan barato con deducible alto puede
+          costarte más que uno caro cuando de verdad lo necesitas.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          {
+            reviewPoints.map((point) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{point.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{point.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Profiles -->
+    <section class="bg-white py-12" aria-labelledby="perfiles-title">
+      <div class={t.container}>
+        <h2 id="perfiles-title" class={`${t.h2} mb-4`}>Individual, familiar o para independientes</h2>
+
+        <p class={`${t.body} mb-8`}>
+          El punto de partida es a quién hay que cubrir. Cada integrante se evalúa por su cuenta, así
+          que la cotización cambia según edades y estado de salud.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            profiles.map((profile) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{profile.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{profile.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Process and documents -->
+    <section class="py-12" aria-labelledby="proceso-title">
+      <div class={t.container}>
+        <h2 id="proceso-title" class={`${t.h2} mb-4`}>Cómo funciona la cotización</h2>
+        <p class={`${t.body} mb-8`}>
+          Sin formularios eternos ni llamadas de robot. Cuatro pasos y una persona responsable de tu
+          caso de principio a fin.
+        </p>
+
+        <ol class="grid gap-6 md:grid-cols-2">
+          {
+            quoteSteps.map((step) => (
+              <li class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{step.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10">
+          <h3 class={t.h3}>Qué documentos necesitas</h3>
+          <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+            {documents.map((document) => <li>{document}</li>)}
+          </ul>
+          <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
+            Para cotizar bastan edades, ciudad y un primer cuestionario de salud. Los documentos se
+            piden al momento de emitir la póliza, no antes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="bg-white py-12" aria-labelledby="pago-title">
+      <div class={t.container}>
+        <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
+
+        <p class={`${t.body} mb-6`}>
+          La prima depende de la edad de cada integrante, la ciudad, el deducible, el coaseguro y el
+          plan elegido. La cifra exacta la confirma la cotización de la aseguradora; no publicamos
+          montos ni límites porque cambiarían según cada caso.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pagos con tarjeta de crédito</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Mensual o trimestral, con cargo a tu tarjeta de crédito.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pago directo</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Semestral o anual, pagando directamente a la aseguradora.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-shield-alt text-[var(--red-bright)]" aria-hidden="true"></i>
+          <strong>No recibimos tu dinero:</strong> pagas directo a AXA o Afirme.
+        </p>
+      </div>
+    </section>
+
+    <LandingForm
+      idPrefix="medicos"
+      subject="Cotización gastos médicos - AV Seguros Real"
+      source="seguros-de-gastos-medicos"
+      whatsappHref={whatsappHref}
+    />
+
+    <LandingFAQ faqs={faqs} headingId="medicos-faq-title" tone="white" />
+
+    <LandingTestimonials />
+
+    <!-- Closing CTA -->
+    <section class="py-12" aria-labelledby="cierre-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="cierre-title" class={`${t.h2} mb-3`}>Cotiza con un agente real</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Revisamos a quién hay que cubrir y comparamos AXA y Afirme con deducible, coaseguro y red
+          hospitalaria a la vista.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#cotizar"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

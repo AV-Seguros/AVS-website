@@ -1,0 +1,374 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/seguros-de-hogar/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappMessage = 'Hola, busco seguro de hogar. Vengo de la página web.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const trustSignals = [
+  '15 años de experiencia',
+  'Respaldo de 40 años (TVAsesores)',
+  'Cédula CNSF 649610',
+];
+
+const coverageBlocks = [
+  {
+    title: 'La construcción',
+    description:
+      'Muros, techos, pisos e instalaciones de la vivienda. Es la parte que casi nadie puede reponer de su bolsillo y la que suele quedar fuera de un seguro de auto o de vida.',
+  },
+  {
+    title: 'Los contenidos',
+    description:
+      'Muebles, electrodomésticos, ropa y equipo. Se aseguran por un valor declarado, así que conviene hacer un inventario realista y revisarlo cada año.',
+  },
+  {
+    title: 'Responsabilidad civil familiar',
+    description:
+      'Daños que tú o tu familia ocasionan a terceros, por ejemplo una fuga que afecta al vecino de abajo o un accidente dentro del inmueble.',
+  },
+];
+
+const risks = [
+  'Incendio y explosión.',
+  'Robo dentro de la vivienda, con las condiciones que fije la póliza.',
+  'Daños por agua: fugas, rupturas de tubería o lluvia.',
+  'Fenómenos naturales como viento, inundación o sismo, cuando el plan los ampara.',
+  'Daños a terceros por responsabilidad civil familiar.',
+];
+
+const profiles = [
+  {
+    title: 'Propietarios',
+    description:
+      'Quien es dueño de la casa asegura construcción y contenidos. Es el caso más completo y el que conviene revisar cuando hay hipoteca de por medio.',
+  },
+  {
+    title: 'Inquilinos',
+    description:
+      'Quien renta no necesita asegurar la construcción, pero sí sus muebles y su responsabilidad frente al arrendador y a los vecinos.',
+  },
+  {
+    title: 'Casa con negocio u oficina',
+    description:
+      'Si una parte del inmueble se usa para trabajar, el uso tiene que estar declarado. La póliza de hogar no cubre automáticamente un giro comercial.',
+  },
+];
+
+const quoteSteps = [
+  {
+    title: '1. Ubicamos la vivienda',
+    description:
+      'Código postal, tipo de construcción, metros cuadrados y antigüedad aproximada. La zona y el tipo de inmueble cambian el riesgo y la prima.',
+  },
+  {
+    title: '2. Definimos qué asegurar',
+    description:
+      'Solo construcción, solo contenidos o ambas. También revisamos si hay hipoteca y qué exige el banco en ese caso.',
+  },
+  {
+    title: '3. Comparamos AXA y Afirme',
+    description:
+      'Cotizamos las dos opciones con los mismos valores declarados y te mostramos qué riesgos ampara cada plan, con deducible a la vista.',
+  },
+  {
+    title: '4. Eliges y pagas directo a la aseguradora',
+    description:
+      'La póliza la emite y la cobra la aseguradora. Nosotros acompañamos el trámite y quedamos para el reporte de cualquier siniestro.',
+  },
+];
+
+const documents = [
+  'Identificación oficial del propietario o del inquilino.',
+  'Comprobante de domicilio de la vivienda asegurada.',
+  'Escritura, contrato de arrendamiento o documento que acredite el uso del inmueble.',
+  'Metros cuadrados de construcción y descripción general de la vivienda.',
+  'Inventario aproximado de contenidos, si se van a asegurar.',
+  'Fotografías recientes del inmueble, si la aseguradora las solicita.',
+];
+
+const faqs = [
+  {
+    question: '¿Un seguro de hogar cubre sismos e inundaciones?',
+    answer:
+      'No siempre y no de la misma forma. Algunos planes incluyen esos riesgos y otros los tratan como cobertura adicional o los excluyen. En México el sismo es justamente el riesgo que más se pregunta y el que más cambia entre aseguradoras, así que en la cotización te decimos con claridad si el plan que estás comparando lo ampara y con qué deducible.',
+  },
+  {
+    question: '¿Cubre el robo de objetos fuera de la casa?',
+    answer:
+      'Depende del condicionado. Hay planes que cubren robo dentro de la vivienda y otros que extienden la protección a ciertos bienes fuera de ella, con límites y condiciones específicas. No lo damos por hecho: revisamos el plan contigo y te señalamos qué quedaría cubierto y qué no antes de contratar.',
+  },
+  {
+    question: '¿Sirve si rento y no soy el dueño?',
+    answer:
+      'Sí, con otro enfoque. Como inquilino no aseguras la construcción, porque no te pertenece, pero sí tus contenidos y tu responsabilidad civil frente al arrendador y a los vecinos. Es una póliza más económica que la del propietario y cubre el riesgo que realmente corre quien renta.',
+  },
+  {
+    question: '¿Qué es el deducible en una póliza de hogar?',
+    answer:
+      'Es la parte del daño que pagas tú antes de que la aseguradora cubra el resto. Puede ser una cantidad fija o un porcentaje del valor del inmueble o de los contenidos, y suele cambiar según el riesgo: no es el mismo deducible para un daño por agua que para un sismo. Un deducible alto baja la prima y encarece cada siniestro.',
+  },
+  {
+    question: '¿Cubre los daños que causo a mis vecinos?',
+    answer:
+      'La responsabilidad civil familiar existe justamente para eso, con el límite que marque la póliza. Cubre daños a terceros derivados de la vivienda o de la convivencia, siempre que el condicionado lo contemple y el hecho esté dentro de sus condiciones. Revisamos ese límite contigo porque es de los puntos que más se pasan por alto al contratar.',
+  },
+  {
+    question: '¿Quién cobra la póliza?',
+    answer:
+      'AXA o Afirme directamente, nunca nosotros. Somos una agencia y no recibimos tu dinero: la prima se paga a la aseguradora y la póliza la emite ella. Nuestro trabajo es comparar, explicar las condiciones y acompañarte si tienes que reportar un siniestro.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seguro de hogar en México',
+  serviceType: 'Seguro de casa habitación',
+  description:
+    'Asesoría manual para comparar seguros de hogar en México: construcción, contenidos y responsabilidad civil con AXA o Afirme.',
+  url: pageUrl,
+  areaServed: { '@type': 'Country', name: 'Mexico' },
+  provider: {
+    '@type': 'InsuranceAgency',
+    name: siteConfig.siteName,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Seguro de hogar en México · AV Seguros Real"
+  description="Protege tu casa frente a robo, incendio, inundación y sismo, con responsabilidad civil. Asesoría manual y pago directo a AXA o Afirme."
+  canonicalPath={PATH}
+  schema={[serviceSchema]}
+>
+  <main>
+    <div class={`${t.container} pt-10`}>
+      <Breadcrumbs trail={[{ label: 'Seguro de hogar', href: PATH }]} />
+    </div>
+
+    <LandingHero
+      headingId="hogar-title"
+      title="Seguro de hogar en México"
+      subtitle="Tu casa es el bien más caro que vas a asegurar. Revisamos qué riesgos ampara la póliza, cuáles quedan fuera y a qué deducible te estás comprometiendo."
+      trustSignals={trustSignals}
+      whatsappHref={whatsappHref}
+    />
+
+    <!-- What it covers -->
+    <section class="bg-white py-12" aria-labelledby="que-cubre-title">
+      <div class={t.container}>
+        <h2 id="que-cubre-title" class={`${t.h2} mb-4`}>Qué se asegura en una póliza de hogar</h2>
+
+        <p class={`${t.body} mb-4`}>
+          Un seguro de hogar protege dos cosas distintas que conviene no mezclar: el inmueble y lo que
+          hay dentro. La mayoría de las confusiones al reclamar vienen de ahí, porque un plan puede
+          cubrir la construcción y dejar los contenidos fuera, o al revés.
+        </p>
+
+        <p class={`${t.body} mb-8`}>
+          A eso se suma la responsabilidad civil, que responde por los daños que tú o tu familia
+          ocasionan a otras personas. Cada plan define hasta qué monto y en qué supuestos.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            coverageBlocks.map((block) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{block.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{block.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-info-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+          Lo que ampara cada plan lo define el condicionado general de la aseguradora. En la
+          cotización te mostramos la lista de riesgos cubiertos y las exclusiones del plan que estás
+          comparando.
+        </p>
+      </div>
+    </section>
+
+    <!-- Risks -->
+    <section class="py-12" aria-labelledby="riesgos-title">
+      <div class={t.container}>
+        <h2 id="riesgos-title" class={`${t.h2} mb-4`}>Los riesgos que hay que revisar uno por uno</h2>
+
+        <p class={`${t.body} mb-8`}>
+          No todos los planes cubren lo mismo, y dos pólizas con precio parecido pueden responder de
+          forma muy distinta ante el mismo daño. Estos son los puntos que revisamos contigo antes de
+          comparar precios.
+        </p>
+
+        <ul class="max-w-[70ch] list-disc space-y-3 pl-5 text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
+          {risks.map((risk) => <li>{risk}</li>)}
+        </ul>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+            <h3 class={t.h3}>Deducible</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              La parte del daño que pagas tú. Puede ser un monto fijo o un porcentaje del valor
+              asegurado, y suele ser distinto para daños por agua y para fenómenos naturales.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+            <h3 class={t.h3}>Valores declarados</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Si declaras la casa o los contenidos por debajo de su valor real, la indemnización puede
+              quedar corta. Ajustar esos valores una vez al año evita sorpresas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profiles -->
+    <section class="bg-white py-12" aria-labelledby="perfiles-title">
+      <div class={t.container}>
+        <h2 id="perfiles-title" class={`${t.h2} mb-4`}>Según tu caso: dueño, inquilino o casa con negocio</h2>
+
+        <p class={`${t.body} mb-8`}>
+          La misma vivienda necesita pólizas distintas según quién la ocupa y para qué se usa. Elegir
+          bien el punto de partida ahorra pagar por coberturas que no aplican.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            profiles.map((profile) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{profile.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{profile.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Process and documents -->
+    <section class="py-12" aria-labelledby="proceso-title">
+      <div class={t.container}>
+        <h2 id="proceso-title" class={`${t.h2} mb-4`}>Cómo funciona la cotización</h2>
+        <p class={`${t.body} mb-8`}>
+          Sin formularios eternos ni llamadas de robot. Cuatro pasos y una persona responsable de tu
+          caso de principio a fin.
+        </p>
+
+        <ol class="grid gap-6 md:grid-cols-2">
+          {
+            quoteSteps.map((step) => (
+              <li class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{step.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10">
+          <h3 class={t.h3}>Qué documentos necesitas</h3>
+          <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+            {documents.map((document) => <li>{document}</li>)}
+          </ul>
+          <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
+            Para cotizar bastan el código postal, el tipo de vivienda y los metros de construcción. Los
+            documentos se piden al momento de emitir la póliza, no antes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="bg-white py-12" aria-labelledby="pago-title">
+      <div class={t.container}>
+        <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
+
+        <p class={`${t.body} mb-6`}>
+          La prima depende del valor del inmueble, la zona, el tipo de construcción, los riesgos
+          amparados y el deducible que elijas. La cifra exacta la confirma la cotización de la
+          aseguradora; no publicamos montos porque cambiarían según cada casa.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pagos con tarjeta de crédito</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Mensual o trimestral, con cargo a tu tarjeta de crédito.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pago directo</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Semestral o anual, pagando directamente a la aseguradora.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-shield-alt text-[var(--red-bright)]" aria-hidden="true"></i>
+          <strong>No recibimos tu dinero:</strong> pagas directo a AXA o Afirme.
+        </p>
+      </div>
+    </section>
+
+    <LandingForm
+      idPrefix="hogar"
+      subject="Cotización seguro de hogar - AV Seguros Real"
+      source="seguros-de-hogar"
+      whatsappHref={whatsappHref}
+    />
+
+    <LandingFAQ faqs={faqs} headingId="hogar-faq-title" tone="white" />
+
+    <LandingTestimonials />
+
+    <!-- Closing CTA -->
+    <section class="py-12" aria-labelledby="cierre-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="cierre-title" class={`${t.h2} mb-3`}>Cotiza con un agente real</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Revisamos tu vivienda, comparamos AXA y Afirme con los mismos valores declarados y te
+          explicamos qué riesgos quedan cubiertos y cuáles no.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#cotizar"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

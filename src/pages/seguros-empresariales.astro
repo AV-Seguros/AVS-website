@@ -1,0 +1,376 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/seguros-empresariales/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappMessage = 'Hola, busco seguro empresarial para mi negocio. Vengo de la página web.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const trustSignals = [
+  '15 años de experiencia',
+  'Respaldo de 40 años (TVAsesores)',
+  'Cédula CNSF 649610',
+];
+
+const coverageBlocks = [
+  {
+    title: 'Inmueble y contenidos',
+    description:
+      'El local, la bodega o la oficina y todo lo que hay dentro: mobiliario, equipo, mercancía e inventario. Se aseguran por valores declarados que hay que revisar cada año.',
+  },
+  {
+    title: 'Maquinaria y equipo',
+    description:
+      'Herramienta, maquinaria y equipo especializado. Si el negocio se detiene porque se dañó una máquina, esa es la cobertura que lo atiende.',
+  },
+  {
+    title: 'Responsabilidad civil',
+    description:
+      'Daños que el negocio ocasiona a terceros: clientes, visitantes o vecinos. Se cotiza con un límite definido y según el giro y las instalaciones.',
+  },
+];
+
+const underwritingChecks = [
+  'El giro exacto y las actividades que se realizan en el inmueble.',
+  'La ubicación, el tipo de construcción y las medidas de seguridad.',
+  'Los valores declarados de inventario, mobiliario y maquinaria.',
+  'La siniestralidad de los últimos años, si existe historial.',
+  'La nómina, cuando se cotiza responsabilidad civil patronal o accidentes personales.',
+];
+
+const profiles = [
+  {
+    title: 'Comercio y retail',
+    description:
+      'Tienda, local o punto de venta con inventario concentrado. El robo y el daño por agua suelen ser los riesgos que más pesan.',
+  },
+  {
+    title: 'Bodegas y talleres',
+    description:
+      'Inmuebles con maquinaria, herramienta y mercancía. Aquí importan el equipo, la continuidad de la operación y la exposición a incendio.',
+  },
+  {
+    title: 'Oficinas y servicios',
+    description:
+      'Menos inventario y más responsabilidad frente a clientes y visitantes. El enfoque cambia hacia contenidos y responsabilidad civil.',
+  },
+];
+
+const quoteSteps = [
+  {
+    title: '1. Entendemos el negocio',
+    description:
+      'Giro, tamaño, ubicación y qué parte de la operación no puede detenerse. Sin eso, cualquier cotización es un número sin contexto.',
+  },
+  {
+    title: '2. Revisamos valores y riesgos',
+    description:
+      'Inventario, maquinaria, inmueble y medidas de seguridad. Los valores declarados definen cuánto respondería la aseguradora.',
+  },
+  {
+    title: '3. Comparamos AXA y Afirme',
+    description:
+      'Cotizamos las dos opciones con las mismas coberturas y te mostramos qué incluye cada plan y qué queda como cobertura opcional.',
+  },
+  {
+    title: '4. Eliges y pagas directo a la aseguradora',
+    description:
+      'La póliza la emite y la cobra la aseguradora. Nosotros acompañamos la emisión y quedamos para cualquier reporte de siniestro.',
+  },
+];
+
+const documents = [
+  'Acta constitutiva y RFC, si el negocio es persona moral; INE, si es persona física.',
+  'Identificación oficial del representante legal.',
+  'Comprobante de domicilio del negocio.',
+  'Descripción del giro, metros cuadrados y tipo de construcción.',
+  'Inventario o relación de valores: mobiliario, equipo, mercancía y maquinaria.',
+  'Facturas de la maquinaria o del equipo de mayor valor, si se solicita.',
+  'Nómina actual, solo si se cotiza responsabilidad civil patronal o accidentes personales.',
+  'Relación de medidas de seguridad y siniestralidad de años anteriores.',
+];
+
+const faqs = [
+  {
+    question: '¿Qué es una póliza multirriesgo empresarial?',
+    answer:
+      'Es un solo contrato que reúne varias coberturas para el negocio: inmueble, contenidos, maquinaria y responsabilidad civil, entre otras. No todas vienen incluidas en todos los planes: algunas son opcionales y otras dependen del giro. En la cotización te mostramos qué trae cada propuesta y qué se puede agregar, sin dar por hecho nada que no esté escrito en el condicionado.',
+  },
+  {
+    question: '¿Cubre que el negocio deje de operar?',
+    answer:
+      'Existe una cobertura de interrupción de negocio, pero no está en todos los planes y suele tener condiciones estrictas: periodo de espera, comprobación de la pérdida y límites. No la presentamos como incluida por defecto. Si tu operación no puede parar, lo decimos desde la primera conversación y revisamos si el plan que estás comparando la contempla.',
+  },
+  {
+    question: '¿Cubre a los empleados?',
+    answer:
+      'Depende de la cobertura que se contrate. La responsabilidad civil patronal y los accidentes personales son coberturas distintas, con alcances y requisitos propios, y no sustituyen las obligaciones de seguridad social del patrón. Si te interesa proteger a tu equipo, decímoslo con claridad qué ampara cada una y qué queda fuera antes de cotizar.',
+  },
+  {
+    question: '¿Qué son los valores declarados?',
+    answer:
+      'Son los montos que reportas por tu inmueble, inventario, mobiliario y maquinaria. Con ellos la aseguradora calcula la prima y determina cuánto pagaría ante un siniestro. Si declaras menos de lo que realmente vale el negocio, la indemnización puede quedarse corta. Revisar esos valores una vez al año es tan importante como contratar.',
+  },
+  {
+    question: '¿Sirve para un negocio que opera desde casa?',
+    answer:
+      'La póliza de hogar no cubre automáticamente una actividad comercial. Si parte de la casa se usa como taller, bodega u oficina con atención a clientes, hay que declararlo y cotizar la cobertura que corresponda. Mezclar ambos usos sin avisar es una de las causas más comunes de rechazo al momento del reclamo.',
+  },
+  {
+    question: '¿Quién cobra la póliza?',
+    answer:
+      'AXA o Afirme directamente, nunca nosotros. Somos una agencia y no recibimos el dinero del negocio: la prima se paga a la aseguradora y la póliza la emite ella. Nuestro trabajo es comparar opciones con las mismas coberturas, explicar las condiciones y acompañarte en el trámite y en el reclamo.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seguro empresarial en México',
+  serviceType: 'Seguro multirriesgo para empresas',
+  description:
+    'Asesoría manual para cotizar seguros empresariales en México: inmueble, inventario, maquinaria y responsabilidad civil con AXA o Afirme.',
+  url: pageUrl,
+  areaServed: { '@type': 'Country', name: 'Mexico' },
+  provider: {
+    '@type': 'InsuranceAgency',
+    name: siteConfig.siteName,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Seguro empresarial en México · AV Seguros Real"
+  description="Protege inventario, maquinaria y responsabilidad civil de tu negocio. Asesoría manual en 24h y pago directo a AXA o Afirme."
+  canonicalPath={PATH}
+  schema={[serviceSchema]}
+>
+  <main>
+    <div class={`${t.container} pt-10`}>
+      <Breadcrumbs trail={[{ label: 'Seguro empresarial', href: PATH }]} />
+    </div>
+
+    <LandingHero
+      headingId="empresarial-title"
+      title="Seguro empresarial en México"
+      subtitle="Un negocio no se protege con una póliza genérica: se protege con los valores bien declarados y las coberturas que corresponden a su giro. Cotización manual en 24h."
+      trustSignals={trustSignals}
+      whatsappHref={whatsappHref}
+    />
+
+    <!-- What it is -->
+    <section class="bg-white py-12" aria-labelledby="que-es-title">
+      <div class={t.container}>
+        <h2 id="que-es-title" class={`${t.h2} mb-4`}>Qué protege un seguro empresarial</h2>
+
+        <p class={`${t.body} mb-4`}>
+          Un seguro empresarial cubre lo que el negocio tiene y lo que debe a terceros. Lo primero es
+          el inmueble, el inventario y la maquinaria; lo segundo es la responsabilidad frente a
+          clientes, visitantes o vecinos cuando algo sale mal en la operación.
+        </p>
+
+        <p class={`${t.body} mb-8`}>
+          La mayoría de las pólizas se arman como multirriesgo: un contrato base y coberturas que se
+          agregan según el giro. Por eso dos negocios del mismo tamaño pueden terminar con planes muy
+          distintos, y por eso conviene revisar la propuesta punto por punto.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            coverageBlocks.map((block) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{block.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{block.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-info-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+          Lo que ampara cada plan lo define el condicionado general de la aseguradora. En la
+          cotización te mostramos qué coberturas trae la propuesta, cuáles son opcionales y cuáles no
+          aplican a tu giro.
+        </p>
+      </div>
+    </section>
+
+    <!-- Underwriting -->
+    <section class="py-12" aria-labelledby="evaluacion-title">
+      <div class={t.container}>
+        <h2 id="evaluacion-title" class={`${t.h2} mb-4`}>Qué revisa la aseguradora antes de cotizar</h2>
+
+        <p class={`${t.body} mb-8`}>
+          Un seguro empresarial no se cotiza con el nombre del negocio y un teléfono. Estos datos son
+          los que mueven la evaluación y los que conviene tener a mano desde la primera llamada.
+        </p>
+
+        <ul class="max-w-[70ch] list-disc space-y-3 pl-5 text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
+          {underwritingChecks.map((check) => <li>{check}</li>)}
+        </ul>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+            <h3 class={t.h3}>Valores declarados</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Si el inventario o la maquinaria se declaran por debajo de su valor real, la
+              indemnización puede quedar corta. Es el error más común y el más caro.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+            <h3 class={t.h3}>Deducible</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              La parte del daño que absorbe el negocio. Un deducible alto reduce la prima y encarece
+              cada siniestro: la decisión debe considerar el flujo de efectivo del negocio.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profiles -->
+    <section class="bg-white py-12" aria-labelledby="giros-title">
+      <div class={t.container}>
+        <h2 id="giros-title" class={`${t.h2} mb-4`}>El giro cambia la póliza</h2>
+
+        <p class={`${t.body} mb-8`}>
+          No es lo mismo asegurar una tienda con mercancía a la vista que una oficina sin inventario.
+          El punto de partida siempre es la operación real, no una plantilla.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            profiles.map((profile) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{profile.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{profile.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Process and documents -->
+    <section class="py-12" aria-labelledby="proceso-title">
+      <div class={t.container}>
+        <h2 id="proceso-title" class={`${t.h2} mb-4`}>Cómo funciona la cotización</h2>
+        <p class={`${t.body} mb-8`}>
+          Sin formularios eternos ni llamadas de robot. Cuatro pasos y una persona responsable de tu
+          caso de principio a fin.
+        </p>
+
+        <ol class="grid gap-6 md:grid-cols-2">
+          {
+            quoteSteps.map((step) => (
+              <li class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{step.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10">
+          <h3 class={t.h3}>Qué documentos necesitas</h3>
+          <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+            {documents.map((document) => <li>{document}</li>)}
+          </ul>
+          <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
+            Para cotizar bastan el giro, la ubicación y un estimado de valores. Los documentos se piden
+            al momento de emitir la póliza, no antes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="bg-white py-12" aria-labelledby="pago-title">
+      <div class={t.container}>
+        <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
+
+        <p class={`${t.body} mb-6`}>
+          La prima depende de los valores declarados, el giro, la ubicación, las medidas de seguridad y
+          la siniestralidad. La cifra exacta la confirma la cotización de la aseguradora; no
+          publicamos montos porque cambiarían en cada negocio.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pagos con tarjeta de crédito</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Mensual o trimestral, con cargo a la tarjeta de la empresa o del representante.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pago directo</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Semestral o anual, pagando directamente a la aseguradora.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-shield-alt text-[var(--red-bright)]" aria-hidden="true"></i>
+          <strong>No recibimos tu dinero:</strong> pagas directo a AXA o Afirme.
+        </p>
+      </div>
+    </section>
+
+    <LandingForm
+      idPrefix="empresarial"
+      subject="Cotización seguro empresarial - AV Seguros Real"
+      source="seguros-empresariales"
+      whatsappHref={whatsappHref}
+    />
+
+    <LandingFAQ faqs={faqs} headingId="empresarial-faq-title" tone="white" />
+
+    <LandingTestimonials />
+
+    <!-- Closing CTA -->
+    <section class="py-12" aria-labelledby="cierre-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="cierre-title" class={`${t.h2} mb-3`}>Cotiza con un agente real</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Revisamos tu giro y tus valores, comparamos AXA y Afirme con las mismas coberturas y te
+          decimos qué queda fuera antes de que firmes.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#cotizar"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

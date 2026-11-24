@@ -1,0 +1,78 @@
+---
+// Shared hero for the product landing pages: H1, subtitle, primary and
+// WhatsApp CTAs, trust signals and the agency disclaimer.
+import { landingTokens } from './tokens';
+
+export interface Props {
+  /** id of the H1, used as the accessible name of the section. */
+  headingId: string;
+  title: string;
+  /** Tailwind max-width utilities for the H1 (keep it a static string). */
+  titleClass?: string;
+  subtitle: string;
+  trustSignals: string[];
+  whatsappHref: string;
+  /** Extra paragraphs rendered after the agency disclaimer. */
+  notes?: string[];
+}
+
+const {
+  headingId,
+  title,
+  titleClass = 'max-w-[22ch]',
+  subtitle,
+  trustSignals,
+  whatsappHref,
+  notes = [],
+} = Astro.props;
+---
+
+<section class={`${landingTokens.container} pb-12 pt-2`} aria-labelledby={headingId}>
+  <h1
+    id={headingId}
+    class={`mb-4 ${titleClass} text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]`}
+  >
+    {title}
+  </h1>
+
+  <p class="mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed text-[var(--text-muted)]">
+    {subtitle}
+  </p>
+
+  <div class="mb-8 flex flex-wrap items-center gap-3">
+    <a
+      href="#cotizar"
+      class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+    >
+      <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+    </a>
+    <a
+      href={whatsappHref}
+      class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
+    </a>
+  </div>
+
+  <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[var(--navy)]">
+    {
+      trustSignals.map((signal) => (
+        <li class="flex items-center gap-2">
+          <i class="fas fa-check-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+          {signal}
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="mt-6 max-w-[70ch] text-sm text-[var(--text-muted)]">
+    Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>. Somos una agencia, no una
+    aseguradora: la póliza la emite y la cobra la aseguradora.
+  </p>
+
+  {
+    notes.map((note) => <p class="mt-2 max-w-[70ch] text-sm text-[var(--text-muted)]">{note}</p>)
+  }
+</section>
