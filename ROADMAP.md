@@ -752,3 +752,11 @@ The protocol exists so that an agent can execute the roadmap without ambiguity a
 5. **Report contents.** Each session ends with a short report: sub-milestone completed, files created/modified, Definition of Done items verified, anything deferred or justified as not applicable, and the next sub-milestone.
 6. **No opportunistic refactoring.** Unrelated improvements, renames, dependency upgrades and styling changes are not part of a sub-milestone; note them for a future session instead.
 7. **No unrequested infrastructure.** Do not add a backend, database, authentication, analytics vendor or deployment target in a sub-milestone that does not name it.
+
+---
+
+# 10. Pending Business Data
+
+- [ ] Replace placeholder testimonials with real Uber/DiDi driver testimonials (Name, City, Insurance Type).
+- [ ] Confirm and replace the +2500 clients metric on the Home page.
+- [ ] Remove the "20% discount" badge from the Home page (expired).
