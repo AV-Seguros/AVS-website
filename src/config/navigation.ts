@@ -18,10 +18,19 @@ export const mainNavigation: NavLink[] = [
   { label: 'Preguntas frecuentes', href: '/faq/' },
 ];
 
+/**
+ * Driver landing pages. They are listed in the footer for now; whether they
+ * belong in the header is decided once the 1.2.x set is complete.
+ */
+export const driverNavigation: NavLink[] = [
+  { label: 'Seguro para Uber', href: '/seguro-para-uber/' },
+];
+
 /** Site links rendered in the footer, in display order. */
 export const footerNavigation: NavLink[] = [
   { label: 'Inicio', href: '/' },
   ...mainNavigation,
+  ...driverNavigation,
 ];
 
 /** Legal links rendered in the footer, in display order. */

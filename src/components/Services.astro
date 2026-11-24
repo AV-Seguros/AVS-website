@@ -25,6 +25,18 @@ const servicios = [
         </div>
       ))}
     </div>
+    <div class="servicios__spotlight">
+      <div class="servicios__spotlight-text">
+        <h3>¿Manejas con Uber?</h3>
+        <p>
+          Tu póliza de uso privado puede no cubrirte mientras trabajas con la aplicación. Revisamos tu
+          caso y te decimos qué cobertura te corresponde.
+        </p>
+      </div>
+      <a href="/seguro-para-uber/" class="servicios__spotlight-btn">
+        Ver seguro para Uber <i class="fas fa-arrow-right" aria-hidden="true"></i>
+      </a>
+    </div>
     <div class="servicios__cta">
       <a href="https://wa.me/5218120130995?text=%C2%A1Hola%21%20Estoy%20en%20su%20p%C3%A1gina%20web%20y%20quisiera%20saber%20qu%C3%A9%20otros%20tipos%20de%20seguros%20tienen.%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer" class="servicios__cta-btn">
         <i class="fab fa-whatsapp" aria-hidden="true"></i> Pregunta por otros seguros
@@ -100,6 +112,78 @@ const servicios = [
       p {
         font-size: 0.9rem;
         color: var(--text-muted);
+      }
+    }
+
+    &__spotlight {
+      margin-top: 2.2rem;
+      padding: 1.6rem 1.8rem;
+      border-radius: 1.5rem;
+      border-left: 6px solid var(--red-bright);
+      background: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+
+      &-text {
+        flex: 1 1 320px;
+
+        h3 {
+          font-size: 1.3rem;
+          font-weight: 700;
+          color: var(--navy);
+          margin-bottom: 0.4rem;
+        }
+
+        p {
+          font-size: 0.95rem;
+          color: var(--text-muted);
+        }
+      }
+
+      &-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 1.8rem;
+        border-radius: 60px;
+        border: 2px solid var(--navy);
+        color: var(--navy);
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: 0.25s;
+        white-space: nowrap;
+
+        i {
+          font-size: 0.9rem;
+          transition: transform 0.25s;
+        }
+
+        &:hover {
+          background: var(--navy);
+          color: white;
+
+          i {
+            transform: translateX(3px);
+          }
+        }
+      }
+
+      @media (max-width: 540px) {
+        padding: 1.4rem 1.2rem;
+        border-radius: 1.2rem;
+
+        &-text h3 {
+          font-size: 1.1rem;
+        }
+
+        &-btn {
+          width: 100%;
+          justify-content: center;
+        }
       }
     }
 

@@ -116,9 +116,16 @@ const serviceSchema = {
   },
 };
 
-const sectionClass = 'mx-auto w-full max-w-[1200px] px-6';
-const h2Class = 'text-3xl font-extrabold text-[var(--navy)]';
-const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
+// Layout and typography tokens mirror the site's design system (see
+// `global.scss` and the SCSS section components): 1200px container with
+// 1.8rem side padding, 2.1rem section titles, 1.05rem body copy.
+const sectionClass = 'landing-container';
+const h2Class =
+  'text-[1.7rem] font-bold leading-tight tracking-[-0.02em] text-[var(--navy)] md:text-[2.1rem]';
+const h3Class = 'mb-2 text-[1.15rem] font-bold text-[var(--navy)]';
+const bodyClass = 'max-w-[70ch] text-[1.05rem] leading-relaxed text-[var(--text-muted)]';
+const inputClass =
+  'w-full rounded-full border border-[#d1d9e6] bg-white px-4 py-3 text-[0.95rem] text-[var(--text-dark)]';
 ---
 
 <BaseLayout
@@ -128,20 +135,20 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
   schema={[serviceSchema, faqSchema]}
 >
   <main>
-    <div class="mx-auto w-full max-w-[1200px] px-6 pt-10">
+    <div class={`${sectionClass} pt-10`}>
       <Breadcrumbs trail={[{ label: 'Seguro para Uber', href: PATH }]} />
     </div>
 
     <!-- Hero -->
-    <section class="mx-auto w-full max-w-[1200px] px-6 pb-12 pt-2" aria-labelledby="uber-title">
+    <section class={`${sectionClass} pb-12 pt-2`} aria-labelledby="uber-title">
       <h1
         id="uber-title"
-        class="mb-4 max-w-[20ch] text-4xl font-extrabold leading-tight text-[var(--navy)] md:text-5xl"
+        class="mb-4 max-w-[20ch] text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]"
       >
         Seguro de auto para conductores de Uber en México
       </h1>
 
-      <p class="mb-6 max-w-[62ch] text-lg text-[var(--text-muted)]">
+      <p class="mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed text-[var(--text-muted)]">
         Cotización manual en 24h. Verifica que tu cobertura realmente cubra el uso comercial con Uber.
       </p>
 
@@ -190,7 +197,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
 
         <div class="grid gap-8 md:grid-cols-2">
           <div>
-            <h3 class="mb-2 text-xl font-bold text-[var(--navy)]">Uso privado y uso comercial</h3>
+            <h3 class={h3Class}>Uso privado y uso comercial</h3>
             <p class={bodyClass}>
               Una póliza de uso privado se tarifa para traslados personales. Cuando manejas para una
               aplicación de transporte, el vehículo se expone a más kilómetros, más horarios y más
@@ -200,7 +207,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
           </div>
 
           <div>
-            <h3 class="mb-2 text-xl font-bold text-[var(--navy)]">Por qué importa el uso declarado</h3>
+            <h3 class={h3Class}>Por qué importa el uso declarado</h3>
             <p class={bodyClass}>
               El uso declarado es parte del contrato, no un trámite. Declarar “particular” un vehículo
               que opera con una plataforma puede dejar la cobertura sin efecto. Nosotros te ayudamos a
@@ -211,9 +218,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
         </div>
 
         <div class="mt-8">
-          <h3 class="mb-2 text-xl font-bold text-[var(--navy)]">
-            Qué revisar en tus condiciones antes de contratar
-          </h3>
+          <h3 class={h3Class}>Qué revisar en tus condiciones antes de contratar</h3>
           <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
             {policyChecks.map((check) => <li>{check}</li>)}
           </ul>
@@ -238,7 +243,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
           {
             benefits.map((benefit) => (
               <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
-                <h3 class="mb-2 text-lg font-bold text-[var(--navy)]">{benefit.title}</h3>
+                <h3 class={h3Class}>{benefit.title}</h3>
                 <p class="text-sm text-[var(--text-muted)]">{benefit.description}</p>
               </div>
             ))
@@ -246,9 +251,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
         </div>
 
         <div class="mt-10">
-          <h3 class="mb-2 text-xl font-bold text-[var(--navy)]">
-            Qué necesitamos para evaluar tu caso
-          </h3>
+          <h3 class={h3Class}>Qué necesitamos para evaluar tu caso</h3>
           <p class={bodyClass}>
             Con el modelo, año y versión de tu vehículo, tu código postal, el uso que le das y si
             tienes historial de siniestros, ya podemos cotizar. Si además nos dices qué cobertura
@@ -272,14 +275,14 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
 
         <div class="grid gap-6 md:grid-cols-2">
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class="mb-2 text-lg font-bold text-[var(--navy)]">Pagos con tarjeta de crédito</h3>
+            <h3 class={h3Class}>Pagos con tarjeta de crédito</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Mensual o trimestral, con cargo a tu tarjeta de crédito.
             </p>
           </div>
 
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class="mb-2 text-lg font-bold text-[var(--navy)]">Pago directo</h3>
+            <h3 class={h3Class}>Pago directo</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Semestral o anual, pagando directamente a la aseguradora.
             </p>
@@ -321,7 +324,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
                 id="uber-nombre"
                 name="Nombre"
                 autocomplete="name"
-                class="w-full rounded-xl border border-[#d1d9e6] px-4 py-3 text-[var(--text-dark)]"
+                class={inputClass}
                 aria-describedby="uber-nombre-error"
                 required
               />
@@ -341,7 +344,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
                 inputmode="tel"
                 autocomplete="tel"
                 placeholder="81 1234 5678"
-                class="w-full rounded-xl border border-[#d1d9e6] px-4 py-3 text-[var(--text-dark)]"
+                class={inputClass}
                 aria-describedby="uber-whatsapp-error"
                 required
               />
@@ -359,7 +362,7 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
                 id="uber-email"
                 name="Email"
                 autocomplete="email"
-                class="w-full rounded-xl border border-[#d1d9e6] px-4 py-3 text-[var(--text-dark)]"
+                class={inputClass}
                 aria-describedby="uber-email-error"
                 required
               />
@@ -464,6 +467,21 @@ const bodyClass = 'max-w-[70ch] text-[var(--text-muted)]';
     </section>
   </main>
 </BaseLayout>
+
+<style lang="scss">
+  // Shared page container: 1200px max width with the same responsive side
+  // padding as the section components in `src/components`.
+  .landing-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.2rem;
+
+    @media (min-width: 541px) {
+      padding-inline: 1.8rem;
+    }
+  }
+</style>
 
 <script>
   (function () {
