@@ -25,12 +25,14 @@ export const mainNavigation: NavLink[] = [
 export const driverNavigation: NavLink[] = [
   { label: 'Seguro para Uber', href: '/seguro-para-uber/' },
   { label: 'Seguro para DiDi', href: '/seguro-para-didi/' },
+  { label: 'Seguro para repartidores', href: '/seguros-para-repartidores/' },
 ];
 
 /** Site links rendered in the footer, in display order. */
 export const footerNavigation: NavLink[] = [
   { label: 'Inicio', href: '/' },
   ...mainNavigation,
+  { label: 'Seguro de auto', href: '/seguros-de-auto/' },
   ...driverNavigation,
 ];
 
