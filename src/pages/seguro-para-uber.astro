@@ -1,0 +1,548 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Testimonials from '../components/Testimonials.astro';
+import { siteConfig } from '../config/site';
+
+const PATH = '/seguro-para-uber/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+// Temporary submission target: the form backend is decided in `1.6.1`
+// (ROADMAP §8). This reuses the Formspree endpoint already configured for the
+// other site forms. It is intentionally not advertised in the visible copy.
+const FORM_ENDPOINT = 'https://formspree.io/f/mgaekvbe';
+
+const whatsappMessage = 'Hola, busco seguro de auto para conductor de Uber. Vengo de la página web.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const trustSignals = [
+  '15 años de experiencia',
+  'Respaldo de 40 años (TVAsesores)',
+  'Cédula CNSF 649610',
+];
+
+const benefits = [
+  {
+    title: 'Cobertura en USA y Canadá',
+    description:
+      'Uno de nuestros fuertes: tu póliza puede acompañarte cuando cruzas la frontera. Pregunta por las condiciones aplicables a tu caso.',
+  },
+  {
+    title: '2 grúas al año en todo México',
+    description:
+      'Asistencia vial en todo el país, dos servicios de grúa por año. Las ponchaduras no están incluidas.',
+  },
+  {
+    title: 'Daños a terceros como póliza mínima',
+    description:
+      'La base de cualquier póliza responsable: cubrir el daño que ocasionas a otros vehículos, a bienes y a personas.',
+  },
+];
+
+const policyChecks = [
+  'La descripción del uso del vehículo: particular, comercial o para plataformas de transporte.',
+  'Las exclusiones, en especial las relacionadas con transporte de pasajeros remunerado.',
+  'Si la póliza exige una ampliación o endoso para operar con aplicaciones.',
+  'La vigencia y los requisitos de la asistencia vial antes de usarla.',
+];
+
+const faqs = [
+  {
+    question: '¿El seguro de auto privado cubre Uber?',
+    answer:
+      'No de forma automática. Una póliza de uso privado se contrata y se tarifa para uso personal; manejar para una aplicación de transporte puede considerarse uso comercial. Si tu póliza no lo contempla, podrías quedarte sin cobertura justo cuando la necesitas. Revisa tus condiciones o pregunta antes de asumirlo.',
+  },
+  {
+    question: '¿Cubren en USA y Canadá?',
+    answer:
+      'Sí, es uno de nuestros fuertes. Te confirmamos por escrito qué coberturas aplican cuando cruzas la frontera y cómo se comporta la asistencia fuera del país antes de que contrates.',
+  },
+  {
+    question: '¿Qué incluye la asistencia?',
+    answer:
+      'Dos servicios de grúa al año en todo México. Las ponchaduras no están incluidas, así que conviene revisar qué otros servicios de asistencia necesitas por tu cuenta.',
+  },
+  {
+    question: '¿Qué hago en caso de siniestro?',
+    answer:
+      'Nos llamas y te guiamos en el reporte y en el proceso con la aseguradora. También damos seguimiento y presionamos al taller para que tu unidad te sea entregada lo antes posible.',
+  },
+  {
+    question: '¿Hay descuentos?',
+    answer:
+      'Usamos los descuentos oficiales de AXA y además igualamos precios con Afirme. Comparamos ambas opciones con los datos de tu vehículo y te decimos cuál te conviene.',
+  },
+  {
+    question: '¿Quién cobra el seguro?',
+    answer:
+      'AXA o Afirme directamente, nunca nosotros. No recibimos tu dinero: tú pagas directo a la aseguradora.',
+  },
+];
+
+// Single source of truth: the visible FAQ list and the FAQPage JSON-LD are
+// generated from the same `faqs` array.
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seguro de auto para conductores de Uber',
+  serviceType: 'Seguro de auto para conductores de plataformas de transporte',
+  description:
+    'Asesoría manual para contratar un seguro de auto con la cobertura de uso comercial que exige manejar para plataformas de transporte en México.',
+  url: pageUrl,
+  areaServed: { '@type': 'Country', name: 'Mexico' },
+  provider: {
+    '@type': 'InsuranceAgency',
+    name: siteConfig.siteName,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+  },
+};
+
+// Layout and typography tokens mirror the site's design system (see
+// `global.scss` and the SCSS section components): 1200px container with
+// 1.8rem side padding, 2.1rem section titles, 1.05rem body copy.
+const sectionClass = 'landing-container';
+const h2Class =
+  'text-[1.7rem] font-bold leading-tight tracking-[-0.02em] text-[var(--navy)] md:text-[2.1rem]';
+const h3Class = 'mb-2 text-[1.15rem] font-bold text-[var(--navy)]';
+const bodyClass = 'max-w-[70ch] text-[1.05rem] leading-relaxed text-[var(--text-muted)]';
+const inputClass =
+  'w-full rounded-full border border-[#d1d9e6] bg-white px-4 py-3 text-[0.95rem] text-[var(--text-dark)]';
+---
+
+<BaseLayout
+  title="Seguro de auto para conductores de Uber · AV Seguros Real"
+  description="Cotiza seguro de auto para conductor de Uber con asesoría manual en 24h. Verifica que tu cobertura cubra el uso comercial y paga directo a AXA o Afirme."
+  canonicalPath={PATH}
+  schema={[serviceSchema, faqSchema]}
+>
+  <main>
+    <div class={`${sectionClass} pt-10`}>
+      <Breadcrumbs trail={[{ label: 'Seguro para Uber', href: PATH }]} />
+    </div>
+
+    <!-- Hero -->
+    <section class={`${sectionClass} pb-12 pt-2`} aria-labelledby="uber-title">
+      <h1
+        id="uber-title"
+        class="mb-4 max-w-[20ch] text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]"
+      >
+        Seguro de auto para conductores de Uber en México
+      </h1>
+
+      <p class="mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed text-[var(--text-muted)]">
+        Cotización manual en 24h. Verifica que tu cobertura realmente cubra el uso comercial con Uber.
+      </p>
+
+      <div class="mb-8 flex flex-wrap items-center gap-3">
+        <a
+          href="#cotizar"
+          class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+        >
+          <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+        </a>
+        <a
+          href={whatsappHref}
+          class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
+        </a>
+      </div>
+
+      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[var(--navy)]">
+        {trustSignals.map((signal) => (
+          <li class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+            {signal}
+          </li>
+        ))}
+      </ul>
+
+      <p class="mt-6 max-w-[70ch] text-sm text-[var(--text-muted)]">
+        Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>. Somos una agencia, no una
+        aseguradora: la póliza la emite y la cobra la aseguradora.
+      </p>
+    </section>
+
+    <!-- Educational section 1 -->
+    <section class="bg-white py-12" aria-labelledby="cubre-uber-title">
+      <div class={sectionClass}>
+        <h2 id="cubre-uber-title" class={`${h2Class} mb-4`}>¿Tu seguro actual cubre Uber?</h2>
+
+        <p class={`${bodyClass} mb-8`}>
+          La respuesta corta es: no necesariamente. Un seguro de auto contratado como uso privado no
+          está pensado para transportar pasajeros de forma remunerada. Antes de asumir que estás
+          cubierto, conviene leer tu póliza y confirmarlo con la aseguradora.
+        </p>
+
+        <div class="grid gap-8 md:grid-cols-2">
+          <div>
+            <h3 class={h3Class}>Uso privado y uso comercial</h3>
+            <p class={bodyClass}>
+              Una póliza de uso privado se tarifa para traslados personales. Cuando manejas para una
+              aplicación de transporte, el vehículo se expone a más kilómetros, más horarios y más
+              pasajeros: eso es uso comercial. Si la póliza no lo contempla, la aseguradora puede no
+              responder ante un siniestro ocurrido mientras trabajabas con la aplicación.
+            </p>
+          </div>
+
+          <div>
+            <h3 class={h3Class}>Por qué importa el uso declarado</h3>
+            <p class={bodyClass}>
+              El uso declarado es parte del contrato, no un trámite. Declarar “particular” un vehículo
+              que opera con una plataforma puede dejar la cobertura sin efecto. Nosotros te ayudamos a
+              declararlo correctamente desde la cotización, para que no haya sorpresas el día del
+              siniestro.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <h3 class={h3Class}>Qué revisar en tus condiciones antes de contratar</h3>
+          <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+            {policyChecks.map((check) => <li>{check}</li>)}
+          </ul>
+          <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
+            Si tienes dudas sobre tu póliza actual, tráela a la cotización: la revisamos contigo y te
+            decimos qué conviene ajustar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Educational section 2 -->
+    <section class="py-12" aria-labelledby="beneficios-title">
+      <div class={sectionClass}>
+        <h2 id="beneficios-title" class={`${h2Class} mb-4`}>Beneficios reales de nuestras pólizas</h2>
+        <p class={`${bodyClass} mb-8`}>
+          Esto es lo que efectivamente entregan las pólizas que cotizamos. Sin promesas que no
+          aparezcan en la carátula.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            benefits.map((benefit) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={h3Class}>{benefit.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{benefit.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="mt-10">
+          <h3 class={h3Class}>Qué necesitamos para evaluar tu caso</h3>
+          <p class={bodyClass}>
+            Con el modelo, año y versión de tu vehículo, tu código postal, el uso que le das y si
+            tienes historial de siniestros, ya podemos cotizar. Si además nos dices qué cobertura
+            buscas —mínima de daños a terceros o más amplia—, la comparación entre AXA y Afirme sale
+            más precisa.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price and payment -->
+    <section class="bg-white py-12" aria-labelledby="costo-title">
+      <div class={sectionClass}>
+        <h2 id="costo-title" class={`${h2Class} mb-4`}>Costo y formas de pago</h2>
+
+        <p class={`${bodyClass} mb-6`}>
+          El costo promedio anual ronda entre los <strong>$20,000 y $30,000 MXN</strong> (varía según
+          el vehículo). La cifra exacta se confirma con la cotización de la aseguradora, porque depende
+          del modelo, el año, el código postal y las coberturas que elijas.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={h3Class}>Pagos con tarjeta de crédito</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Mensual o trimestral, con cargo a tu tarjeta de crédito.
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={h3Class}>Pago directo</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Semestral o anual, pagando directamente a la aseguradora.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-shield-alt text-[var(--red-bright)]" aria-hidden="true"></i>
+          <strong>No recibimos tu dinero:</strong> pagas directo a AXA o Afirme.
+        </p>
+      </div>
+    </section>
+
+    <!-- Form -->
+    <section id="cotizar" class="py-12" aria-labelledby="cotizar-title">
+      <div class={sectionClass}>
+        <div class="mx-auto max-w-[640px]">
+          <h2 id="cotizar-title" class={`${h2Class} mb-3`}>Solicita tu cotización</h2>
+          <p class={`${bodyClass} mb-6`}>
+            Tres datos y un agente real te contacta en 24h o menos para revisar tu caso.
+          </p>
+
+          <form
+            id="uberLeadForm"
+            class="rounded-2xl border border-[#e2e8f0] bg-white p-6 md:p-8"
+            action={FORM_ENDPOINT}
+            method="POST"
+            novalidate
+          >
+            <input type="hidden" name="_subject" value="Cotización Uber - AV Seguros Real" />
+            <input type="hidden" name="_source" value="seguro-para-uber" />
+
+            <div class="mb-4">
+              <label for="uber-nombre" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
+                Nombre *
+              </label>
+              <input
+                type="text"
+                id="uber-nombre"
+                name="Nombre"
+                autocomplete="name"
+                class={inputClass}
+                aria-describedby="uber-nombre-error"
+                required
+              />
+              <p id="uber-nombre-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
+                Escribe tu nombre.
+              </p>
+            </div>
+
+            <div class="mb-4">
+              <label for="uber-whatsapp" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
+                WhatsApp *
+              </label>
+              <input
+                type="tel"
+                id="uber-whatsapp"
+                name="WhatsApp"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="81 1234 5678"
+                class={inputClass}
+                aria-describedby="uber-whatsapp-error"
+                required
+              />
+              <p id="uber-whatsapp-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
+                Escribe un número de WhatsApp de al menos 10 dígitos.
+              </p>
+            </div>
+
+            <div class="mb-4">
+              <label for="uber-email" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
+                Correo electrónico *
+              </label>
+              <input
+                type="email"
+                id="uber-email"
+                name="Email"
+                autocomplete="email"
+                class={inputClass}
+                aria-describedby="uber-email-error"
+                required
+              />
+              <p id="uber-email-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
+                Escribe un correo electrónico válido.
+              </p>
+            </div>
+
+            <div class="mb-6">
+              <label for="uber-consent" class="flex items-start gap-3 text-sm text-[var(--text-muted)]">
+                <input
+                  type="checkbox"
+                  id="uber-consent"
+                  name="Consentimiento"
+                  value="Aceptado"
+                  class="mt-1 h-4 w-4"
+                  aria-describedby="uber-consent-error"
+                  required
+                />
+                <span>
+                  Acepto el
+                  <a href="/aviso-de-privacidad/" class="font-semibold text-[var(--red)] underline">
+                    aviso de privacidad</a
+                  >
+                  y el contacto por WhatsApp o correo para recibir mi cotización.
+                </span>
+              </label>
+              <p id="uber-consent-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
+                Necesitamos tu consentimiento para contactarte.
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              id="uberSubmitBtn"
+              class="w-full rounded-full bg-[var(--red-bright)] px-6 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+            >
+              <i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar solicitud
+            </button>
+
+            <p id="uber-form-error" class="mt-4 hidden text-sm text-[var(--red)]" role="alert">
+              No pudimos enviar tu solicitud.
+              <a href={whatsappHref} class="font-bold underline" target="_blank" rel="noopener noreferrer">
+                Escríbenos por WhatsApp</a
+              >
+              y lo vemos de inmediato.
+            </p>
+
+            <p class="mt-4 text-xs text-[var(--text-muted)]">
+              Tus datos se usan solo para contactarte sobre esta cotización.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="bg-white py-12" aria-labelledby="uber-faq-title">
+      <div class={sectionClass}>
+        <h2 id="uber-faq-title" class={`${h2Class} mb-6`}>Preguntas frecuentes</h2>
+
+        <div class="mx-auto max-w-[820px] space-y-3">
+          {
+            faqs.map((faq) => (
+              <details class="rounded-xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-card)] p-5">
+                <summary class="cursor-pointer font-bold text-[var(--navy)]">{faq.question}</summary>
+                <p class="mt-3 text-[var(--text-muted)]">{faq.answer}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <Testimonials />
+
+    <!-- Closing CTA -->
+    <section class="py-12" aria-labelledby="cierre-title">
+      <div class={`${sectionClass} text-center`}>
+        <h2 id="cierre-title" class={`${h2Class} mb-3`}>Cotiza con un agente real</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Revisamos tu caso, comparamos AXA y Afirme y te decimos con claridad qué cobertura te
+          corresponde como conductor de Uber.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#cotizar"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style lang="scss">
+  // Shared page container: 1200px max width with the same responsive side
+  // padding as the section components in `src/components`.
+  .landing-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.2rem;
+
+    @media (min-width: 541px) {
+      padding-inline: 1.8rem;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const form = document.getElementById('uberLeadForm') as HTMLFormElement | null;
+    const btn = document.getElementById('uberSubmitBtn') as HTMLButtonElement | null;
+    const formError = document.getElementById('uber-form-error');
+    if (!form || !btn) return;
+
+    const nameInput = document.getElementById('uber-nombre') as HTMLInputElement;
+    const phoneInput = document.getElementById('uber-whatsapp') as HTMLInputElement;
+    const emailInput = document.getElementById('uber-email') as HTMLInputElement;
+    const consentInput = document.getElementById('uber-consent') as HTMLInputElement;
+
+    const setFieldError = (input: HTMLInputElement, errorId: string, hasError: boolean) => {
+      const error = document.getElementById(errorId);
+      error?.classList.toggle('hidden', !hasError);
+      input.setAttribute('aria-invalid', String(hasError));
+    };
+
+    const isPhoneValid = (value: string) => value.replace(/\D/g, '').length >= 10;
+    const isEmailValid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      formError?.classList.add('hidden');
+
+      const hasName = nameInput.value.trim().length >= 2;
+      const hasPhone = isPhoneValid(phoneInput.value);
+      const hasEmail = isEmailValid(emailInput.value);
+      const hasConsent = consentInput.checked;
+
+      setFieldError(nameInput, 'uber-nombre-error', !hasName);
+      setFieldError(phoneInput, 'uber-whatsapp-error', !hasPhone);
+      setFieldError(emailInput, 'uber-email-error', !hasEmail);
+      setFieldError(consentInput, 'uber-consent-error', !hasConsent);
+
+      const firstInvalid = [!hasName, !hasPhone, !hasEmail, !hasConsent].indexOf(true);
+      if (firstInvalid !== -1) {
+        [nameInput, phoneInput, emailInput, consentInput][firstInvalid].focus();
+        return;
+      }
+
+      const originalLabel = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Enviando...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+
+        window.location.href = `${import.meta.env.BASE_URL}gracias`;
+      } catch {
+        formError?.classList.remove('hidden');
+        btn.disabled = false;
+        btn.innerHTML = originalLabel;
+      }
+    });
+  })();
+</script>
