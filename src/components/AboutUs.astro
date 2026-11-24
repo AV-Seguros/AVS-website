@@ -20,7 +20,7 @@ const items = [
       {items.map((item) => (
         <div class="quienes__card">
           <i class={item.icon} aria-hidden="true"></i>
-          <h4>{item.title}</h4>
+          <h3>{item.title}</h3>
           <p set:html={item.desc} />
         </div>
       ))}
@@ -92,7 +92,7 @@ const items = [
         display: inline-block;
       }
 
-      h4 {
+      h3 {
         font-size: 1.3rem;
         font-weight: 700;
         color: var(--navy);
@@ -169,7 +169,7 @@ const items = [
           font-size: 1.6rem;
         }
 
-        h4 {
+        h3 {
           font-size: 1.1rem;
         }
 

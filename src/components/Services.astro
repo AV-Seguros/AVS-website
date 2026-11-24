@@ -20,7 +20,7 @@ const servicios = [
       {servicios.map((s) => (
         <div class="servicios__card">
           <i class={s.icon} aria-hidden="true"></i>
-          <h5>{s.title}</h5>
+          <h3>{s.title}</h3>
           <p>{s.desc}</p>
         </div>
       ))}
@@ -91,7 +91,7 @@ const servicios = [
         border-radius: 20px;
       }
 
-      h5 {
+      h3 {
         margin: 0.8rem 0 0.3rem;
         font-weight: 700;
         color: var(--navy);
@@ -165,7 +165,7 @@ const servicios = [
           font-size: 2rem;
         }
 
-        h5 {
+        h3 {
           font-size: 1rem;
         }
       }

@@ -12,15 +12,15 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
   <div class="footer__container">
     <div class="footer__grid">
       <div class="footer__col">
-        <h6>
+        <h2>
           <i class="fas fa-shield-alt" aria-hidden="true"></i> SeguroReal
-        </h6>
+        </h2>
         <p class="footer__col-desc">
           Atención personalizada, sin robots. Agente físico con respaldo AXA y Afirme.
         </p>
       </div>
       <div class="footer__col">
-        <h6>Enlaces</h6>
+        <h2>Enlaces</h2>
         {
           footerNavigation.map((link) => (
             <a href={link.href}>{link.label}</a>
@@ -28,14 +28,14 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
         }
       </div>
       <div class="footer__col">
-        <h6>Contacto</h6>
+        <h2>Contacto</h2>
         <a href={`mailto:${siteConfig.email}`}><i class="fas fa-envelope" aria-hidden="true"></i> {siteConfig.email}</a>
         <a href="/contacto/"><i class="fas fa-paper-plane" aria-hidden="true"></i> Cotiza aquí</a>
         <a href={phoneUrl}><i class="fas fa-phone" aria-hidden="true"></i> {siteConfig.phone}</a>
         <a href={whatsappUrl} target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
       </div>
       <div class="footer__col">
-        <h6>Legal</h6>
+        <h2>Legal</h2>
         {
           legalNavigation.map((link) => (
             <a href={link.href}>{link.label}</a>
@@ -77,7 +77,7 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
     }
 
     &__col {
-      h6 {
+      h2 {
         color: white;
         font-weight: 700;
         font-size: 1rem;
