@@ -32,6 +32,7 @@ export const driverNavigation: NavLink[] = [
 export const footerNavigation: NavLink[] = [
   { label: 'Inicio', href: '/' },
   ...mainNavigation,
+  { label: 'Seguro de auto', href: '/seguros-de-auto/' },
   ...driverNavigation,
 ];
 
