@@ -1,23 +1,181 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+
+const PATH = '/faq/';
+
+// Cross-cutting questions only. Product-specific detail stays on the landing
+// pages, so this page links out instead of duplicating long answers.
+const faqGroups = [
+  {
+    id: 'coberturas',
+    label: 'Coberturas',
+    faqs: [
+      {
+        question: '¿Qué cubre un seguro de auto?',
+        answer:
+          'Lo que cubre una póliza no lo define el nombre comercial, sino su condicionado. En términos generales se distinguen la responsabilidad civil por daños a terceros (la cobertura mínima responsable), los daños materiales del vehículo, el robo total, los gastos médicos a ocupantes y la asistencia vial. Cada una tiene límites, deducibles y exclusiones escritas, y es ahí donde se decide qué te van a pagar. En la cotización comparamos la carátula y las condiciones del plan que estás evaluando.',
+        link: { label: 'Ver el detalle del seguro de auto', href: '/seguros-de-auto/' },
+      },
+      {
+        question: '¿Mi póliza de uso particular cubre si manejo con Uber o DiDi?',
+        answer:
+          'No de forma automática. Una póliza de uso particular se contrata y se tarifa para traslados personales; operar con una plataforma de transporte puede considerarse uso comercial. Si el uso declarado no coincide con el real, la aseguradora puede no responder ante un siniestro ocurrido mientras trabajabas. Conviene revisar las exclusiones del contrato o pedir una ampliación antes de asumirlo.',
+        link: { label: 'Seguro para conductores de Uber', href: '/seguro-para-uber/' },
+      },
+      {
+        question: '¿Qué protege el seguro de hogar, el de vida y el de gastos médicos?',
+        answer:
+          'Son riesgos distintos y no se sustituyen entre sí. El seguro de hogar protege la vivienda y lo que hay dentro frente a los eventos que liste la póliza; el de vida paga una suma asegurada a las personas que designes como beneficiarias si ocurre el evento cubierto; y el de gastos médicos responde por atención médica y hospitalaria según las condiciones, deducibles y coaseguros contratados. La conversación empieza por el riesgo que quieres cubrir, no por el producto.',
+        link: { label: 'Comparar los seguros que trabajamos', href: '/servicios/' },
+      },
+    ],
+  },
+  {
+    id: 'cotizacion',
+    label: 'Proceso de cotización',
+    faqs: [
+      {
+        question: '¿Cotizar tiene algún costo?',
+        answer:
+          'No. Cotizar no cuesta nada y no te compromete a contratar. Comparamos las opciones de AXA y Afirme con los datos de tu caso y te mostramos condiciones, límites y exclusiones para que decidas con información, no con una cifra aislada.',
+      },
+      {
+        question: '¿Cuánto tarda la cotización?',
+        answer:
+          'Es un proceso manual: una persona revisa tu caso y busca la mejor combinación entre las aseguradoras con las que trabajamos. Procuramos responder en un plazo de 24 horas; si tu caso necesita revisión adicional —por ejemplo, un vehículo de trabajo o una suma asegurada alta en vida— te avisamos qué falta en lugar de dejarte esperando.',
+      },
+      {
+        question: '¿Qué datos necesitan para cotizar?',
+        answer:
+          'Para un auto: modelo, año y versión del vehículo, código postal, uso real que le das y si tienes historial de siniestros. Para vida: edad, ocupación, objetivo de protección y suma asegurada aproximada. Para hogar o negocio: tipo de inmueble o giro, ubicación y valor aproximado de los bienes. Con eso ya podemos empezar; los documentos formales se piden al emitir la póliza.',
+        link: { label: 'Solicitar una cotización', href: '/contacto/' },
+      },
+    ],
+  },
+  {
+    id: 'siniestros',
+    label: 'Siniestros',
+    faqs: [
+      {
+        question: '¿Qué hago si tengo un siniestro?',
+        answer:
+          'Primero, reportarlo a la aseguradora por su línea de atención lo antes posible: el reporte abre el expediente y evita rechazos por aviso tardío. Si hay personas lesionadas, llama a emergencias antes que a nadie. Después avísanos: te ayudamos a ordenar la documentación, a entender qué pide la aseguradora y a dar seguimiento al expediente. Mientras el ajustador no lo indique, no muevas el vehículo ni repares nada por tu cuenta.',
+        link: { label: 'Contactar al asesor', href: '/contacto/' },
+      },
+      {
+        question: '¿El asesor interviene en el reclamo?',
+        answer:
+          'Sí, en el acompañamiento. Te guiamos en el reporte, revisamos que la documentación esté completa y damos seguimiento con la aseguradora y el taller. Lo que no hacemos —ni podemos hacer— es decidir el resultado: la valuación, la procedencia del reclamo y el pago los determina la aseguradora conforme al condicionado de tu póliza.',
+      },
+      {
+        question: '¿Puedo llevar el auto a cualquier taller?',
+        answer:
+          'Depende de la póliza. Muchos planes trabajan con talleres de convenio, con lo que la reparación se cubre sin que adelantes el dinero, pero la elección del taller queda limitada a esa red. Si quieres elegir taller libremente, hay que contratarlo desde el inicio o revisar qué condiciones aplican. Por eso lo preguntamos antes de cotizar y no después de una colisión.',
+      },
+    ],
+  },
+  {
+    id: 'pagos',
+    label: 'Pagos',
+    faqs: [
+      {
+        question: '¿Quién cobra la prima del seguro?',
+        answer:
+          'AXA o Afirme directamente, nunca nosotros. Somos una agencia y no recibimos tu dinero: la prima se paga a la aseguradora y la póliza la emite ella. Si alguien te pide depositar la prima a un tercero, desconfía.',
+      },
+      {
+        question: '¿Qué formas de pago existen?',
+        answer:
+          'Con tarjeta de crédito en pagos mensuales o trimestrales, o con pago directo semestral o anual a la aseguradora. La forma de pago influye en el costo total y en el cargo por financiamiento, si lo hay, así que la comparamos junto con la prima y no por separado.',
+      },
+    ],
+  },
+  {
+    id: 'renovaciones',
+    label: 'Renovaciones',
+    faqs: [
+      {
+        question: '¿Cómo sé cuándo vence mi póliza?',
+        answer:
+          'La fecha de inicio y de fin de vigencia están en la carátula de la póliza, junto al número de endoso y las coberturas contratadas. Vale la pena tenerla a la mano: renovar antes del vencimiento evita quedarte sin cobertura y conservar la continuidad ayuda cuando la aseguradora evalúa tu historial.',
+      },
+      {
+        question: '¿Puedo cambiar de aseguradora o de coberturas al renovar?',
+        answer:
+          'Sí. La renovación es el mejor momento para rehacer la comparación: se vuelve a cotizar con tu historial y tu uso actual, y puedes ajustar deducibles o sumar coberturas que antes no necesitabas. También es el momento de revisar si el uso declarado sigue siendo el real, sobre todo si empezaste a trabajar con una plataforma.',
+        link: { label: 'Volver a cotizar al renovar', href: '/contacto/' },
+      },
+    ],
+  },
+];
+
+const faqs = faqGroups.flatMap((group) => group.faqs);
+
+// Built from the groups above, so the visible accordions and the schema cannot
+// drift. Rendered once, in the document head, via BaseLayout.
+const faqPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+  })),
+};
 ---
 
 <BaseLayout
   title="Preguntas frecuentes · AV Seguros Real"
-  description="Respuestas sobre coberturas, cotización y siniestros de seguros de auto, vida, hogar y negocio."
-  canonicalPath="/faq/"
+  description="Respuestas sobre coberturas, cotización, siniestros, pagos y renovaciones de seguros de auto, vida, hogar, negocio y gastos médicos."
+  canonicalPath={PATH}
+  schema={[faqPageSchema]}
 >
-  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <Breadcrumbs trail={[{ label: 'Preguntas frecuentes', href: '/faq/' }]} />
+  <main>
+    <div class={`${t.container} pt-10 pb-4`}>
+      <Breadcrumbs trail={[{ label: 'Preguntas frecuentes', href: PATH }]} />
 
-    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Preguntas frecuentes</h1>
+      <h1
+        class="mb-4 max-w-[24ch] text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]"
+      >
+        Preguntas frecuentes
+      </h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
-      Las dudas que más escuchamos antes de contratar: qué cubre una póliza, cómo se cotiza y qué hacer
-      ante un siniestro.
-    </p>
+      <p class={t.body}>
+        Las dudas que más escuchamos antes de contratar, agrupadas por tema: qué cubre una póliza, cómo
+        se cotiza, qué hacer ante un siniestro, cómo se paga y qué revisar al renovar. Si tu caso es
+        específico, la respuesta corta casi siempre termina en una llamada.
+      </p>
+    </div>
 
-    <div data-placeholder="content"></div>
+    {
+      faqGroups.map((group, index) => (
+        <LandingFAQ
+          faqs={group.faqs}
+          headingId={`faq-${group.id}`}
+          heading={group.label}
+          tone={index % 2 === 1 ? 'white' : 'muted'}
+          withSchema={false}
+        />
+      ))
+    }
+
+    <section class="bg-white py-12" aria-labelledby="faq-cierre-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="faq-cierre-title" class={`${t.h2} mb-3`}>¿Tu duda no está aquí?</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Escríbenos con el detalle de tu caso. Respondemos con la misma regla de siempre: sin prometer
+          coberturas que no estén escritas en la póliza.
+        </p>
+        <a
+          href="/contacto/"
+          class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+        >
+          <i class="fas fa-envelope" aria-hidden="true"></i> Escribir al asesor
+        </a>
+      </div>
+    </section>
   </main>
 </BaseLayout>

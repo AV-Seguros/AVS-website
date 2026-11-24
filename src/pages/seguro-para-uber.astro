@@ -111,10 +111,6 @@ const serviceSchema = {
   schema={[serviceSchema]}
 >
   <main>
-    <div class={`${t.container} pt-10`}>
-      <Breadcrumbs trail={[{ label: 'Seguro para Uber', href: PATH }]} />
-    </div>
-
     <LandingHero
       headingId="uber-title"
       title="Seguro de auto para conductores de Uber en México"
@@ -122,10 +118,14 @@ const serviceSchema = {
       subtitle="Cotización manual en 24h. Verifica que tu cobertura realmente cubra el uso comercial con Uber."
       trustSignals={trustSignals}
       whatsappHref={whatsappHref}
-      bgImage="/images/heroes/uber-bg.png"
+      bgImage="/images/heroes/uber-bg.webp"
       overlayClass="bg-gradient-to-r from-black/90 via-black/70 to-transparent"
       textTheme="light"
     />
+
+    <div class={`${t.container} py-4`}>
+      <Breadcrumbs trail={[{ label: 'Seguro para Uber', href: PATH }]} />
+    </div>
 
     <!-- Educational section 1 -->
     <section class="bg-white py-12" aria-labelledby="cubre-uber-title">

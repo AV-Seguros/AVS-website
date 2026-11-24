@@ -111,10 +111,6 @@ const serviceSchema = {
   schema={[serviceSchema]}
 >
   <main>
-    <div class={`${t.container} pt-10`}>
-      <Breadcrumbs trail={[{ label: 'Seguro para DiDi', href: PATH }]} />
-    </div>
-
     <LandingHero
       headingId="didi-title"
       title="Seguro de auto para conductores de DiDi en México"
@@ -125,10 +121,14 @@ const serviceSchema = {
       notes={[
         'No estamos afiliados a DiDi ni hablamos en su nombre: los conductores de la plataforma son clientes con una necesidad de cobertura concreta.',
       ]}
-      bgImage="/images/heroes/didi-bg.png"
+      bgImage="/images/heroes/didi-bg.webp"
       overlayClass="bg-gradient-to-r from-white/95 via-white/70 to-transparent"
       textTheme="dark"
     />
+
+    <div class={`${t.container} py-4`}>
+      <Breadcrumbs trail={[{ label: 'Seguro para DiDi', href: PATH }]} />
+    </div>
 
     <!-- Educational section 1 -->
     <section class="bg-white py-12" aria-labelledby="cubre-didi-title">

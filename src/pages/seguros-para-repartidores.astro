@@ -144,10 +144,6 @@ const serviceSchema = {
   schema={[serviceSchema]}
 >
   <main>
-    <div class={`${t.container} pt-10`}>
-      <Breadcrumbs trail={[{ label: 'Seguro para repartidores', href: PATH }]} />
-    </div>
-
     <LandingHero
       headingId="repartidores-title"
       title="Seguro de auto y moto para repartidores en México"
@@ -158,6 +154,10 @@ const serviceSchema = {
         'No estamos afiliados a Rappi, a Uber Eats ni a ninguna plataforma de reparto, y no hablamos en su nombre. Mencionamos sus nombres solo para describir el tipo de trabajo que hacemos asegurable.',
       ]}
     />
+
+    <div class={`${t.container} py-4`}>
+      <Breadcrumbs trail={[{ label: 'Seguro para repartidores', href: PATH }]} />
+    </div>
 
     <!-- Private vs commercial use -->
     <section class="bg-white py-12" aria-labelledby="uso-vehiculo-title">
