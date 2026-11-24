@@ -781,3 +781,4 @@ The protocol exists so that an agent can execute the roadmap without ambiguity a
 - [ ] Replace placeholder testimonials with real Uber/DiDi driver testimonials (Name, City, Insurance Type).
 - [x] Confirm and replace the customer metric on the Home page — now `+2500 clientes respaldados por TVAsesores` in `src/components/Brands.astro`.
 - [x] Remove the "20% discount" badge from the Home page (expired) — removed from `src/components/Hero.astro`.
+- [ ] Submit sitemap-index.xml to Google Search Console (Wait until Phase 1.4.0 Blog is complete).
