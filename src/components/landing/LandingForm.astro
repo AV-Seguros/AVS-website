@@ -32,7 +32,9 @@ const {
 // other site forms. It is intentionally not advertised in the visible copy.
 const FORM_ENDPOINT = 'https://formspree.io/f/mgaekvbe';
 
-const sectionClass = tone === 'white' ? 'bg-white py-12' : 'py-12';
+// `scroll-mt-24` keeps the section heading clear of the sticky site header
+// when the hero CTAs jump to `#cotizar`.
+const sectionClass = `scroll-mt-24 ${tone === 'white' ? 'bg-white py-12' : 'py-12'}`;
 const formId = `${idPrefix}LeadForm`;
 const submitId = `${idPrefix}SubmitBtn`;
 const nameId = `${idPrefix}-nombre`;

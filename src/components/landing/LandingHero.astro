@@ -1,6 +1,7 @@
 ---
 // Shared hero for the product landing pages: H1, subtitle, primary and
-// WhatsApp CTAs, trust signals and the agency disclaimer.
+// WhatsApp CTAs, trust signals and the agency disclaimer. It can also render a
+// full-bleed background image with a gradient overlay for readability.
 import { landingTokens } from './tokens';
 
 export interface Props {
@@ -14,6 +15,12 @@ export interface Props {
   whatsappHref: string;
   /** Extra paragraphs rendered after the agency disclaimer. */
   notes?: string[];
+  /** Background image URL, e.g. "/images/heroes/uber-bg.png". */
+  bgImage?: string;
+  /** Gradient or scrim painted over `bgImage` to keep the copy readable. */
+  overlayClass?: string;
+  /** Colours of the copy sitting on top of `bgImage`. */
+  textTheme?: 'light' | 'dark';
 }
 
 const {
@@ -24,55 +31,106 @@ const {
   trustSignals,
   whatsappHref,
   notes = [],
+  bgImage,
+  overlayClass = 'bg-gradient-to-r from-black/85 via-black/60 to-transparent',
+  textTheme = 'dark',
 } = Astro.props;
+
+// Literal class strings so Tailwind still generates every utility.
+const themes = {
+  light: {
+    title: 'text-white',
+    subtitle: 'text-white/85',
+    secondaryCta: 'border-white/70 text-white hover:bg-white hover:text-[var(--navy)]',
+    trust: 'text-white',
+    note: 'text-white/75',
+    // A left-to-right overlay fades out before the copy ends on narrow
+    // screens, so the band gets its own vertical scrim there.
+    mobileScrim: 'bg-gradient-to-b from-black/90 via-black/80 to-black/65',
+  },
+  dark: {
+    title: 'text-[var(--navy)]',
+    subtitle: 'text-[var(--text-muted)]',
+    secondaryCta:
+      'border-[var(--navy)] text-[var(--navy)] hover:bg-[var(--navy)] hover:text-white',
+    trust: 'text-[var(--navy)]',
+    note: 'text-[var(--text-muted)]',
+    mobileScrim: 'bg-gradient-to-b from-white/95 via-white/85 to-white/65',
+  },
+} as const;
+
+const theme = themes[textTheme];
+
+// The band is full-bleed when there is an image, so the container keeps the
+// 1200px column while the background reaches both edges of the viewport.
+const sectionClass = bgImage
+  ? 'relative isolate overflow-hidden bg-cover bg-center bg-no-repeat'
+  : '';
 ---
 
-<section class={`${landingTokens.container} pb-12 pt-2`} aria-labelledby={headingId}>
-  <h1
-    id={headingId}
-    class={`mb-4 ${titleClass} text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]`}
-  >
-    {title}
-  </h1>
-
-  <p class="mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed text-[var(--text-muted)]">
-    {subtitle}
-  </p>
-
-  <div class="mb-8 flex flex-wrap items-center gap-3">
-    <a
-      href="#cotizar"
-      class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
-    >
-      <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
-    </a>
-    <a
-      href={whatsappHref}
-      class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
-    </a>
-  </div>
-
-  <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[var(--navy)]">
-    {
-      trustSignals.map((signal) => (
-        <li class="flex items-center gap-2">
-          <i class="fas fa-check-circle text-[var(--red-bright)]" aria-hidden="true"></i>
-          {signal}
-        </li>
-      ))
-    }
-  </ul>
-
-  <p class="mt-6 max-w-[70ch] text-sm text-[var(--text-muted)]">
-    Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>. Somos una agencia, no una
-    aseguradora: la póliza la emite y la cobra la aseguradora.
-  </p>
-
+<section
+  class={sectionClass}
+  style={bgImage ? `background-image: url('${bgImage}')` : ''}
+  aria-labelledby={headingId}
+>
   {
-    notes.map((note) => <p class="mt-2 max-w-[70ch] text-sm text-[var(--text-muted)]">{note}</p>)
+    bgImage && (
+      <div class={`absolute inset-0 -z-10 md:hidden ${theme.mobileScrim}`} aria-hidden="true" />
+    )
   }
+  {
+    bgImage && (
+      <div class={`absolute inset-0 -z-10 ${overlayClass}`} aria-hidden="true" />
+    )
+  }
+
+  <div class={`${landingTokens.container} pb-12 pt-8 md:pt-12`}>
+    <h1
+      id={headingId}
+      class={`mb-4 ${titleClass} text-[1.9rem] font-extrabold leading-[1.15] ${theme.title} md:text-[2.8rem]`}
+    >
+      {title}
+    </h1>
+
+    <p class={`mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed ${theme.subtitle}`}>
+      {subtitle}
+    </p>
+
+    <div class="mb-8 flex flex-wrap items-center gap-3">
+      <a
+        href="#cotizar"
+        class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+      >
+        <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+      </a>
+      <a
+        href={whatsappHref}
+        class={`inline-flex items-center gap-2 rounded-full border px-7 py-3 font-semibold transition ${theme.secondaryCta}`}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
+      </a>
+    </div>
+
+    <ul class={`flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium ${theme.trust}`}>
+      {
+        trustSignals.map((signal) => (
+          <li class="flex items-center gap-2">
+            <i class="fas fa-check-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+            {signal}
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class={`mt-6 max-w-[70ch] text-sm ${theme.note}`}>
+      Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>. Somos una agencia, no una
+      aseguradora: la póliza la emite y la cobra la aseguradora.
+    </p>
+
+    {
+      notes.map((note) => <p class={`mt-2 max-w-[70ch] text-sm ${theme.note}`}>{note}</p>)
+    }
+  </div>
 </section>
