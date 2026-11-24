@@ -1,12 +1,17 @@
 ---
-// Site header: brand link, main navigation, primary CTA and mobile menu.
+// Site header: brand link, main navigation (with the services mega menu),
+// primary CTA and mobile menu.
 import logo from '../../public/logo.png';
-import { mainNavigation, isCurrentPath } from '../config/navigation';
+import { mainNavigation, serviceGroups, isCurrentPath, isCurrentSection } from '../config/navigation';
 import { siteConfig } from '../config/site';
 
 const whatsappMessage = '¡Hola! Quiero cotizar mi seguro de auto con un agente real.';
 const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
+
+const pathname = Astro.url.pathname;
+const allProducts = serviceGroups.flatMap((group) => group.links);
+const servicesActive = isCurrentSection(allProducts, pathname);
 ---
 
 <header class="header">
@@ -33,15 +38,91 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
     <nav class="header__nav" id="navLinks" aria-label="Navegación principal">
       {
-        mainNavigation.map((link) => (
-          <a
-            href={link.href}
-            class="header__link"
-            aria-current={isCurrentPath(link.href, Astro.url.pathname) ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        ))
+        mainNavigation.map((link) =>
+          link.menu === 'services' ? (
+            <div class="header__item header__item--menu" data-nav-item>
+              <button
+                type="button"
+                class:list={['header__link', 'header__trigger', { 'header__link--active': servicesActive }]}
+                id="servicesTrigger"
+                data-nav-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-controls="servicesMenu"
+              >
+                {link.label}
+                <i class="fas fa-chevron-down header__chevron" aria-hidden="true" />
+              </button>
+
+              <div class="header__panel" id="servicesMenu" data-nav-panel hidden>
+                <div class="grid gap-5 p-4 md:grid-cols-3 md:gap-6 md:p-6">
+                  {
+                    serviceGroups.map((group) => (
+                      <div>
+                        <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+                          {group.label}
+                        </p>
+                        <p class="mt-1 mb-2 text-sm leading-snug text-[var(--text-muted)]">
+                          {group.description}
+                        </p>
+                        <ul>
+                          {group.links.map((item) => (
+                            <li>
+                              <a
+                                href={item.href}
+                                class="flex items-center justify-between gap-2 rounded-lg px-2 py-2 text-[0.95rem] font-medium text-[var(--navy)] transition hover:bg-[var(--gray-card)] hover:text-[var(--red)]"
+                                aria-current={
+                                  isCurrentPath(item.href, pathname) ? 'page' : undefined
+                                }
+                              >
+                                {item.label}
+                                <i class="fas fa-arrow-right text-[0.65rem]" aria-hidden="true" />
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))
+                  }
+
+                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[781px]:block">
+                    <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#b0c4de]">
+                      Asesoría personal
+                    </p>
+                    <p class="mt-2 text-[1.05rem] font-semibold leading-snug">
+                      ¿No sabes cuál te conviene?
+                    </p>
+                    <p class="mt-2 text-sm text-[#c9d6e6]">
+                      Cuéntanos tu caso y te ayudamos a comparar opciones.
+                    </p>
+                    <a
+                      href={whatsappUrl}
+                      class="mt-4 inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--red)]"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <i class="fab fa-whatsapp" aria-hidden="true" /> Escríbenos
+                    </a>
+                    <a
+                      href="/contacto/"
+                      class="mt-2 block text-sm font-medium text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
+                    >
+                      Ver todos los servicios
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a
+              href={link.href}
+              class="header__link"
+              aria-current={isCurrentPath(link.href, pathname) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          )
+        )
       }
       <a
         href={whatsappUrl}
@@ -62,6 +143,10 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
   const hamburger = document.getElementById('hamburgerBtn');
   const navLinks = document.getElementById('navLinks');
 
+  const navItem = document.querySelector<HTMLElement>('[data-nav-item]');
+  const navTrigger = navItem?.querySelector<HTMLButtonElement>('[data-nav-trigger]');
+  const navPanel = navItem?.querySelector<HTMLElement>('[data-nav-panel]');
+
   const setMenuOpen = (open: boolean) => {
     hamburger?.setAttribute('aria-expanded', String(open));
     navLinks?.classList.toggle('open', open);
@@ -69,17 +154,83 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
   const isMenuOpen = () => hamburger?.getAttribute('aria-expanded') === 'true';
 
+  // The mega menu is a disclosure panel: the trigger owns `aria-expanded` and
+  // `aria-controls` on both desktop and mobile, so click, Enter and Space work
+  // everywhere and hover only adds a shortcut on desktop.
+  const setServicesOpen = (open: boolean) => {
+    if (!navTrigger || !navPanel) return;
+    navTrigger.setAttribute('aria-expanded', String(open));
+    navPanel.hidden = !open;
+  };
+
+  const isServicesOpen = () => navTrigger?.getAttribute('aria-expanded') === 'true';
+
+  const desktopQuery = window.matchMedia('(min-width: 781px)');
+
+  // A panel opened by hover is not the same as one opened deliberately. Without
+  // this flag the mouseenter that precedes a click would open the panel and the
+  // click would immediately close it again.
+  let openedByHover = false;
+
   hamburger?.addEventListener('click', () => setMenuOpen(!isMenuOpen()));
 
+  navTrigger?.addEventListener('click', () => {
+    if (isServicesOpen() && openedByHover) {
+      openedByHover = false;
+      return;
+    }
+
+    setServicesOpen(!isServicesOpen());
+  });
+
+  navItem?.addEventListener('mouseenter', () => {
+    if (!desktopQuery.matches || isServicesOpen()) return;
+    setServicesOpen(true);
+    openedByHover = true;
+  });
+
+  navItem?.addEventListener('mouseleave', () => {
+    if (!desktopQuery.matches) return;
+
+    openedByHover = false;
+
+    // Keep the panel open while a link inside it holds focus.
+    if (navItem.contains(document.activeElement)) return;
+    setServicesOpen(false);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!isServicesOpen() || !navItem) return;
+    if (!navItem.contains(event.target as Node)) setServicesOpen(false);
+  });
+
   document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && isMenuOpen()) {
+    if (event.key !== 'Escape') return;
+
+    if (isServicesOpen()) {
+      setServicesOpen(false);
+      navTrigger?.focus();
+      return;
+    }
+
+    if (isMenuOpen()) {
       setMenuOpen(false);
       hamburger?.focus();
     }
   });
 
+  desktopQuery.addEventListener('change', () => {
+    setServicesOpen(false);
+    setMenuOpen(false);
+  });
+
+  // Navigating away from the header closes the mobile menu, including any
+  // link inside the services panel.
   navLinks?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setMenuOpen(false));
+    link.addEventListener('click', () => {
+      setMenuOpen(false);
+      setServicesOpen(false);
+    });
   });
 </script>
 
@@ -95,6 +246,7 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 
     &__inner {
+      position: relative;
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.8rem;
@@ -159,9 +311,56 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
         border-bottom-color: var(--red-bright);
       }
 
-      &[aria-current='page'] {
+      &:focus-visible {
+        color: white;
+        outline: 2px solid white;
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+
+      &[aria-current='page'],
+      &--active {
         color: white;
         border-bottom-color: var(--red-bright);
+      }
+    }
+
+    // Services trigger: a button that looks like the sibling links.
+    &__item--menu {
+      display: flex;
+      align-items: center;
+    }
+
+    &__trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      font: inherit;
+      font-weight: 500;
+      font-size: 0.95rem;
+      line-height: inherit;
+      cursor: pointer;
+
+      .header__chevron {
+        font-size: 0.6rem;
+        transition: transform 0.2s;
+      }
+
+      &[aria-expanded='true'] .header__chevron {
+        transform: rotate(180deg);
+      }
+    }
+
+    &__panel {
+      display: none;
+
+      // The `hidden` attribute is the single source of visibility: the media
+      // queries below only decide *how* a visible panel is laid out.
+      &[hidden] {
+        display: none;
       }
     }
 
@@ -193,17 +392,55 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
       border: none;
     }
 
+    @media (min-width: 781px) {
+      &__panel {
+        display: block;
+        position: absolute;
+        top: calc(100% + 1.2rem);
+        left: 0;
+        right: 0;
+        z-index: 60;
+        border: 1px solid #e2e8f0;
+        border-radius: 1rem;
+        background: white;
+        box-shadow: 0 24px 60px rgba(11, 37, 69, 0.18);
+      }
+    }
+
     @media (max-width: 780px) {
       &__nav {
         display: none;
         width: 100%;
         flex-direction: column;
+        align-items: stretch;
         gap: 0.8rem;
         padding: 1rem 0 0.5rem;
+        max-height: calc(100vh - 6rem);
+        overflow-y: auto;
 
         &.open {
           display: flex;
         }
+      }
+
+      &__item--menu {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      &__trigger {
+        justify-content: space-between;
+        padding: 0.2rem 0;
+      }
+
+      &__panel {
+        display: block;
+        width: 100%;
+        margin-top: 0.4rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.9rem;
+        background: white;
+        overflow: hidden;
       }
 
       &__hamburger {
@@ -221,6 +458,7 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
       &__cta--mobile {
         display: inline;
+        text-align: center;
       }
     }
   }
