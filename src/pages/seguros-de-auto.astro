@@ -1,16 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import Testimonials from '../components/Testimonials.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
+import { landingTokens as t } from '../components/landing/tokens';
 import { siteConfig } from '../config/site';
 
 const PATH = '/seguros-de-auto/';
 const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
-
-// Temporary submission target: the form backend is decided in `1.6.1`
-// (ROADMAP §8). This reuses the Formspree endpoint already configured for the
-// other site forms. It is intentionally not advertised in the visible copy.
-const FORM_ENDPOINT = 'https://formspree.io/f/mgaekvbe';
 
 const whatsappMessage = 'Hola, busco seguro de auto particular. Vengo de la página web.';
 const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -148,18 +147,6 @@ const faqs = [
   },
 ];
 
-// Single source of truth: the visible FAQ list and the FAQPage JSON-LD are
-// generated from the same `faqs` array.
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: { '@type': 'Answer', text: faq.answer },
-  })),
-};
-
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -184,92 +171,42 @@ const serviceSchema = {
     },
   },
 };
-
-// Layout and typography tokens mirror the site's design system (see
-// `global.scss` and the SCSS section components): 1200px container with
-// 1.8rem side padding, 2.1rem section titles, 1.05rem body copy.
-const sectionClass = 'landing-container';
-const h2Class =
-  'text-[1.7rem] font-bold leading-tight tracking-[-0.02em] text-[var(--navy)] md:text-[2.1rem]';
-const h3Class = 'mb-2 text-[1.15rem] font-bold text-[var(--navy)]';
-const bodyClass = 'max-w-[70ch] text-[1.05rem] leading-relaxed text-[var(--text-muted)]';
-const inputClass =
-  'w-full rounded-full border border-[#d1d9e6] bg-white px-4 py-3 text-[0.95rem] text-[var(--text-dark)]';
 ---
 
 <BaseLayout
   title="Seguro de auto en México · AV Seguros Real"
   description="Compara cobertura amplia, limitada y responsabilidad civil con asesoría manual. Pago directo a AXA o Afirme y cotización en 24h."
   canonicalPath={PATH}
-  schema={[serviceSchema, faqSchema]}
+  schema={[serviceSchema]}
 >
   <main>
-    <div class={`${sectionClass} pt-10`}>
+    <div class={`${t.container} pt-10`}>
       <Breadcrumbs trail={[{ label: 'Seguro de auto', href: PATH }]} />
     </div>
 
-    <!-- Hero -->
-    <section class={`${sectionClass} pb-12 pt-2`} aria-labelledby="auto-title">
-      <h1
-        id="auto-title"
-        class="mb-4 max-w-[22ch] text-[1.9rem] font-extrabold leading-[1.15] text-[var(--navy)] md:text-[2.8rem]"
-      >
-        Seguro de auto en México
-      </h1>
-
-      <p class="mb-6 max-w-[62ch] text-[1.1rem] leading-relaxed text-[var(--text-muted)]">
-        La cobertura correcta es la que corresponde a tu auto, tu código postal y el uso que
-        realmente le das. Cotización manual en 24h, con las coberturas comparadas por una persona y
-        no por un comparador automático.
-      </p>
-
-      <div class="mb-8 flex flex-wrap items-center gap-3">
-        <a
-          href="#cotizar"
-          class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
-        >
-          <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
-        </a>
-        <a
-          href={whatsappHref}
-          class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
-        </a>
-      </div>
-
-      <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-[var(--navy)]">
-        {trustSignals.map((signal) => (
-          <li class="flex items-center gap-2">
-            <i class="fas fa-check-circle text-[var(--red-bright)]" aria-hidden="true"></i>
-            {signal}
-          </li>
-        ))}
-      </ul>
-
-      <p class="mt-6 max-w-[70ch] text-sm text-[var(--text-muted)]">
-        Trabajamos con <strong>AXA</strong> y <strong>Afirme</strong>. Somos una agencia, no una
-        aseguradora: la póliza la emite y la cobra la aseguradora.
-      </p>
-    </section>
+    <LandingHero
+      headingId="auto-title"
+      title="Seguro de auto en México"
+      subtitle="La cobertura correcta es la que corresponde a tu auto, tu código postal y el uso que realmente le das. Cotización manual en 24h, con las coberturas comparadas por una persona y no por un comparador automático."
+      trustSignals={trustSignals}
+      whatsappHref={whatsappHref}
+    />
 
     <!-- What it is and why it matters -->
     <section class="bg-white py-12" aria-labelledby="que-es-title">
-      <div class={sectionClass}>
-        <h2 id="que-es-title" class={`${h2Class} mb-4`}>
+      <div class={t.container}>
+        <h2 id="que-es-title" class={`${t.h2} mb-4`}>
           Qué es un seguro de auto y por qué importa en México
         </h2>
 
-        <p class={`${bodyClass} mb-4`}>
+        <p class={`${t.body} mb-4`}>
           Un seguro de auto es un contrato con una aseguradora: tú pagas una prima anual y ella
           responde económicamente cuando ocurre un siniestro cubierto. No es un trámite para poder
           circular, aunque también sirva para eso. Es la diferencia entre un choque que se resuelve
           con una llamada y un choque que se convierte en una deuda de años.
         </p>
 
-        <p class={`${bodyClass} mb-4`}>
+        <p class={`${t.body} mb-4`}>
           En México la <strong>responsabilidad civil</strong> es la cobertura mínima que la autoridad
           pide para circular, y se revisa en carreteras federales y en operativos de varios estados.
           Esa cobertura solo paga los daños que causas a otras personas y a sus bienes: no arregla tu
@@ -278,21 +215,21 @@ const inputClass =
 
         <div class="mt-8 grid gap-6 md:grid-cols-3">
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Protege tu patrimonio</h3>
+            <h3 class={t.h3}>Protege tu patrimonio</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Un daño a un tercero puede costar más que el auto. La póliza pone un límite a lo que
               tendrías que pagar de tu bolsillo.
             </p>
           </div>
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Te deja seguir con tu día</h3>
+            <h3 class={t.h3}>Te deja seguir con tu día</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Grúas, asistencia vial y ajustadores existen para que el accidente no te detenga una
               semana entera resolviendo trámites.
             </p>
           </div>
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Cumple con la ley</h3>
+            <h3 class={t.h3}>Cumple con la ley</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Circular sin la cobertura exigida puede costarte una multa o la retención del
               vehículo, además del daño que causes.
@@ -304,10 +241,12 @@ const inputClass =
 
     <!-- Coverage types -->
     <section class="py-12" aria-labelledby="coberturas-title">
-      <div class={sectionClass}>
-        <h2 id="coberturas-title" class={`${h2Class} mb-4`}>Tipos de cobertura, de la mínima a la más completa</h2>
+      <div class={t.container}>
+        <h2 id="coberturas-title" class={`${t.h2} mb-4`}>
+          Tipos de cobertura, de la mínima a la más completa
+        </h2>
 
-        <p class={`${bodyClass} mb-8`}>
+        <p class={`${t.body} mb-8`}>
           Los nombres cambian de una aseguradora a otra, pero la lógica es la misma: cada nivel suma
           protección y sube la prima. Estas son las tres familias que vas a encontrar al cotizar.
         </p>
@@ -319,7 +258,7 @@ const inputClass =
                 <span class="mb-2 inline-flex w-fit rounded-full bg-[var(--gray-bg)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--red)]">
                   {coverage.tag}
                 </span>
-                <h3 class={h3Class}>{coverage.name}</h3>
+                <h3 class={t.h3}>{coverage.name}</h3>
                 <p class="mb-4 text-sm text-[var(--text-muted)]">{coverage.summary}</p>
                 <ul class="mt-auto list-disc space-y-2 pl-5 text-sm text-[var(--text-muted)]">
                   {coverage.points.map((point) => <li>{point}</li>)}
@@ -340,10 +279,10 @@ const inputClass =
 
     <!-- Deductibles -->
     <section class="bg-white py-12" aria-labelledby="deducible-title">
-      <div class={sectionClass}>
-        <h2 id="deducible-title" class={`${h2Class} mb-4`}>Deducible y coaseguro: lo que pagas tú</h2>
+      <div class={t.container}>
+        <h2 id="deducible-title" class={`${t.h2} mb-4`}>Deducible y coaseguro: lo que pagas tú</h2>
 
-        <p class={`${bodyClass} mb-6`}>
+        <p class={`${t.body} mb-6`}>
           El precio de una póliza no se entiende sin estos dos números. Son la parte del siniestro que
           corre por tu cuenta, y son la razón por la que dos cotizaciones con la misma cobertura pueden
           diferir tanto.
@@ -351,7 +290,7 @@ const inputClass =
 
         <div class="grid gap-6 md:grid-cols-2">
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Deducible</h3>
+            <h3 class={t.h3}>Deducible</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Es la cantidad fija, o el porcentaje del valor del auto, que pagas tú cada vez que usas
               la cobertura de daños materiales. Si el deducible es del 5% sobre un auto de $300,000,
@@ -359,7 +298,7 @@ const inputClass =
             </p>
           </div>
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Coaseguro</h3>
+            <h3 class={t.h3}>Coaseguro</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Es un porcentaje adicional que compartes con la aseguradora en algunos ramos o
               coberturas, por ejemplo gastos médicos. No todos los planes lo llevan: cuando aparece,
@@ -385,9 +324,9 @@ const inputClass =
 
     <!-- Quotation process + documents -->
     <section class="py-12" aria-labelledby="proceso-title">
-      <div class={sectionClass}>
-        <h2 id="proceso-title" class={`${h2Class} mb-4`}>Cómo funciona la cotización</h2>
-        <p class={`${bodyClass} mb-8`}>
+      <div class={t.container}>
+        <h2 id="proceso-title" class={`${t.h2} mb-4`}>Cómo funciona la cotización</h2>
+        <p class={`${t.body} mb-8`}>
           Sin formularios eternos ni llamadas de robot. Cuatro pasos y una persona responsable de tu
           caso de principio a fin.
         </p>
@@ -396,7 +335,7 @@ const inputClass =
           {
             quoteSteps.map((step) => (
               <li class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
-                <h3 class={h3Class}>{step.title}</h3>
+                <h3 class={t.h3}>{step.title}</h3>
                 <p class="text-sm text-[var(--text-muted)]">{step.description}</p>
               </li>
             ))
@@ -404,7 +343,7 @@ const inputClass =
         </ol>
 
         <div class="mt-10">
-          <h3 class={h3Class}>Qué documentos necesitas</h3>
+          <h3 class={t.h3}>Qué documentos necesitas</h3>
           <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
             {documents.map((document) => <li>{document}</li>)}
           </ul>
@@ -418,12 +357,12 @@ const inputClass =
 
     <!-- Work use -->
     <section class="bg-white py-12" aria-labelledby="trabajo-title">
-      <div class={sectionClass}>
-        <h2 id="trabajo-title" class={`${h2Class} mb-4`}>
+      <div class={t.container}>
+        <h2 id="trabajo-title" class={`${t.h2} mb-4`}>
           Si usas el auto para trabajar, esta no es tu página
         </h2>
 
-        <p class={`${bodyClass} mb-8`}>
+        <p class={`${t.body} mb-8`}>
           Un auto que transporta pasajeros o entrega pedidos no tiene el mismo riesgo que uno que va
           de la casa al trabajo. Si ese es tu caso, empieza por la página que corresponde: ahí
           explicamos qué revisar en el uso declarado y qué suele pedir la aseguradora.
@@ -433,7 +372,7 @@ const inputClass =
           {
             workProfiles.map((profile) => (
               <div class="flex flex-col rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-                <h3 class={h3Class}>{profile.title}</h3>
+                <h3 class={t.h3}>{profile.title}</h3>
                 <p class="mb-4 text-sm text-[var(--text-muted)]">{profile.description}</p>
                 <a
                   href={profile.href}
@@ -450,10 +389,10 @@ const inputClass =
 
     <!-- Price and payment -->
     <section class="py-12" aria-labelledby="costo-title">
-      <div class={sectionClass}>
-        <h2 id="costo-title" class={`${h2Class} mb-4`}>Cuánto cuesta y cómo se paga</h2>
+      <div class={t.container}>
+        <h2 id="costo-title" class={`${t.h2} mb-4`}>Cuánto cuesta y cómo se paga</h2>
 
-        <p class={`${bodyClass} mb-6`}>
+        <p class={`${t.body} mb-6`}>
           Para un auto particular, el costo promedio anual ronda entre los{' '}
           <strong>$20,000 y $30,000 MXN</strong>. El monto exacto lo confirma la cotización de la
           aseguradora: depende del modelo, el año, el código postal, el uso declarado, el deducible y
@@ -462,13 +401,13 @@ const inputClass =
 
         <div class="grid gap-6 md:grid-cols-2">
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Pagos con tarjeta de crédito</h3>
+            <h3 class={t.h3}>Pagos con tarjeta de crédito</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Mensual o trimestral, con cargo a tu tarjeta de crédito.
             </p>
           </div>
           <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
-            <h3 class={h3Class}>Pago directo</h3>
+            <h3 class={t.h3}>Pago directo</h3>
             <p class="text-sm text-[var(--text-muted)]">
               Semestral o anual, pagando directamente a la aseguradora.
             </p>
@@ -482,159 +421,23 @@ const inputClass =
       </div>
     </section>
 
-    <!-- Form -->
-    <section id="cotizar" class="bg-white py-12" aria-labelledby="cotizar-title">
-      <div class={sectionClass}>
-        <div class="mx-auto max-w-[640px]">
-          <h2 id="cotizar-title" class={`${h2Class} mb-3`}>Solicita tu cotización</h2>
-          <p class={`${bodyClass} mb-6`}>
-            Tres datos y un agente real te contacta en 24h o menos para revisar tu caso.
-          </p>
+    <LandingForm
+      idPrefix="auto"
+      subject="Cotización seguro de auto - AV Seguros Real"
+      source="seguros-de-auto"
+      whatsappHref={whatsappHref}
+      tone="white"
+    />
 
-          <form
-            id="autoLeadForm"
-            class="rounded-2xl border border-[#e2e8f0] bg-white p-6 md:p-8"
-            action={FORM_ENDPOINT}
-            method="POST"
-            novalidate
-          >
-            <input type="hidden" name="_subject" value="Cotización seguro de auto - AV Seguros Real" />
-            <input type="hidden" name="_source" value="seguros-de-auto" />
-
-            <div class="mb-4">
-              <label for="auto-nombre" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
-                Nombre *
-              </label>
-              <input
-                type="text"
-                id="auto-nombre"
-                name="Nombre"
-                autocomplete="name"
-                class={inputClass}
-                aria-describedby="auto-nombre-error"
-                required
-              />
-              <p id="auto-nombre-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
-                Escribe tu nombre.
-              </p>
-            </div>
-
-            <div class="mb-4">
-              <label for="auto-whatsapp" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
-                WhatsApp *
-              </label>
-              <input
-                type="tel"
-                id="auto-whatsapp"
-                name="WhatsApp"
-                inputmode="tel"
-                autocomplete="tel"
-                placeholder="81 1234 5678"
-                class={inputClass}
-                aria-describedby="auto-whatsapp-error"
-                required
-              />
-              <p id="auto-whatsapp-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
-                Escribe un número de WhatsApp de al menos 10 dígitos.
-              </p>
-            </div>
-
-            <div class="mb-4">
-              <label for="auto-email" class="mb-1 block text-sm font-semibold text-[var(--navy)]">
-                Correo electrónico *
-              </label>
-              <input
-                type="email"
-                id="auto-email"
-                name="Email"
-                autocomplete="email"
-                class={inputClass}
-                aria-describedby="auto-email-error"
-                required
-              />
-              <p id="auto-email-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
-                Escribe un correo electrónico válido.
-              </p>
-            </div>
-
-            <div class="mb-6">
-              <label for="auto-consent" class="flex items-start gap-3 text-sm text-[var(--text-muted)]">
-                <input
-                  type="checkbox"
-                  id="auto-consent"
-                  name="Consentimiento"
-                  value="Aceptado"
-                  class="mt-1 h-4 w-4"
-                  aria-describedby="auto-consent-error"
-                  required
-                />
-                <span>
-                  Acepto el
-                  <a href="/aviso-de-privacidad/" class="font-semibold text-[var(--red)] underline">
-                    aviso de privacidad</a
-                  >
-                  y el contacto por WhatsApp o correo para recibir mi cotización.
-                </span>
-              </label>
-              <p id="auto-consent-error" class="mt-1 hidden text-sm text-[var(--red)]" role="alert">
-                Necesitamos tu consentimiento para contactarte.
-              </p>
-            </div>
-
-            <button
-              type="submit"
-              id="autoSubmitBtn"
-              class="w-full rounded-full bg-[var(--red-bright)] px-6 py-3 font-bold text-white transition hover:bg-[var(--red)]"
-            >
-              <i class="fas fa-paper-plane" aria-hidden="true"></i> Enviar solicitud
-            </button>
-
-            <p id="auto-form-error" class="mt-4 hidden text-sm text-[var(--red)]" role="alert">
-              No pudimos enviar tu solicitud.
-              <a
-                href={whatsappHref}
-                class="font-bold underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Escríbenos por WhatsApp</a
-              >
-              y lo vemos de inmediato.
-            </p>
-
-            <p class="mt-4 text-xs text-[var(--text-muted)]">
-              Tus datos se usan solo para contactarte sobre esta cotización.
-            </p>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQs -->
-    <section class="py-12" aria-labelledby="auto-faq-title">
-      <div class={sectionClass}>
-        <h2 id="auto-faq-title" class={`${h2Class} mb-6`}>Preguntas frecuentes</h2>
-
-        <div class="mx-auto max-w-[820px] space-y-3">
-          {
-            faqs.map((faq) => (
-              <details class="rounded-xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-card)] p-5">
-                <summary class="cursor-pointer font-bold text-[var(--navy)]">{faq.question}</summary>
-                <p class="mt-3 text-[var(--text-muted)]">{faq.answer}</p>
-              </details>
-            ))
-          }
-        </div>
-      </div>
-    </section>
+    <LandingFAQ faqs={faqs} headingId="auto-faq-title" />
 
     <!-- TODO: Replace with real car insurance client testimonials -->
-    <Testimonials />
+    <LandingTestimonials />
 
     <!-- Closing CTA -->
     <section class="bg-white py-12" aria-labelledby="cierre-title">
-      <div class={`${sectionClass} text-center`}>
-        <h2 id="cierre-title" class={`${h2Class} mb-3`}>Cotiza con un agente real</h2>
+      <div class={`${t.container} text-center`}>
+        <h2 id="cierre-title" class={`${t.h2} mb-3`}>Cotiza con un agente real</h2>
         <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
           Revisamos tu auto, comparamos AXA y Afirme con las mismas coberturas y te decimos qué plan
           te conviene según el uso que le das.
@@ -659,82 +462,3 @@ const inputClass =
     </section>
   </main>
 </BaseLayout>
-
-<style lang="scss">
-  // Shared page container: 1200px max width with the same responsive side
-  // padding as the section components in `src/components`.
-  .landing-container {
-    width: 100%;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 1.2rem;
-
-    @media (min-width: 541px) {
-      padding-inline: 1.8rem;
-    }
-  }
-</style>
-
-<script>
-  (function () {
-    const form = document.getElementById('autoLeadForm') as HTMLFormElement | null;
-    const btn = document.getElementById('autoSubmitBtn') as HTMLButtonElement | null;
-    const formError = document.getElementById('auto-form-error');
-    if (!form || !btn) return;
-
-    const nameInput = document.getElementById('auto-nombre') as HTMLInputElement;
-    const phoneInput = document.getElementById('auto-whatsapp') as HTMLInputElement;
-    const emailInput = document.getElementById('auto-email') as HTMLInputElement;
-    const consentInput = document.getElementById('auto-consent') as HTMLInputElement;
-
-    const setFieldError = (input: HTMLInputElement, errorId: string, hasError: boolean) => {
-      const error = document.getElementById(errorId);
-      error?.classList.toggle('hidden', !hasError);
-      input.setAttribute('aria-invalid', String(hasError));
-    };
-
-    const isPhoneValid = (value: string) => value.replace(/\D/g, '').length >= 10;
-    const isEmailValid = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      formError?.classList.add('hidden');
-
-      const hasName = nameInput.value.trim().length >= 2;
-      const hasPhone = isPhoneValid(phoneInput.value);
-      const hasEmail = isEmailValid(emailInput.value);
-      const hasConsent = consentInput.checked;
-
-      setFieldError(nameInput, 'auto-nombre-error', !hasName);
-      setFieldError(phoneInput, 'auto-whatsapp-error', !hasPhone);
-      setFieldError(emailInput, 'auto-email-error', !hasEmail);
-      setFieldError(consentInput, 'auto-consent-error', !hasConsent);
-
-      const firstInvalid = [!hasName, !hasPhone, !hasEmail, !hasConsent].indexOf(true);
-      if (firstInvalid !== -1) {
-        [nameInput, phoneInput, emailInput, consentInput][firstInvalid].focus();
-        return;
-      }
-
-      const originalLabel = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Enviando...';
-
-      try {
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' },
-        });
-
-        if (!response.ok) throw new Error('Submission failed');
-
-        window.location.href = `${import.meta.env.BASE_URL}gracias`;
-      } catch {
-        formError?.classList.remove('hidden');
-        btn.disabled = false;
-        btn.innerHTML = originalLabel;
-      }
-    });
-  })();
-</script>

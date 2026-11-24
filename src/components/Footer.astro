@@ -1,6 +1,6 @@
 ---
 // Site footer: links, legal links and advisor contact data.
-import { footerNavigation, legalNavigation } from '../config/navigation';
+import { legalNavigation, productNavigation, siteNavigation } from '../config/navigation';
 import { siteConfig } from '../config/site';
 
 const whatsappMessage = '¡Hola! Quiero cotizar mi seguro de auto con un agente real.';
@@ -22,7 +22,15 @@ const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
       <div class="footer__col">
         <h2>Enlaces</h2>
         {
-          footerNavigation.map((link) => (
+          siteNavigation.map((link) => (
+            <a href={link.href}>{link.label}</a>
+          ))
+        }
+      </div>
+      <div class="footer__col">
+        <h2>Servicios</h2>
+        {
+          productNavigation.map((link) => (
             <a href={link.href}>{link.label}</a>
           ))
         }

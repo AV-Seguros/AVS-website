@@ -1,0 +1,377 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingFAQ from '../components/landing/LandingFAQ.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/seguros-de-vida/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappMessage = 'Hola, busco seguro de vida. Vengo de la página web.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+const trustSignals = [
+  '15 años de experiencia',
+  'Respaldo de 40 años (TVAsesores)',
+  'Cédula CNSF 649610',
+];
+
+const reasons = [
+  {
+    title: 'Protege el ingreso familiar',
+    description:
+      'Si el ingreso principal desaparece, la renta, la comida y la escuela no esperan. La suma asegurada llega a los beneficiarios para cubrir ese hueco.',
+  },
+  {
+    title: 'Ordena las deudas pendientes',
+    description:
+      'Hipoteca, créditos o saldos de tarjeta no desaparecen. Los beneficiarios deciden cómo usar el recurso; la póliza les da margen para hacerlo sin vender patrimonio.',
+  },
+  {
+    title: 'Deja un respaldo con nombre',
+    description:
+      'Designar beneficiarios por escrito evita que el dinero dependa de un juicio sucesorio y deja claro a quién corresponde.',
+  },
+];
+
+const pricingFactors = [
+  {
+    title: 'Edad y estado de salud',
+    description:
+      'La aseguradora evalúa edad, cuestionario de salud y, según el monto solicitado, estudios médicos. Es el factor que más mueve la prima.',
+  },
+  {
+    title: 'Suma asegurada y plazo',
+    description:
+      'No es lo mismo una protección temporal a 20 años que un plan de vida entera. A mayor monto y mayor plazo, mayor prima.',
+  },
+  {
+    title: 'Ocupación y actividades',
+    description:
+      'Trabajos y pasatiempos de riesgo cambian la evaluación. Declararlos desde el inicio evita discusiones al momento del reclamo.',
+  },
+];
+
+const profiles = [
+  {
+    title: 'Con dependientes económicos',
+    description:
+      'Hijos pequeños, pareja sin ingreso propio o padres a tu cargo: son las personas para las que la póliza tiene más sentido.',
+  },
+  {
+    title: 'Con deuda de largo plazo',
+    description:
+      'Una hipoteca a 20 años se paga con el ingreso de hoy. El seguro evita que la familia tenga que rematar la casa para cubrirla.',
+  },
+  {
+    title: 'Profesionistas independientes',
+    description:
+      'Sin patrón ni fondo de prestaciones, el respaldo lo pone cada quien. La póliza cumple esa función sin depender de un empleo.',
+  },
+];
+
+const quoteSteps = [
+  {
+    title: '1. Hablamos de tu objetivo',
+    description:
+      'Cuánto gasto familiar quieres cubrir y por cuántos años. De ahí sale un rango de suma asegurada, sin compromiso.',
+  },
+  {
+    title: '2. Revisamos edad y salud',
+    description:
+      'Con tu edad, ocupación y cuestionario de salud la aseguradora evalúa el riesgo. Si hacen falta estudios, te decimos cuáles.',
+  },
+  {
+    title: '3. Comparamos AXA y Afirme',
+    description:
+      'Cotizamos las dos opciones con la misma suma asegurada y el mismo plazo, y te mostramos condiciones y exclusiones a la vista.',
+  },
+  {
+    title: '4. Eliges y designas beneficiarios',
+    description:
+      'La póliza la emite y la cobra la aseguradora. Los beneficiarios quedan por escrito desde el primer día.',
+  },
+];
+
+const documents = [
+  'Identificación oficial vigente (INE o pasaporte).',
+  'Comprobante de domicilio reciente.',
+  'Fecha de nacimiento, ocupación y actividad actual.',
+  'Datos de los beneficiarios: nombre, parentesco, fecha de nacimiento y porcentaje.',
+  'Cuestionario de salud contestado por el asegurado.',
+  'Comprobante de ingresos, solo si la aseguradora lo solicita para el monto cotizado.',
+];
+
+const faqs = [
+  {
+    question: '¿Qué es la suma asegurada?',
+    answer:
+      'Es el monto máximo que la aseguradora pagaría a los beneficiarios si ocurre el evento cubierto, según las condiciones del plan. No es una cuenta de ahorro disponible a voluntad: es la cifra que define la protección y, junto con edad y salud, el precio de la prima. En la cotización te mostramos cómo se traduce esa suma en el pago mensual o anual.',
+  },
+  {
+    question: '¿Puedo cambiar a mis beneficiarios?',
+    answer:
+      'Normalmente sí, mediante una solicitud a la aseguradora con los datos de las nuevas personas. El procedimiento y los requisitos los define la aseguradora y quedan en el condicionado, así que lo revisamos contigo antes de firmar y cada vez que quieras actualizarlo. Mantener los beneficiarios al día es tan importante como contratar la póliza.',
+  },
+  {
+    question: '¿Necesito un examen médico?',
+    answer:
+      'Depende de tu edad, de la suma asegurada solicitada y de lo que respondas en el cuestionario de salud. Hay solicitudes que se resuelven con una declaración y otras en las que la aseguradora pide estudios. No lo decidimos nosotros: lo determina la aseguradora al evaluar el riesgo, y te avisamos antes de que inicies el trámite.',
+  },
+  {
+    question: '¿Qué pasa si dejo de pagar la prima?',
+    answer:
+      'La póliza puede quedar sin efecto o entrar en un periodo de gracia, según lo que establezca el condicionado de tu plan. Por eso conviene revisar la forma de pago y la fecha de renovación antes de contratar, y avisarnos si tu situación cambia: hay alternativas que se pueden evaluar con la aseguradora para no perder la antigüedad.',
+  },
+  {
+    question: '¿Todas las causas de fallecimiento están cubiertas?',
+    answer:
+      'No necesariamente. El condicionado general lista las causas y situaciones excluidas, y también importa que la información declarada sea correcta. Por eso insistimos en declarar ocupación, actividades y estado de salud con exactitud. En la cotización te mostramos las exclusiones del plan que estás comparando antes de que decidas.',
+  },
+  {
+    question: '¿Quién cobra la póliza?',
+    answer:
+      'AXA o Afirme directamente, nunca nosotros. Somos una agencia y no recibimos tu dinero: la prima se paga a la aseguradora y la póliza la emite ella. Nuestro trabajo es comparar las opciones, explicarte las condiciones y acompañarte en el trámite y en el reclamo.',
+  },
+];
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Seguro de vida en México',
+  serviceType: 'Seguro de vida individual',
+  description:
+    'Asesoría manual para comparar planes de seguro de vida en México y contratar la póliza con AXA o Afirme.',
+  url: pageUrl,
+  areaServed: { '@type': 'Country', name: 'Mexico' },
+  provider: {
+    '@type': 'InsuranceAgency',
+    name: siteConfig.siteName,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+  },
+};
+---
+
+<BaseLayout
+  title="Seguro de vida en México · AV Seguros Real"
+  description="Protege el ingreso de tu familia y define beneficiarios con asesoría manual. Cotización en 24h y pago directo a AXA o Afirme."
+  canonicalPath={PATH}
+  schema={[serviceSchema]}
+>
+  <main>
+    <div class={`${t.container} pt-10`}>
+      <Breadcrumbs trail={[{ label: 'Seguro de vida', href: PATH }]} />
+    </div>
+
+    <LandingHero
+      headingId="vida-title"
+      title="Seguro de vida en México"
+      subtitle="Un seguro de vida no reemplaza a una persona: reemplaza el ingreso que esa persona aporta. Cotización manual en 24h, con las condiciones y los beneficiarios revisados por una persona."
+      trustSignals={trustSignals}
+      whatsappHref={whatsappHref}
+    />
+
+    <!-- What it is -->
+    <section class="bg-white py-12" aria-labelledby="que-es-title">
+      <div class={t.container}>
+        <h2 id="que-es-title" class={`${t.h2} mb-4`}>Qué es un seguro de vida y qué resuelve</h2>
+
+        <p class={`${t.body} mb-4`}>
+          Es un contrato con una aseguradora: tú pagas una prima y, si ocurre el evento cubierto, la
+          aseguradora paga una suma a las personas que designaste como beneficiarias. No es un
+          producto para “dejar dinero”: es la forma de que un ingreso que hoy sostiene a una familia no
+          desaparezca de un día para otro.
+        </p>
+
+        <p class={`${t.body} mb-4`}>
+          La póliza no decide en qué se gasta la suma asegurada; eso lo deciden los beneficiarios. Lo
+          que sí define el contrato es <strong>cuánto se paga, en qué casos y a quién</strong>. Por eso
+          la conversación empieza por el gasto familiar que quieres cubrir y termina en las condiciones
+          escritas del plan.
+        </p>
+
+        <div class="mt-8 grid gap-6 md:grid-cols-3">
+          {
+            reasons.map((reason) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{reason.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{reason.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing factors -->
+    <section class="py-12" aria-labelledby="factores-title">
+      <div class={t.container}>
+        <h2 id="factores-title" class={`${t.h2} mb-4`}>Qué define la cobertura y el precio</h2>
+
+        <p class={`${t.body} mb-8`}>
+          Dos pólizas con la misma suma asegurada pueden costar muy distinto. Estos son los factores
+          que la aseguradora evalúa y los que conviene tener claros antes de comparar.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            pricingFactors.map((factor) => (
+              <div class="flex flex-col rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{factor.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{factor.description}</p>
+              </div>
+            ))
+          }
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-info-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+          Lo que cubre cada plan lo define el condicionado general de la aseguradora, no el nombre
+          comercial. En la cotización te mostramos las condiciones y exclusiones del plan que estás
+          comparando antes de que decidas.
+        </p>
+      </div>
+    </section>
+
+    <!-- Profiles -->
+    <section class="bg-white py-12" aria-labelledby="perfiles-title">
+      <div class={t.container}>
+        <h2 id="perfiles-title" class={`${t.h2} mb-4`}>Para quién tiene sentido</h2>
+
+        <p class={`${t.body} mb-8`}>
+          El seguro de vida no es obligatorio en México y no le hace falta a todo el mundo. Tiene
+          sentido cuando alguien más depende de tu ingreso o cuando hay una deuda que no debería
+          heredarse.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          {
+            profiles.map((profile) => (
+              <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <h3 class={t.h3}>{profile.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{profile.description}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Process and documents -->
+    <section class="py-12" aria-labelledby="proceso-title">
+      <div class={t.container}>
+        <h2 id="proceso-title" class={`${t.h2} mb-4`}>Cómo funciona la cotización</h2>
+        <p class={`${t.body} mb-8`}>
+          Sin formularios eternos ni llamadas de robot. Cuatro pasos y una persona responsable de tu
+          caso de principio a fin.
+        </p>
+
+        <ol class="grid gap-6 md:grid-cols-2">
+          {
+            quoteSteps.map((step) => (
+              <li class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
+                <h3 class={t.h3}>{step.title}</h3>
+                <p class="text-sm text-[var(--text-muted)]">{step.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10">
+          <h3 class={t.h3}>Qué documentos necesitas</h3>
+          <ul class="max-w-[70ch] list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+            {documents.map((document) => <li>{document}</li>)}
+          </ul>
+          <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
+            Para cotizar bastan tus datos generales y el objetivo de protección. Los documentos se
+            piden al momento de emitir la póliza, no antes.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment -->
+    <section class="bg-white py-12" aria-labelledby="pago-title">
+      <div class={t.container}>
+        <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
+
+        <p class={`${t.body} mb-6`}>
+          La prima depende de la edad, la suma asegurada, el plazo y el estado de salud declarado. La
+          cifra exacta la confirma la cotización de la aseguradora; no publicamos montos porque
+          cambiarían según cada caso.
+        </p>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pagos con tarjeta de crédito</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Mensual o trimestral, con cargo a tu tarjeta de crédito.
+            </p>
+          </div>
+          <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+            <h3 class={t.h3}>Pago directo</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Semestral o anual, pagando directamente a la aseguradora.
+            </p>
+          </div>
+        </div>
+
+        <p class="mt-6 max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+          <i class="fas fa-shield-alt text-[var(--red-bright)]" aria-hidden="true"></i>
+          <strong>No recibimos tu dinero:</strong> pagas directo a AXA o Afirme.
+        </p>
+      </div>
+    </section>
+
+    <LandingForm
+      idPrefix="vida"
+      subject="Cotización seguro de vida - AV Seguros Real"
+      source="seguros-de-vida"
+      whatsappHref={whatsappHref}
+    />
+
+    <LandingFAQ faqs={faqs} headingId="vida-faq-title" tone="white" />
+
+    <LandingTestimonials />
+
+    <!-- Closing CTA -->
+    <section class="py-12" aria-labelledby="cierre-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="cierre-title" class={`${t.h2} mb-3`}>Cotiza con un agente real</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Revisamos el objetivo de protección, comparamos AXA y Afirme con la misma suma asegurada y te
+          explicamos qué queda fuera antes de que firmes.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="#cotizar"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Cotizar mi seguro
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

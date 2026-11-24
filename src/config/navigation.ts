@@ -28,13 +28,30 @@ export const driverNavigation: NavLink[] = [
   { label: 'Seguro para repartidores', href: '/seguros-para-repartidores/' },
 ];
 
-/** Site links rendered in the footer, in display order. */
-export const footerNavigation: NavLink[] = [
-  { label: 'Inicio', href: '/' },
-  ...mainNavigation,
+/**
+ * Insurance products, rendered in the footer "Servicios" column. Add a product
+ * here once and both the footer and, later, the header get it.
+ */
+export const productNavigation: NavLink[] = [
   { label: 'Seguro de auto', href: '/seguros-de-auto/' },
   ...driverNavigation,
+  { label: 'Seguro de vida', href: '/seguros-de-vida/' },
+  { label: 'Seguro de hogar', href: '/seguros-de-hogar/' },
+  { label: 'Seguro empresarial', href: '/seguros-empresariales/' },
+  { label: 'Seguro de gastos médicos', href: '/seguros-de-gastos-medicos/' },
 ];
+
+/** Site links rendered in the footer "Enlaces" column. */
+export const siteNavigation: NavLink[] = [
+  { label: 'Inicio', href: '/' },
+  ...mainNavigation,
+];
+
+/**
+ * Every footer link in display order (site links followed by the product
+ * column). Use `siteNavigation` and `productNavigation` to render the columns.
+ */
+export const footerNavigation: NavLink[] = [...siteNavigation, ...productNavigation];
 
 /** Legal links rendered in the footer, in display order. */
 export const legalNavigation: NavLink[] = [
