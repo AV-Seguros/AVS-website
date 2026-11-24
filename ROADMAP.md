@@ -284,6 +284,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - FAQ count is between 10 and 15; every visible question appears verbatim in the `FAQPage` JSON-LD and the JSON parses.
 - `/contacto/` contains exactly one `ContactPage` node plus the site-wide business node, and both parse.
 
+**Status:** Done. Delivered alongside the FAQ and schema work: breadcrumbs now render below the hero on every landing page, and the Uber/DiDi hero backgrounds were converted to WebP (1920px, quality 80) so the PNG sources are no longer referenced.
+
 ### `1.2.7` — Header navigation overhaul (mega menu)
 
 **Objective:** The header still lists four flat links while the product catalogue keeps growing in the footer. Replace that with a mega menu that organizes the insurance products and the tools before `1.2.5` and `1.3.x` add more routes.
@@ -300,6 +302,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - Keyboard-only navigation reaches every child link, `Escape` closes an open menu, and focus is not trapped.
 - The mobile menu opens, expands and collapses nested groups at 375px with no horizontal overflow.
 - Header and footer agree on the same product list (single source of truth in `navigation.ts`).
+
+**Status:** Done. The "Servicios" entry opens a two-column mega menu (people / work) on desktop and an accordion group in the mobile menu, both driven by `serviceGroups` in `navigation.ts`. The same session completed the `/contacto/` layout (lead form, advisor, contact channels, hours) and removed the unreferenced hero PNGs from `public/images/heroes/`.
 
 ---
 
@@ -777,3 +781,4 @@ The protocol exists so that an agent can execute the roadmap without ambiguity a
 - [ ] Replace placeholder testimonials with real Uber/DiDi driver testimonials (Name, City, Insurance Type).
 - [x] Confirm and replace the customer metric on the Home page — now `+2500 clientes respaldados por TVAsesores` in `src/components/Brands.astro`.
 - [x] Remove the "20% discount" badge from the Home page (expired) — removed from `src/components/Hero.astro`.
+- [ ] Submit sitemap-index.xml to Google Search Console (Wait until Phase 1.4.0 Blog is complete).

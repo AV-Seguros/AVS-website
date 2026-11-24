@@ -1,10 +1,20 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LandingForm from '../components/landing/LandingForm.astro';
 import { siteConfig } from '../config/site';
 
 const PATH = '/contacto/';
 const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappMessage = '¡Hola! Quiero cotizar mi seguro y tengo algunas dudas.';
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
+const emailUrl = `mailto:${siteConfig.email}`;
+
+const { street, city, region, postalCode } = siteConfig.address;
+const fullAddress = `${street}, ${city}, ${region}, C.P. ${postalCode}`;
+const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`;
 
 // ContactPage is the page type; mainEntity describes the agency the page is
 // about. Every value comes from site.ts, so the markup cannot drift from the
@@ -36,6 +46,37 @@ const contactPageSchema = {
     employee: { '@type': 'Person', name: siteConfig.advisorName },
   },
 };
+
+// Contact rows rendered in the info column. Kept in one place so the markup
+// stays readable and the icons/labels stay aligned.
+const contactRows = [
+  {
+    icon: 'fa-phone',
+    label: 'Teléfono',
+    value: siteConfig.phone,
+    href: phoneUrl,
+    external: false,
+  },
+  {
+    icon: 'fa-envelope',
+    label: 'Correo electrónico',
+    value: siteConfig.email,
+    href: emailUrl,
+    external: false,
+  },
+  {
+    icon: 'fa-location-dot',
+    label: 'Dirección',
+    value: `${street}, ${city}, ${region}`,
+    href: directionsUrl,
+    external: true,
+  },
+];
+
+const businessHours = [
+  { days: 'Lunes a viernes', hours: '9:00 a 18:00' },
+  { days: 'Sábados', hours: 'Escríbenos por WhatsApp para confirmar disponibilidad' },
+];
 ---
 
 <BaseLayout
@@ -49,10 +90,97 @@ const contactPageSchema = {
 
     <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Contacto</h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+    <p class="mb-2 max-w-[70ch] text-[var(--text-muted)]">
       Cuéntanos qué necesitas asegurar y con gusto preparamos una propuesta a tu medida.
     </p>
 
-    <div data-placeholder="content"></div>
+    <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+      <LandingForm
+        idPrefix="contacto"
+        subject="Nueva solicitud de cotización desde /contacto/"
+        source="/contacto/"
+        whatsappHref={whatsappUrl}
+        heading="Solicita tu cotización"
+        description="Déjanos tres datos y un asesor real te contacta para revisar tu caso."
+      />
+
+      <aside
+        class="rounded-2xl border border-[#e2e8f0] bg-white p-6 md:p-8 lg:mt-12"
+        aria-labelledby="contacto-asesor"
+      >
+        <div class="mb-6 flex items-center gap-4 border-b border-[#e2e8f0] pb-6">
+          <span
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--navy)] text-lg font-bold text-white"
+            aria-hidden="true"
+          >
+            LV
+          </span>
+          <div>
+            <p id="contacto-asesor" class="font-bold text-[var(--navy)]">
+              {siteConfig.advisorName}
+            </p>
+            <p class="text-sm text-[var(--text-muted)]">
+              Tu asesor · Agente persona física con respaldo AXA y Afirme
+            </p>
+          </div>
+        </div>
+
+        <h2 class="mb-4 text-lg font-bold text-[var(--navy)]">Datos de contacto</h2>
+
+        <ul class="space-y-4">
+          {
+            contactRows.map((row) => (
+              <li class="flex items-start gap-3">
+                <i class={`fas ${row.icon} mt-1 text-[var(--red)]`} aria-hidden="true" />
+                <div class="min-w-0">
+                  <p class="text-xs font-bold uppercase tracking-[0.06em] text-[var(--text-muted)]">
+                    {row.label}
+                  </p>
+                  <a
+                    href={row.href}
+                    class="break-words font-medium text-[var(--navy)] underline-offset-4 hover:text-[var(--red)] hover:underline"
+                    target={row.external ? '_blank' : undefined}
+                    rel={row.external ? 'noopener noreferrer' : undefined}
+                  >
+                    {row.value}
+                  </a>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+
+        <a
+          href={whatsappUrl}
+          class="mt-6 flex items-center justify-center gap-2 rounded-full bg-[var(--red-bright)] px-6 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fab fa-whatsapp" aria-hidden="true" /> Escríbenos por WhatsApp
+        </a>
+
+        <h2 class="mt-8 mb-3 text-lg font-bold text-[var(--navy)]">Horario de atención</h2>
+        <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+          {
+            businessHours.map((slot) => (
+              <li class="flex flex-wrap justify-between gap-x-4 gap-y-1">
+                <span class="font-semibold text-[var(--navy)]">{slot.days}</span>
+                <span>{slot.hours}</span>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="mt-6 text-xs text-[var(--text-muted)]">
+          No compartimos tus datos con terceros. Consulta el
+          <a
+            href="/aviso-de-privacidad/"
+            class="font-semibold text-[var(--red)] underline underline-offset-2"
+          >
+            aviso de privacidad</a
+          >.
+        </p>
+      </aside>
+    </div>
   </main>
 </BaseLayout>
