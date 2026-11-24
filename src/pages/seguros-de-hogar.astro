@@ -162,10 +162,6 @@ const serviceSchema = {
   schema={[serviceSchema]}
 >
   <main>
-    <div class={`${t.container} pt-10`}>
-      <Breadcrumbs trail={[{ label: 'Seguro de hogar', href: PATH }]} />
-    </div>
-
     <LandingHero
       headingId="hogar-title"
       title="Seguro de hogar en México"
@@ -173,6 +169,10 @@ const serviceSchema = {
       trustSignals={trustSignals}
       whatsappHref={whatsappHref}
     />
+
+    <div class={`${t.container} py-4`}>
+      <Breadcrumbs trail={[{ label: 'Seguro de hogar', href: PATH }]} />
+    </div>
 
     <!-- What it covers -->
     <section class="bg-white py-12" aria-labelledby="que-cubre-title">

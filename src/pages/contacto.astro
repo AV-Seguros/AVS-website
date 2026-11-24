@@ -1,12 +1,48 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { siteConfig } from '../config/site';
+
+const PATH = '/contacto/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+// ContactPage is the page type; mainEntity describes the agency the page is
+// about. Every value comes from site.ts, so the markup cannot drift from the
+// Organization/InsuranceAgency graph emitted by SEO.astro.
+const contactPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${pageUrl}#contactpage`,
+  url: pageUrl,
+  name: 'Contacto · AV Seguros Real',
+  description:
+    'Datos de contacto de AV Seguros Real: asesor, teléfono, WhatsApp, correo electrónico y dirección en Juárez, Nuevo León.',
+  inLanguage: 'es-MX',
+  mainEntity: {
+    '@type': 'InsuranceAgency',
+    '@id': `${siteConfig.siteUrl}/#insuranceagency`,
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl,
+    telephone: siteConfig.phone,
+    email: siteConfig.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: siteConfig.address.street,
+      addressLocality: siteConfig.address.city,
+      addressRegion: siteConfig.address.region,
+      postalCode: siteConfig.address.postalCode,
+      addressCountry: siteConfig.address.country,
+    },
+    employee: { '@type': 'Person', name: siteConfig.advisorName },
+  },
+};
 ---
 
 <BaseLayout
   title="Contacto · AV Seguros Real"
   description="Solicita tu cotización de seguro por WhatsApp o teléfono. Un asesor real revisa tu caso y responde en menos de 24 horas."
-  canonicalPath="/contacto/"
+  canonicalPath={PATH}
+  schema={[contactPageSchema]}
 >
   <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
     <Breadcrumbs trail={[{ label: 'Contacto', href: '/contacto/' }]} />
