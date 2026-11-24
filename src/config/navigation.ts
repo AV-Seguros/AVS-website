@@ -24,6 +24,7 @@ export const mainNavigation: NavLink[] = [
  */
 export const driverNavigation: NavLink[] = [
   { label: 'Seguro para Uber', href: '/seguro-para-uber/' },
+  { label: 'Seguro para DiDi', href: '/seguro-para-didi/' },
 ];
 
 /** Site links rendered in the footer, in display order. */
