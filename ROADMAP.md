@@ -284,6 +284,23 @@ This milestone is the technical foundation for everything that follows. It is de
 - FAQ count is between 10 and 15; every visible question appears verbatim in the `FAQPage` JSON-LD and the JSON parses.
 - `/contacto/` contains exactly one `ContactPage` node plus the site-wide business node, and both parse.
 
+### `1.2.7` — Header navigation overhaul (mega menu)
+
+**Objective:** The header still lists four flat links while the product catalogue keeps growing in the footer. Replace that with a mega menu that organizes the insurance products and the tools before `1.2.5` and `1.3.x` add more routes.
+
+- Refactor `Header.astro` to render grouped dropdowns from `navigation.ts`: one group for insurance products (auto, Uber, DiDi, repartidores, vida, hogar, empresariales, gastos médicos) and one for tools (calculators, checklist). Keep the existing top-level links (Servicios, Quiénes somos, Contacto, Preguntas frecuentes) available.
+- Extend the navigation config so a group has a label, an optional hub link and a list of child links; the header and the footer read the same structure, and only routes that exist are listed.
+- Dropdowns must be operable with mouse, keyboard and touch: toggle with click/Enter/Space, close on `Escape` and outside click, expose `aria-expanded` / `aria-controls`, and never rely on hover alone.
+- The mobile menu must support the same nesting: expandable submenus, visible focus states, scrollable panel, no horizontal overflow at 375px.
+- No layout shift on page load, no framework runtime added (Astro markup plus a small vanilla script), and the current page is still marked with `aria-current`.
+
+**Verification**
+
+- `npm run build` succeeds; the header renders only existing routes and every link resolves.
+- Keyboard-only navigation reaches every child link, `Escape` closes an open menu, and focus is not trapped.
+- The mobile menu opens, expands and collapses nested groups at 375px with no horizontal overflow.
+- Header and footer agree on the same product list (single source of truth in `navigation.ts`).
+
 ---
 
 ## `1.3.0` — Interactive Insurance Tools
@@ -758,5 +775,5 @@ The protocol exists so that an agent can execute the roadmap without ambiguity a
 # 10. Pending Business Data
 
 - [ ] Replace placeholder testimonials with real Uber/DiDi driver testimonials (Name, City, Insurance Type).
-- [ ] Confirm and replace the +2500 clients metric on the Home page.
-- [ ] Remove the "20% discount" badge from the Home page (expired).
+- [x] Confirm and replace the customer metric on the Home page — now `+2500 clientes respaldados por TVAsesores` in `src/components/Brands.astro`.
+- [x] Remove the "20% discount" badge from the Home page (expired) — removed from `src/components/Hero.astro`.
