@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.6.0`
-**Next milestone:** `1.6.2`
+**Current version:** `1.6.2`
+**Next milestone:** `1.6.3`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -527,6 +527,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - No cookies, no third-party scripts, no PII beyond what the user submits.
 
 **Verification:** visiting with UTM params then submitting includes the parameters; direct visit falls back to referrer/origin path without errors.
+
+**Status:** Done. `src/scripts/attribution.ts` reads the five UTMs, `document.referrer` and `window.location.pathname`, stores them under `av_attribution` in `sessionStorage` and treats the first page load of the tab as the only source, so later navigation and later campaign links never overwrite it (first touch wins). Every browser API is guarded, so the module is also safe when the Astro frontmatter imports it at build time. `LeadForm` now ships seven hidden fields (`_utm_source`, `_utm_medium`, `_utm_campaign`, `_utm_content`, `_utm_term`, `_referrer`, `_landing_page`), empty in the HTML and filled from storage on load, so a lead submitted from any page carries the campaign that produced the session. `buildWhatsAppUrl` appends a one-line `[Ref: source / medium / campaign]` when it runs in the browser, falling back to the referring host and then to the landing page, and `refreshWhatsAppLinks()` rewrites the `text` parameter of every `wa.me` CTA rendered at build time; a direct visit with no campaign and no referrer appends nothing instead of an empty bracket. `BaseLayout` runs the capture before any other script and refreshes the links on `DOMContentLoaded`. The basis is documented in `docs/forms.md`.
 
 ### `1.6.3` — Analytics and conversion events
 

@@ -139,6 +139,19 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
         <input type="hidden" name="_source" value={source} />
         {context && <input type="hidden" name="_context" value={context} />}
 
+        {/*
+          First-touch attribution (scripts/attribution.ts). Left empty in the
+          HTML and filled by the script below, so a build never ships a visitor's
+          campaign and a direct visit sends empty values instead of breaking.
+        */}
+        <input type="hidden" name="_utm_source" data-attribution="utmSource" value="" />
+        <input type="hidden" name="_utm_medium" data-attribution="utmMedium" value="" />
+        <input type="hidden" name="_utm_campaign" data-attribution="utmCampaign" value="" />
+        <input type="hidden" name="_utm_content" data-attribution="utmContent" value="" />
+        <input type="hidden" name="_utm_term" data-attribution="utmTerm" value="" />
+        <input type="hidden" name="_referrer" data-attribution="referrer" value="" />
+        <input type="hidden" name="_landing_page" data-attribution="landingPage" value="" />
+
         <div class="mb-4">
           <label for={`${baseId}-nombre`} class={labelClass}>Nombre *</label>
           <input
@@ -261,6 +274,8 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
 </section>
 
 <script>
+  import { readAttribution } from '../../scripts/attribution';
+
   // One handler per rendered form. Fields are looked up inside the form, so any
   // number of LeadForm instances can share a page.
   const forms = document.querySelectorAll<HTMLFormElement>('form[data-lead-form]');
@@ -280,6 +295,14 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
     const formError = document.getElementById(`${base}-form-error`);
 
     if (!nameInput || !whatsappInput || !emailInput || !consentInput) return;
+
+    // The campaign that produced the visit, attached to the payload even when
+    // the visitor submits from a page reached later in the session.
+    const attribution = readAttribution();
+    form.querySelectorAll<HTMLInputElement>('input[data-attribution]').forEach((input) => {
+      const field = input.dataset.attribution as keyof typeof attribution | undefined;
+      input.value = field ? attribution[field] : '';
+    });
 
     const setError = (input: HTMLInputElement, name: string, hasError: boolean) => {
       document.getElementById(`${base}-${name}-error`)?.classList.toggle('hidden', !hasError);
