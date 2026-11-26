@@ -1,6 +1,8 @@
 ---
-// Botón flotante de WhatsApp
-const whatsappUrl = 'https://wa.me/+5218120130995?text=¡Hola!%20Quiero%20cotizar%20mi%20seguro%20de%20auto%20con%20un%20agente%20real.';
+// Floating WhatsApp button
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const whatsappUrl = buildWhatsAppUrl('cotizacion-auto');
 ---
 
 <a

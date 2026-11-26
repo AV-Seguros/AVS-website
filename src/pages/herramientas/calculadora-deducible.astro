@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
 
 const PATH = '/herramientas/calculadora-deducible/';
+const whatsappHref = buildWhatsAppUrl('calculadora');
 
 const inputClass =
   'w-full rounded-xl border border-[#cbd5e1] bg-white px-4 py-2.5 text-base text-[var(--navy)] outline-none focus:border-[var(--red-bright)] focus:ring-2 focus:ring-[var(--red-bright)]/30';
@@ -162,7 +164,13 @@ const rules = [
       <p class="text-sm text-[var(--text-muted)]">
         La calculadora no consulta tu póliza: el porcentaje aplicable, el cobro mínimo y las exclusiones
         los define el condicionado de cada aseguradora. Si quieres revisar tu caso con el detalle de tu
-        contrato, escríbenos por WhatsApp y lo vemos juntos.
+        contrato,
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-semibold text-[var(--red)] underline underline-offset-2">escríbenos por WhatsApp</a
+        > y lo vemos juntos.
       </p>
     </section>
   </main>

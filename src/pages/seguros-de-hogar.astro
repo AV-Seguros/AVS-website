@@ -7,12 +7,12 @@ import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
 import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
 
 const PATH = '/seguros-de-hogar/';
 const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
 
-const whatsappMessage = 'Hola, busco seguro de hogar. Vengo de la página web.';
-const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappHref = buildWhatsAppUrl('hogar');
 
 const trustSignals = [
   '15 años de experiencia',

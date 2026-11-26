@@ -4,9 +4,9 @@
 import logo from '../../public/logo.png';
 import { mainNavigation, menuGroups, isCurrentPath, isCurrentSection } from '../config/navigation';
 import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
 
-const whatsappMessage = '¡Hola! Quiero cotizar mi seguro de auto con un agente real.';
-const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappUrl = buildWhatsAppUrl('cotizacion-auto');
 const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
 const pathname = Astro.url.pathname;
