@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
@@ -245,10 +245,9 @@ const serviceSchema = {
       </div>
     </section>
 
-    <LandingForm
-      idPrefix="didi"
-      subject="Cotización DiDi - AV Seguros Real"
+    <LeadForm
       source="seguro-para-didi"
+      context="Landing de seguro para DiDi"
       whatsappHref={whatsappHref}
     />
 

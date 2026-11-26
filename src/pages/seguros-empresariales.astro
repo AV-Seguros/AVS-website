@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
@@ -241,8 +242,10 @@ const serviceSchema = {
           <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
             <h3 class={t.h3}>Deducible</h3>
             <p class="text-sm text-[var(--text-muted)]">
-              La parte del daño que absorbe el negocio. Un deducible alto reduce la prima y encarece
-              cada siniestro: la decisión debe considerar el flujo de efectivo del negocio.
+              La parte del daño que absorbe el negocio. Un
+              <GlossaryTerm slug="deducible">deducible</GlossaryTerm> alto reduce la prima y encarece
+              cada <GlossaryTerm slug="siniestro">siniestro</GlossaryTerm>: la decisión debe
+              considerar el flujo de efectivo del negocio.
             </p>
           </div>
         </div>
@@ -311,7 +314,7 @@ const serviceSchema = {
         <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
 
         <p class={`${t.body} mb-6`}>
-          La prima depende de los valores declarados, el giro, la ubicación, las medidas de seguridad y
+          La <GlossaryTerm slug="prima">prima</GlossaryTerm> depende de los valores declarados, el giro, la ubicación, las medidas de seguridad y
           la siniestralidad. La cifra exacta la confirma la cotización de la aseguradora; no
           publicamos montos porque cambiarían en cada negocio.
         </p>
@@ -338,10 +341,9 @@ const serviceSchema = {
       </div>
     </section>
 
-    <LandingForm
-      idPrefix="empresarial"
-      subject="Cotización seguro empresarial - AV Seguros Real"
+    <LeadForm
       source="seguros-empresariales"
+      context="Landing de seguro empresarial"
       whatsappHref={whatsappHref}
     />
 

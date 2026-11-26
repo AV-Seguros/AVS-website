@@ -5,9 +5,12 @@ import Testimonials from '../components/Testimonials.astro';
 import AboutUs from '../components/AboutUs.astro';
 import Services from '../components/Services.astro';
 import Brands from '../components/Brands.astro';
-import ContactForm from '../components/ContactForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import FAQ from '../components/FAQ.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const whatsappHref = buildWhatsAppUrl('contacto');
 ---
 
 <BaseLayout
@@ -20,7 +23,15 @@ import WhatsAppFloat from '../components/WhatsAppFloat.astro';
   <AboutUs />
   <Services />
   <Brands />
-  <ContactForm />
+  <LeadForm
+    source="home-contact"
+    context="Sección de contacto de la página de inicio"
+    sectionId="contacto"
+    tone="navy"
+    heading="Solicita tu cotización"
+    description="Rellena el formulario y en 24h o menos un agente real se pondrá en contacto contigo."
+    whatsappHref={whatsappHref}
+  />
   <FAQ />
   <WhatsAppFloat />
 </BaseLayout>

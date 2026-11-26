@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.5.0`
-**Next milestone:** `1.6.0`
+**Current version:** `1.6.0`
+**Next milestone:** `1.6.2`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -517,6 +517,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Document the decision and its trade-offs in a short `docs/forms.md` note or in section 8 of this file.
 
 **Verification:** exactly one form implementation remains; every page using a form passes `source`; a successful and a failed submission are both demonstrated.
+
+**Status:** Done. Every `<form>` on the site is now `src/components/forms/LeadForm.astro`; `LandingForm.astro` and `ContactForm.astro` were deleted, along with the bespoke form markup and `alert()`-based scripts that lived in `Hero.astro`. The component takes `source`, `context`, `buttonText`, `showPhone` plus the presentation props the pages needed (`heading`, `description`, `sectionId`, `tone`, `layout`, `theme`, `whatsappHref`), sends `_subject`, `_source` and `_context` to the endpoint, validates name, WhatsApp (10 digits), optional phone, email and consent inline, and shows a loading, success (`/gracias/`) and failure state with a WhatsApp fallback. The backend decision is documented in `docs/forms.md`: **Formspree stays as the temporary backend**, isolated in the `FORM_ENDPOINT` constant at the top of the component, so migrating to a Worker or Supabase means changing that one URL and the note. `showPhone` is used on `/contacto/` only. The hero form lost its CP, preferred insurer and comments fields, which are no longer part of the shared field set.
 
 ### `1.6.2` — Lead source attribution
 

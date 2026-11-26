@@ -1,0 +1,336 @@
+---
+/**
+ * Single lead form for the whole site.
+ *
+ * Every page that asks for a quotation renders this component, so the fields,
+ * the validation, the states and the submission target exist in one place.
+ * The backend is Formspree for now (see `docs/forms.md`): moving to a custom
+ * endpoint means editing `FORM_ENDPOINT` and nothing else.
+ *
+ * Each instance sends `_source` (and `_context` when provided) so the advisor
+ * knows which page generated the lead.
+ */
+import { landingTokens } from '../landing/tokens';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
+
+/**
+ * Temporary form backend (ROADMAP §8, decided in 1.6.1). Only this constant
+ * needs to change when the lead endpoint moves to a Worker or Supabase.
+ */
+const FORM_ENDPOINT = 'https://formspree.io/f/mgaekvbe';
+
+export interface Props {
+  /** Page identifier sent with the lead, e.g. "uber-landing". */
+  source: string;
+  /** Optional qualifier for the lead subject, e.g. "Landing de seguro de vida". */
+  context?: string;
+  /** Submit button label. */
+  buttonText?: string;
+  /** Adds an optional phone field next to WhatsApp. */
+  showPhone?: boolean;
+  /** Section heading; ignored when `layout` is "inline". */
+  heading?: string;
+  /** Section description; ignored when `layout` is "inline". */
+  description?: string;
+  /** Anchor id of the section. Pass `undefined` for inline forms. */
+  sectionId?: string;
+  /** Section background: white, page background, or the navy band. */
+  tone?: 'white' | 'muted' | 'navy';
+  /** "section" renders the heading plus the card; "inline" renders only the form. */
+  layout?: 'section' | 'inline';
+  /** "dark" adapts labels and notes to a dark card such as the home hero. */
+  theme?: 'light' | 'dark';
+  /** Destination of the "write us on WhatsApp" fallback shown on failure. */
+  whatsappHref?: string;
+}
+
+const {
+  source,
+  context,
+  buttonText = 'Enviar solicitud',
+  showPhone = false,
+  heading = 'Solicita tu cotización',
+  description = 'Tres datos y un agente real te contacta en 24h o menos para revisar tu caso.',
+  sectionId = 'cotizar',
+  tone = 'muted',
+  layout = 'section',
+  theme = 'light',
+  whatsappHref = buildWhatsAppUrl('general'),
+} = Astro.props;
+
+/** Stable id namespace, derived from the source so two forms never collide. */
+const baseId = `lead-${source
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '')}`;
+
+const subject = context ? `Nueva solicitud · ${context}` : `Nueva solicitud · ${source}`;
+const isSection = layout === 'section';
+const isDark = theme === 'dark';
+
+const sectionClass = isSection
+  ? `scroll-mt-24 ${tone === 'white' ? 'bg-white py-12' : tone === 'navy' ? 'bg-[var(--navy)] py-12 text-white' : 'py-12'}`
+  : '';
+
+const innerClass =
+  tone === 'navy' ? 'mx-auto max-w-[700px] text-center' : 'mx-auto max-w-[640px]';
+
+const cardClass = isSection
+  ? `rounded-2xl border border-[#e2e8f0] bg-white p-6 md:p-8 ${tone === 'navy' ? 'text-left' : ''}`
+  : '';
+
+const labelClass = isDark
+  ? 'mb-1 block text-[0.85rem] font-semibold text-[var(--red-bright)]'
+  : 'mb-1 block text-sm font-semibold text-[var(--navy)]';
+
+const consentClass = isDark
+  ? 'flex items-start gap-3 text-sm text-[#cbd5e1]'
+  : 'flex items-start gap-3 text-sm text-[var(--text-muted)]';
+
+const noteClass = isDark ? 'mt-4 text-xs text-[#94a3b8]' : 'mt-4 text-xs text-[var(--text-muted)]';
+
+const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text-[var(--red)]'}`;
+---
+
+<section
+  id={isSection ? sectionId : undefined}
+  class={sectionClass}
+  aria-label={isSection ? undefined : 'Formulario de cotización'}
+  aria-labelledby={isSection ? `${baseId}-title` : undefined}
+>
+  <div class={isSection ? landingTokens.container : ''}>
+    <div class={isSection ? innerClass : ''}>
+      {
+        isSection && (
+          <>
+            <h2
+              id={`${baseId}-title`}
+              class:list={[
+                landingTokens.h2,
+                'mb-3',
+                tone === 'navy' ? 'text-white' : '',
+              ]}
+            >
+              {heading}
+            </h2>
+            <p
+              class:list={[
+                landingTokens.body,
+                'mb-6',
+                tone === 'navy' ? 'mx-auto text-center text-[#cbd5e1]' : '',
+              ]}
+            >
+              {description}
+            </p>
+          </>
+        )
+      }
+
+      <form
+        id={`${baseId}-form`}
+        class={cardClass}
+        action={FORM_ENDPOINT}
+        method="POST"
+        data-lead-form
+        data-lead-base={baseId}
+        novalidate
+      >
+        <input type="hidden" name="_subject" value={subject} />
+        <input type="hidden" name="_source" value={source} />
+        {context && <input type="hidden" name="_context" value={context} />}
+
+        <div class="mb-4">
+          <label for={`${baseId}-nombre`} class={labelClass}>Nombre *</label>
+          <input
+            type="text"
+            id={`${baseId}-nombre`}
+            name="Nombre"
+            autocomplete="name"
+            class={landingTokens.input}
+            aria-describedby={`${baseId}-nombre-error`}
+            required
+          />
+          <p id={`${baseId}-nombre-error`} class={fieldErrorClass} role="alert">
+            Escribe tu nombre.
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label for={`${baseId}-whatsapp`} class={labelClass}>WhatsApp *</label>
+          <input
+            type="tel"
+            id={`${baseId}-whatsapp`}
+            name="WhatsApp"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="81 1234 5678"
+            class={landingTokens.input}
+            aria-describedby={`${baseId}-whatsapp-error`}
+            required
+          />
+          <p id={`${baseId}-whatsapp-error`} class={fieldErrorClass} role="alert">
+            Escribe un número de WhatsApp de al menos 10 dígitos.
+          </p>
+        </div>
+
+        {
+          showPhone && (
+            <div class="mb-4">
+              <label for={`${baseId}-telefono`} class={labelClass}>
+                Teléfono (opcional)
+              </label>
+              <input
+                type="tel"
+                id={`${baseId}-telefono`}
+                name="Telefono"
+                inputmode="tel"
+                autocomplete="tel-national"
+                placeholder="81 1234 5678"
+                class={landingTokens.input}
+                aria-describedby={`${baseId}-telefono-error`}
+              />
+              <p id={`${baseId}-telefono-error`} class={fieldErrorClass} role="alert">
+                Revisa el teléfono: debe tener al menos 8 dígitos.
+              </p>
+            </div>
+          )
+        }
+
+        <div class="mb-4">
+          <label for={`${baseId}-email`} class={labelClass}>Correo electrónico *</label>
+          <input
+            type="email"
+            id={`${baseId}-email`}
+            name="Email"
+            autocomplete="email"
+            class={landingTokens.input}
+            aria-describedby={`${baseId}-email-error`}
+            required
+          />
+          <p id={`${baseId}-email-error`} class={fieldErrorClass} role="alert">
+            Escribe un correo electrónico válido.
+          </p>
+        </div>
+
+        <div class="mb-6">
+          <label for={`${baseId}-consent`} class={consentClass}>
+            <input
+              type="checkbox"
+              id={`${baseId}-consent`}
+              name="Consentimiento"
+              value="Aceptado"
+              class="mt-1 h-4 w-4"
+              aria-describedby={`${baseId}-consent-error`}
+              required
+            />
+            <span>
+              Acepto el
+              <a href="/aviso-de-privacidad/" class="font-semibold text-[var(--red)] underline">
+                aviso de privacidad</a
+              >
+              y el contacto por WhatsApp o correo para recibir mi cotización.
+            </span>
+          </label>
+          <p id={`${baseId}-consent-error`} class={fieldErrorClass} role="alert">
+            Necesitamos tu consentimiento para contactarte.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-full bg-[var(--red-bright)] px-6 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+        >
+          <i class="fas fa-paper-plane" aria-hidden="true"></i> {buttonText}
+        </button>
+
+        <p id={`${baseId}-form-error`} class="mt-4 hidden text-sm text-[var(--red)]" role="alert">
+          No pudimos enviar tu solicitud.
+          <a
+            href={whatsappHref}
+            class="font-bold underline"
+            target="_blank"
+            rel="noopener noreferrer">Escríbenos por WhatsApp</a
+          >
+          y lo vemos de inmediato.
+        </p>
+
+        <p class={noteClass}>Tus datos se usan solo para contactarte sobre esta cotización.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // One handler per rendered form. Fields are looked up inside the form, so any
+  // number of LeadForm instances can share a page.
+  const forms = document.querySelectorAll<HTMLFormElement>('form[data-lead-form]');
+
+  const digits = (value: string) => value.replace(/\D/g, '');
+
+  forms.forEach((form) => {
+    const base = form.dataset.leadBase;
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (!base || !button) return;
+
+    const nameInput = document.getElementById(`${base}-nombre`) as HTMLInputElement | null;
+    const whatsappInput = document.getElementById(`${base}-whatsapp`) as HTMLInputElement | null;
+    const phoneInput = document.getElementById(`${base}-telefono`) as HTMLInputElement | null;
+    const emailInput = document.getElementById(`${base}-email`) as HTMLInputElement | null;
+    const consentInput = document.getElementById(`${base}-consent`) as HTMLInputElement | null;
+    const formError = document.getElementById(`${base}-form-error`);
+
+    if (!nameInput || !whatsappInput || !emailInput || !consentInput) return;
+
+    const setError = (input: HTMLInputElement, name: string, hasError: boolean) => {
+      document.getElementById(`${base}-${name}-error`)?.classList.toggle('hidden', !hasError);
+      input.setAttribute('aria-invalid', String(hasError));
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      formError?.classList.add('hidden');
+
+      const hasName = nameInput.value.trim().length >= 2;
+      const hasWhatsApp = digits(whatsappInput.value).length >= 10;
+      const hasEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailInput.value.trim());
+      const hasConsent = consentInput.checked;
+      const hasValidPhone =
+        !phoneInput || phoneInput.value.trim() === '' || digits(phoneInput.value).length >= 8;
+
+      setError(nameInput, 'nombre', !hasName);
+      setError(whatsappInput, 'whatsapp', !hasWhatsApp);
+      setError(emailInput, 'email', !hasEmail);
+      setError(consentInput, 'consent', !hasConsent);
+      if (phoneInput) setError(phoneInput, 'telefono', !hasValidPhone);
+
+      const results = [hasName, hasWhatsApp, hasEmail, hasConsent, hasValidPhone];
+      const firstInvalid = results.indexOf(false);
+      if (firstInvalid !== -1) {
+        [nameInput, whatsappInput, emailInput, consentInput, phoneInput][firstInvalid]?.focus();
+        return;
+      }
+
+      const originalLabel = button.innerHTML;
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      button.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Enviando...';
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+
+        if (!response.ok) throw new Error('Submission failed');
+
+        window.location.href = `${import.meta.env.BASE_URL}gracias`;
+      } catch {
+        formError?.classList.remove('hidden');
+        button.disabled = false;
+        button.removeAttribute('aria-busy');
+        button.innerHTML = originalLabel;
+      }
+    });
+  });
+</script>
