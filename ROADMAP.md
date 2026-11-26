@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.4.1`
-**Next milestone:** `1.4.2`
+**Current version:** `1.4.2`
+**Next milestone:** `1.4.3`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -432,6 +432,8 @@ Base route: `/blog/`. Content should be useful, accurate and written for real pe
 Each: 700+ words, unique metadata, at least one contextual CTA, internal links to relevant landing pages.
 
 **Verification:** three new routes build and appear in the index and sitemap.
+
+**Status:** Done. `cobertura-limitada-vs-amplia.md` (812 words), `seguro-privado-cubre-uber.md` (725 words) and `que-es-un-deducible.md` (836 words) are published under `Coberturas`, `Conductores` and `Educación en seguros`, each with its own H2/H3 structure, a contextual CTA to `/contacto/` and the internal links the roadmap asks for (`/seguros-de-auto/`, `/seguro-para-uber/` and `/seguro-para-didi/`, `/herramientas/calculadora-deducible/`). All four articles share `publishDate: 2026-11-26`, so the index orders them by file id inside the same date; the category labels are visible on every card, while category filtering and category index pages remain part of `1.4.3`.
 
 ### `1.4.3` — Blog navigation: categories, related content, breadcrumbs, structured data
 
