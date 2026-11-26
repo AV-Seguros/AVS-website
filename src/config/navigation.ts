@@ -41,6 +41,13 @@ export const workNavigation: NavLink[] = [
 ];
 
 /**
+ * Interactive tools, in display order. Only routes that exist are listed.
+ */
+export const toolsNavigation: NavLink[] = [
+  { label: 'Calculadora de deducible', href: '/herramientas/calculadora-deducible/' },
+];
+
+/**
  * Groups rendered in the header mega menu. The order of the groups and of the
  * links inside them is the order the visitor sees.
  */
@@ -68,10 +75,27 @@ export const mainNavigation: NavItem[] = [
 ];
 
 /**
+ * Tools group rendered after the product groups, so the mega menu keeps one
+ * column for insurance products and one for the tools that support them.
+ */
+export const toolGroups: NavGroup[] = [
+  {
+    id: 'herramientas',
+    label: 'Herramientas',
+    description: 'Calcula antes de cotizar: ejercicios educativos con tus propios números.',
+    links: toolsNavigation,
+  },
+];
+
+/**
  * Every insurance product in display order, derived from `serviceGroups` so
- * the header menu and the footer column can never disagree.
+ * the header menu and the footer column can never disagree. Tools are kept out
+ * of this list: the footer "Servicios" column lists products only.
  */
 export const productNavigation: NavLink[] = serviceGroups.flatMap((group) => group.links);
+
+/** Every group the header mega menu renders: products first, tools last. */
+export const menuGroups: NavGroup[] = [...serviceGroups, ...toolGroups];
 
 /** Site links rendered in the footer "Enlaces" column. */
 export const siteNavigation: NavLink[] = [

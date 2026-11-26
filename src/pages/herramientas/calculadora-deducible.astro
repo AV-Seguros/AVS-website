@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const PATH = '/herramientas/calculadora-deducible/';
+
+const inputClass =
+  'w-full rounded-xl border border-[#cbd5e1] bg-white px-4 py-2.5 text-base text-[var(--navy)] outline-none focus:border-[var(--red-bright)] focus:ring-2 focus:ring-[var(--red-bright)]/30';
+const labelClass = 'mb-1 block text-sm font-semibold text-[var(--navy)]';
+const hintClass = 'mt-1 text-xs text-[var(--text-muted)]';
+
+const rules = [
+  'Deducible = valor comercial del vehículo × porcentaje de deducible.',
+  'Si el daño cuesta menos que el deducible, el costo completo queda de tu lado y la aseguradora no participa.',
+  'Si el daño supera el deducible, tú pagas el deducible y la aseguradora cubre la diferencia, hasta el límite de la suma asegurada.',
+];
+---
+
+<BaseLayout
+  title="Calculadora de deducible de auto · AV Seguros Real"
+  description="Calcula cuánto pagarías tú y cuánto la aseguradora ante un siniestro, con el valor de tu auto y el porcentaje de deducible de tu póliza."
+  canonicalPath={PATH}
+>
+  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Calculadora de deducible', href: PATH }]} />
+
+    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">
+      Calculadora de deducible de seguro de auto
+    </h1>
+
+    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+      Antes de reportar un siniestro conviene saber cuánto te toca pagar. Captura el valor de tu auto, el
+      porcentaje de deducible de tu póliza y el monto estimado de los daños para ver el reparto entre tú y
+      la aseguradora.
+    </p>
+
+    <div class="grid items-start gap-6 lg:grid-cols-2">
+      <!-- Inputs -->
+      <section
+        class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6"
+        aria-labelledby="calc-datos-title"
+      >
+        <h2 id="calc-datos-title" class="mb-1 text-xl font-bold text-[var(--navy)]">
+          Datos del ejercicio
+        </h2>
+        <p class="mb-6 text-sm text-[var(--text-muted)]">
+          Usa las cifras de tu caso. No se envía nada a ningún servidor: el cálculo ocurre en tu
+          navegador.
+        </p>
+
+        <div class="space-y-5">
+          <div>
+            <label class={labelClass} for="calc-vehicle-value">Valor comercial del vehículo (MXN)</label>
+            <input
+              id="calc-vehicle-value"
+              name="vehicle-value"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="1000"
+              placeholder="200000"
+              class={inputClass}
+            />
+            <p class={hintClass}>Aparece en la factura del auto o en el recibo de tu póliza.</p>
+          </div>
+
+          <div>
+            <label class={labelClass} for="calc-deductible-percent">Porcentaje de deducible (%)</label>
+            <input
+              id="calc-deductible-percent"
+              name="deductible-percent"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              max="100"
+              step="0.5"
+              value="5"
+              class={inputClass}
+            />
+            <p class={hintClass}>
+              Lo más común en auto es entre 5% y 10%. Revisa el porcentaje exacto en tu condicionado.
+            </p>
+          </div>
+
+          <div>
+            <label class={labelClass} for="calc-damage-amount">Monto de los daños (MXN)</label>
+            <input
+              id="calc-damage-amount"
+              name="damage-amount"
+              type="number"
+              inputmode="decimal"
+              min="0"
+              step="500"
+              placeholder="15000"
+              class={inputClass}
+            />
+            <p class={hintClass}>Usa el presupuesto del taller o una estimación preliminar.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section
+        class="rounded-2xl bg-[var(--navy)] p-6 text-white"
+        aria-labelledby="calc-resultado-title"
+      >
+        <h2 id="calc-resultado-title" class="mb-1 text-xl font-bold">Resultado del ejercicio</h2>
+        <p class="mb-6 text-sm text-[#c9d6e6]">Reparto del monto de los daños que capturaste.</p>
+
+        <dl class="space-y-4" aria-live="polite">
+          <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-white/15 pb-4">
+            <dt class="text-sm text-[#c9d6e6]">Deducible estimado</dt>
+            <dd id="calc-result-deductible" class="text-lg font-semibold tabular-nums">&mdash;</dd>
+          </div>
+          <div class="flex flex-wrap items-baseline justify-between gap-2 border-b border-white/15 pb-4">
+            <dt class="text-base font-semibold">Tú pagas</dt>
+            <dd id="calc-result-policyholder" class="text-2xl font-extrabold tabular-nums text-[#ffd166]">
+              &mdash;
+            </dd>
+          </div>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <dt class="text-base font-semibold">La aseguradora paga</dt>
+            <dd id="calc-result-insurer" class="text-2xl font-extrabold tabular-nums text-[#8ee6a8]">
+              &mdash;
+            </dd>
+          </div>
+        </dl>
+
+        <p class="mt-6 text-xs leading-relaxed text-[#9fb3cc]">
+          El reparto supone que el daño está cubierto por tu póliza y no incluye cobro mínimo, coaseguro
+          ni exclusiones.
+        </p>
+      </section>
+    </div>
+
+    <!-- Permanent disclaimer -->
+    <aside
+      class="mt-6 rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-5"
+      aria-label="Aviso sobre el alcance del cálculo"
+    >
+      <p class="text-sm font-semibold text-[var(--navy)]">
+        <i class="fas fa-exclamation-triangle text-[var(--red-bright)]" aria-hidden="true"></i>
+        Este cálculo es un ejercicio educativo. El deducible real depende de las condiciones de tu póliza.
+      </p>
+    </aside>
+
+    <!-- How it is calculated -->
+    <section class="mt-10 max-w-[70ch]" aria-labelledby="calc-como-title">
+      <h2 id="calc-como-title" class="mb-3 text-xl font-bold text-[var(--navy)]">Cómo se calcula</h2>
+
+      <p class="mb-4 text-[var(--text-muted)]">
+        El deducible es la parte del daño que absorbe el asegurado antes de que la aseguradora pague. En
+        las pólizas de auto se expresa como un porcentaje del valor comercial del vehículo, no del monto
+        del siniestro, así que su importe es el mismo frente a un golpe de 5,000 que frente a uno de
+        80,000.
+      </p>
+
+      <ul class="mb-4 list-disc space-y-2 pl-5 text-[var(--text-muted)]">
+        {rules.map((rule) => <li>{rule}</li>)}
+      </ul>
+
+      <p class="text-sm text-[var(--text-muted)]">
+        La calculadora no consulta tu póliza: el porcentaje aplicable, el cobro mínimo y las exclusiones
+        los define el condicionado de cada aseguradora. Si quieres revisar tu caso con el detalle de tu
+        contrato, escríbenos por WhatsApp y lo vemos juntos.
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import { calculateDeductible, formatMxn } from '../../scripts/deductible';
+
+  const vehicleValue = document.getElementById('calc-vehicle-value') as HTMLInputElement | null;
+  const deductiblePercent = document.getElementById('calc-deductible-percent') as HTMLInputElement | null;
+  const damageAmount = document.getElementById('calc-damage-amount') as HTMLInputElement | null;
+
+  const deductibleOutput = document.getElementById('calc-result-deductible');
+  const policyholderOutput = document.getElementById('calc-result-policyholder');
+  const insurerOutput = document.getElementById('calc-result-insurer');
+
+  const render = () => {
+    const result = calculateDeductible({
+      vehicleValue: vehicleValue?.value ?? '',
+      deductiblePercent: deductiblePercent?.value ?? '',
+      damageAmount: damageAmount?.value ?? '',
+    });
+
+    if (deductibleOutput) deductibleOutput.textContent = formatMxn(result.deductible);
+    if (policyholderOutput) policyholderOutput.textContent = formatMxn(result.policyholderPays);
+    if (insurerOutput) insurerOutput.textContent = formatMxn(result.insurerPays);
+  };
+
+  [vehicleValue, deductiblePercent, damageAmount].forEach((input) =>
+    input?.addEventListener('input', render),
+  );
+
+  render();
+</script>

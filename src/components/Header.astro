@@ -2,7 +2,7 @@
 // Site header: brand link, main navigation (with the services mega menu),
 // primary CTA and mobile menu.
 import logo from '../../public/logo.png';
-import { mainNavigation, serviceGroups, isCurrentPath, isCurrentSection } from '../config/navigation';
+import { mainNavigation, menuGroups, isCurrentPath, isCurrentSection } from '../config/navigation';
 import { siteConfig } from '../config/site';
 
 const whatsappMessage = '¡Hola! Quiero cotizar mi seguro de auto con un agente real.';
@@ -10,8 +10,8 @@ const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURI
 const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 
 const pathname = Astro.url.pathname;
-const allProducts = serviceGroups.flatMap((group) => group.links);
-const servicesActive = isCurrentSection(allProducts, pathname);
+const allMenuLinks = menuGroups.flatMap((group) => group.links);
+const servicesActive = isCurrentSection(allMenuLinks, pathname);
 ---
 
 <header class="header">
@@ -55,9 +55,9 @@ const servicesActive = isCurrentSection(allProducts, pathname);
               </button>
 
               <div class="header__panel" id="servicesMenu" data-nav-panel hidden>
-                <div class="grid gap-5 p-4 md:grid-cols-3 md:gap-6 md:p-6">
+                <div class="grid gap-5 p-4 md:gap-6 md:p-6 min-[781px]:grid-cols-2 min-[1040px]:grid-cols-4">
                   {
-                    serviceGroups.map((group) => (
+                    menuGroups.map((group) => (
                       <div>
                         <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[var(--red)]">
                           {group.label}
