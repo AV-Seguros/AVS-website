@@ -27,10 +27,24 @@ export interface SiteConfig {
   phone: string;
   /** WhatsApp number in international format, digits only. */
   whatsappNumber: string;
+  /**
+   * Public contact address shown on the site. Used by the forms' failure
+   * fallback and by the legal pages as the ARCO contact channel.
+   */
   email: string;
+  /**
+   * Personal advisor inbox kept as a fallback when the corporate mailbox is
+   * unavailable. Never rendered on the site.
+   */
+  advisorFallbackEmail?: string;
   address: PostalAddress;
   socialLinks: SocialLink[];
   defaultOgImage: string;
+  /**
+   * ISO date of the last revision of the legal pages (`/aviso-de-privacidad/`
+   * and `/terminos-y-condiciones/`). Update it whenever their content changes.
+   */
+  legalLastUpdated: string;
 }
 
 export const siteConfig: SiteConfig = {
@@ -39,7 +53,8 @@ export const siteConfig: SiteConfig = {
   advisorName: 'Luis Adolfo Villarreal',
   phone: '+52 1 81 2013 0995',
   whatsappNumber: '5218120130995',
-  email: 'luisadolfovillarreal@gmail.com',
+  email: 'contacto@avsegurosreal.com',
+  advisorFallbackEmail: 'luisadolfovillarreal@gmail.com',
   address: {
     street: 'Hacienda San Gabriel 310, Villas de la Hacienda',
     city: 'Juárez',
@@ -50,4 +65,5 @@ export const siteConfig: SiteConfig = {
   // No social profiles are linked from the current site.
   socialLinks: [],
   defaultOgImage: '/og/default.jpg',
+  legalLastUpdated: '2026-11-26',
 };

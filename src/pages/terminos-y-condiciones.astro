@@ -1,23 +1,184 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LegalPageNotice from '../components/LegalPageNotice.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/terminos-y-condiciones/';
+
+const { city, region } = siteConfig.address;
+const emailUrl = `mailto:${siteConfig.email}`;
 ---
 
 <BaseLayout
   title="Términos y condiciones · AV Seguros Real"
-  description="Condiciones de uso del sitio de AV Seguros Real y alcance de la información publicada sobre seguros."
-  canonicalPath="/terminos-y-condiciones/"
+  description="Condiciones de uso del sitio de AV Seguros Real: alcance de la asesoría, límites de la información publicada, propiedad intelectual y ley aplicable."
+  canonicalPath={PATH}
 >
-  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <Breadcrumbs trail={[{ label: 'Términos y condiciones', href: '/terminos-y-condiciones/' }]} />
+  <main class={`${t.container} py-10`}>
+    <Breadcrumbs trail={[{ label: 'Términos y condiciones', href: PATH }]} />
 
     <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Términos y condiciones</h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+    <p class={`${t.body} mb-8`}>
       Reglas de uso del sitio y límites de la información publicada, que es orientativa y no sustituye
       las condiciones de cada póliza.
     </p>
 
-    <div data-placeholder="content"></div>
+    <LegalPageNotice />
+
+    <div class="max-w-[75ch] space-y-9 text-[var(--text-muted)]">
+      <section aria-labelledby="alcance-title">
+        <h2 id="alcance-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          1. Objeto y alcance del servicio
+        </h2>
+        <p class="mb-3">
+          Este sitio es informativo y comercial: presenta los seguros que ofrece AV Seguros Real y
+          permite solicitar una cotización. AV Seguros Real es una agencia de seguros;
+          {siteConfig.advisorName} es agente persona física con cédula de la Comisión Nacional de
+          Seguros y Fianzas 649610.
+        </p>
+        <p class="mb-3">
+          Nuestro servicio consiste en asesorarte, comparar las opciones de AXA y Afirme, explicarte
+          condiciones y exclusiones, y acompañarte en el trámite y en el reclamo. No somos la
+          aseguradora: la evaluación del riesgo, la emisión de la póliza, el cobro de la prima y el pago
+          de un siniestro corresponden a la aseguradora.
+        </p>
+        <p>
+          El uso del sitio no crea por sí solo una relación de intermediación. Esta se formaliza cuando
+          solicitas una cotización y aceptas las condiciones del servicio.
+        </p>
+      </section>
+
+      <section aria-labelledby="oferta-title">
+        <h2 id="oferta-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          2. La información publicada no es una oferta ni una póliza
+        </h2>
+        <p class="mb-3">
+          Los textos, ejemplos, cifras y descripciones de este sitio son orientativos. Ninguna página
+          constituye una oferta de seguro, una cotización formal ni una decisión de suscripción.
+        </p>
+        <p class="mb-3">
+          <strong class="text-[var(--navy)]">No hay cobertura sin póliza emitida.</strong> La protección
+          existe únicamente cuando la aseguradora emite la póliza, tú la contratas y la prima está
+          pagada. Lo que cubre y lo que excluye se define en el condicionado general y en las
+          condiciones particulares de esa póliza, no en la descripción comercial del producto.
+        </p>
+        <p>
+          Las primas, sumas aseguradas, deducibles y requisitos cambian según el bien, el riesgo, la
+          aseguradora y la fecha. La cifra aplicable es la de tu cotización y la carátula de tu póliza.
+        </p>
+      </section>
+
+      <section aria-labelledby="herramientas-title">
+        <h2 id="herramientas-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          3. Herramientas y calculadoras del sitio
+        </h2>
+        <p>
+          Las herramientas del sitio, como la calculadora de deducible, son ejercicios educativos con
+          los números que tú capturas. No consultan tu póliza, no conocen tus condiciones contractuales
+          y no sustituyen una cotización, una opinión de la aseguradora ni el texto de tu contrato. Los
+          resultados son estimaciones aritméticas: ante cualquier diferencia, prevalece lo escrito en
+          tu póliza.
+        </p>
+      </section>
+
+      <section aria-labelledby="terceros-title">
+        <h2 id="terceros-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          4. Aseguradoras y plataformas de terceros
+        </h2>
+        <p class="mb-3">
+          AXA y Afirme son aseguradoras independientes. Sus nombres, marcas y logotipos pertenecen a sus
+          titulares y se usan solo para identificar los productos que podemos cotizar. Su mención no
+          implica sociedad, patrocinio ni responsabilidad compartida con AV Seguros Real.
+        </p>
+        <p>
+          Uber, DiDi, Rappi, Uber Eats y cualquier otra plataforma mencionada son marcas de sus
+          respectivos titulares. Se usan de forma descriptiva para explicar el tipo de actividad que se
+          asegura. Este sitio no pertenece a esas plataformas, no cuenta con su respaldo y no existe
+          sociedad ni relación comercial con ellas.
+        </p>
+      </section>
+
+      <section aria-labelledby="propiedad-title">
+        <h2 id="propiedad-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          5. Propiedad intelectual
+        </h2>
+        <p>
+          Los textos, la estructura, el diseño, los gráficos, el código y la selección de contenidos de
+          este sitio son de AV Seguros Real o se usan con autorización. No puedes reproducirlos,
+          distribuirlos, modificarlos ni explotarlos comercialmente sin autorización previa y por
+          escrito, salvo citas breves con referencia a la fuente. Puedes compartir enlaces a las páginas
+          del sitio.
+        </p>
+      </section>
+
+      <section aria-labelledby="enlaces-title">
+        <h2 id="enlaces-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          6. Enlaces a sitios de terceros
+        </h2>
+        <p>
+          El sitio puede incluir enlaces a páginas de aseguradoras, plataformas o servicios que no
+          controlamos. No somos responsables de su contenido, de su disponibilidad ni de sus prácticas
+          de privacidad; revísalas antes de usarlas.
+        </p>
+      </section>
+
+      <section aria-labelledby="responsabilidad-title">
+        <h2 id="responsabilidad-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          7. Limitación de responsabilidad
+        </h2>
+        <p class="mb-3">
+          La información se publica con cuidado, pero puede quedar desactualizada o no aplicar a tu
+          caso. En la medida en que la ley lo permita, AV Seguros Real no responde por decisiones
+          tomadas únicamente con base en el contenido del sitio, ni por interrupciones, errores u
+          omisiones ajenos a su control.
+        </p>
+        <p>
+          Esta limitación no excluye las responsabilidades que la Ley Federal de Protección al
+          Consumidor, la LFPDPPP, la Ley sobre el Contrato de Seguro ni cualquier otra norma aplicable
+          impongan a la agencia o al agente, y no afecta tus derechos como consumidor ni como titular de
+          datos personales.
+        </p>
+      </section>
+
+      <section aria-labelledby="datos-title">
+        <h2 id="datos-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          8. Protección de datos personales
+        </h2>
+        <p>
+          El tratamiento de tus datos personales se explica en el
+          <a href="/aviso-de-privacidad/" class="font-semibold text-[var(--red)] underline"
+            >aviso de privacidad</a
+          >. Para cualquier solicitud relacionada con tus datos puedes escribir a
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a>.
+        </p>
+      </section>
+
+      <section aria-labelledby="modificaciones-title">
+        <h2 id="modificaciones-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          9. Modificaciones a estos términos
+        </h2>
+        <p>
+          Podemos actualizar estos términos para reflejar cambios en el servicio, en los productos o en
+          la ley. La versión vigente es la publicada en esta página, con la fecha de última
+          actualización visible al inicio. El uso del sitio después de una actualización implica que la
+          conoces.
+        </p>
+      </section>
+
+      <section aria-labelledby="ley-title">
+        <h2 id="ley-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          10. Legislación aplicable y jurisdicción
+        </h2>
+        <p>
+          Estos términos se rigen por las leyes de los Estados Unidos Mexicanos. Para cualquier
+          controversia, las partes se someten a los tribunales competentes de {city}, {region}, sin
+          perjuicio de que puedas acudir a la Procuraduría Federal del Consumidor (PROFECO) o a la
+          autoridad que corresponda para defender tus derechos.
+        </p>
+      </section>
+    </div>
   </main>
 </BaseLayout>
