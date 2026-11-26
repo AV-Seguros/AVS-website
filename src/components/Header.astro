@@ -55,7 +55,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
               </button>
 
               <div class="header__panel" id="servicesMenu" data-nav-panel hidden>
-                <div class="grid gap-5 p-4 md:gap-6 md:p-6 min-[781px]:grid-cols-2 min-[1040px]:grid-cols-4">
+                <div class="grid gap-5 p-4 md:gap-6 md:p-6 min-[1150px]:grid-cols-4">
                   {
                     menuGroups.map((group) => (
                       <div>
@@ -85,8 +85,8 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
                     ))
                   }
 
-                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[781px]:col-span-2 min-[781px]:block min-[1040px]:col-span-4">
-                    <div class="flex flex-col gap-4 min-[781px]:flex-row min-[781px]:items-center min-[781px]:justify-between">
+                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[1150px]:col-span-4 min-[1150px]:block">
+                    <div class="flex flex-col gap-4 min-[1150px]:flex-row min-[1150px]:items-center min-[1150px]:justify-between">
                       <div>
                         <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#b0c4de]">
                           Asesoría personal
@@ -98,7 +98,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
                           Cuéntanos tu caso y te ayudamos a comparar opciones.
                         </p>
                       </div>
-                      <div class="flex flex-wrap items-center gap-4 min-[781px]:shrink-0">
+                      <div class="flex flex-wrap items-center gap-4 min-[1150px]:shrink-0">
                         <a
                           href={whatsappUrl}
                           class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--red)]"
@@ -171,7 +171,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
 
   const isServicesOpen = () => navTrigger?.getAttribute('aria-expanded') === 'true';
 
-  const desktopQuery = window.matchMedia('(min-width: 781px)');
+  const desktopQuery = window.matchMedia('(min-width: 1150px)');
 
   // The panel floats a few pixels below the trigger, so a pointer walking from
   // the trigger to the panel crosses an area that is no longer inside the
@@ -351,9 +351,9 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
 
     &__nav {
       display: flex;
-      // Seven top-level entries plus the CTA only fit on one row at 1280px
-      // with a tighter gap; below that the bar wraps, as it already did.
-      gap: 1.4rem;
+      // Seven entries plus the CTA need the whole 1200px bar, so the gap is
+      // tight on purpose; below 1150px the nav hands over to the hamburger.
+      gap: 0.85rem;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -452,7 +452,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
       border: none;
     }
 
-    @media (min-width: 781px) {
+    @media (min-width: 1150px) {
       &__panel {
         display: block;
         position: absolute;
@@ -467,7 +467,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
       }
     }
 
-    @media (max-width: 780px) {
+    @media (max-width: 1149px) {
       &__nav {
         display: none;
         width: 100%;

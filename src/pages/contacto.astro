@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import { siteConfig } from '../config/site';
 import { buildWhatsAppUrl } from '../scripts/whatsapp';
 
@@ -95,13 +95,14 @@ const businessHours = [
     </p>
 
     <div class="grid items-start gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-      <LandingForm
-        idPrefix="contacto"
-        subject="Nueva solicitud de cotización desde /contacto/"
-        source="/contacto/"
+      <LeadForm
+        source="contact-page"
+        context="Página de contacto"
+        sectionId="cotizar"
+        showPhone
         whatsappHref={whatsappUrl}
         heading="Solicita tu cotización"
-        description="Déjanos tres datos y un asesor real te contacta para revisar tu caso."
+        description="Déjanos tus datos y un asesor real te contacta para revisar tu caso."
       />
 
       <aside

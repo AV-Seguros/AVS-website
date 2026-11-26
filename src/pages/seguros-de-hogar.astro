@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
@@ -186,7 +187,7 @@ const serviceSchema = {
         </p>
 
         <p class={`${t.body} mb-8`}>
-          A eso se suma la responsabilidad civil, que responde por los daños que tú o tu familia
+          A eso se suma la <GlossaryTerm slug="responsabilidad-civil">responsabilidad civil</GlossaryTerm>, que responde por los daños que tú o tu familia
           ocasionan a otras personas. Cada plan define hasta qué monto y en qué supuestos.
         </p>
 
@@ -229,8 +230,8 @@ const serviceSchema = {
           <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
             <h3 class={t.h3}>Deducible</h3>
             <p class="text-sm text-[var(--text-muted)]">
-              La parte del daño que pagas tú. Puede ser un monto fijo o un porcentaje del valor
-              asegurado, y suele ser distinto para daños por agua y para fenómenos naturales.
+              La parte del daño que pagas tú. Puede ser un monto fijo o un porcentaje del
+              <GlossaryTerm slug="valor-asegurado">valor asegurado</GlossaryTerm>, y suele ser distinto para daños por agua y para fenómenos naturales.
             </p>
           </div>
           <div class="rounded-2xl border border-[#e2e8f0] bg-white p-6">
@@ -306,7 +307,7 @@ const serviceSchema = {
         <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
 
         <p class={`${t.body} mb-6`}>
-          La prima depende del valor del inmueble, la zona, el tipo de construcción, los riesgos
+          La <GlossaryTerm slug="prima">prima</GlossaryTerm> depende del valor del inmueble, la zona, el tipo de construcción, los riesgos
           amparados y el deducible que elijas. La cifra exacta la confirma la cotización de la
           aseguradora; no publicamos montos porque cambiarían según cada casa.
         </p>
@@ -333,10 +334,9 @@ const serviceSchema = {
       </div>
     </section>
 
-    <LandingForm
-      idPrefix="hogar"
-      subject="Cotización seguro de hogar - AV Seguros Real"
+    <LeadForm
       source="seguros-de-hogar"
+      context="Landing de seguro de hogar"
       whatsappHref={whatsappHref}
     />
 
