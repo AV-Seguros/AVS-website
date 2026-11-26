@@ -1,6 +1,6 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.2.8`
+**Current version:** `1.3.2`
 **Next milestone:** `1.3.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
@@ -376,6 +376,8 @@ Tools must never present themselves as underwriting, eligibility or quotation sy
 - Explicit disclaimer: educational guidance, not an insurance offer.
 
 **Verification:** the island hydrates only when scrolled into view (check that no React bundle executes before visibility); full flow completes on mobile; summary text matches the selected answers.
+
+**Status:** Done. Delivered at `/herramientas/que-seguro-necesito/` as the site's first React island, hydrated with `client:visible`; no other route ships a React chunk. The questionnaire runs in four steps for vehicles (vehicle type and declared use) and three for every other answer, with a progress bar, back navigation that preserves the answers, and a summary that links to the matching landing page and pre-fills the WhatsApp message with the selections. Every rule and the message builder live in `assistantLogic.ts` as pure functions, so they were checked from Node without a browser. Adding React also required listing the React entries in `optimizeDeps.include` (`astro.config.mjs`): Vite 8 does not pre-bundle `react-dom/client`, so without that the island failed to hydrate under `astro dev` while the static build worked.
 
 ### `1.3.3` — Contextual WhatsApp message generator
 

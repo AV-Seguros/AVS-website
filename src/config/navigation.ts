@@ -90,6 +90,7 @@ export const workNavigation: NavLink[] = [
  */
 export const toolsNavigation: NavLink[] = [
   { label: 'Calculadora de deducible', href: '/herramientas/calculadora-deducible/' },
+  { label: '¿Qué seguro necesito?', href: '/herramientas/que-seguro-necesito/' },
 ];
 
 /**
