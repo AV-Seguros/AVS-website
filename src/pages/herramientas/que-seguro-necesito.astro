@@ -2,15 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import InsuranceAssistant from '../../components/assistant/InsuranceAssistant';
-import { siteConfig } from '../../config/site';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
 
 const PATH = '/herramientas/que-seguro-necesito/';
 
-// Contextual message for the advisor section: the numbered source comes from
-// `site.ts` so this link can never drift from the site configuration.
-const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-  'Hola, usé el asistente y quiero revisar mi caso con un asesor. Vengo del asistente web.',
-)}`;
+// Contextual message for the advisor section, built by the shared utility.
+const whatsappHref = buildWhatsAppUrl('revision-asistente');
 
 const advisorPoints = [
   'El uso real del vehículo: particular, plataforma de viajes o reparto.',
