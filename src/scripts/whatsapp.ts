@@ -44,7 +44,8 @@ export type WhatsAppContext =
  */
 const CONTEXT_MESSAGES: Record<WhatsAppContext, string> = {
   general: 'Hola, vengo de la página web y quiero información sobre sus seguros.',
-  'cotizacion-auto': '¡Hola! Quiero cotizar mi seguro de auto con un agente real.',
+  'cotizacion-auto':
+    '¡Hola! Quiero cotizar mi seguro de auto con un agente real. {escenario}',
   auto: 'Hola, busco seguro de auto particular. Vengo de la página web.',
   vida: 'Hola, busco seguro de vida. Vengo de la página web.',
   hogar: 'Hola, busco seguro de hogar. Vengo de la página web.',
