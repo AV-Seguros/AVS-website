@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
@@ -217,7 +218,7 @@ const serviceSchema = {
         <p class={`${t.body} mb-8`}>
           La diferencia entre un plan y otro no está en el nombre. Está en el deducible, el coaseguro,
           el límite anual, la red hospitalaria y los padecimientos que el condicionado excluye. Por eso
-          comparamos con esos números a la vista y no solo con la prima.
+          comparamos con esos números a la vista y no solo con la <GlossaryTerm slug="prima">prima</GlossaryTerm>.
         </p>
 
         <div class="grid gap-6 md:grid-cols-3">
@@ -246,7 +247,8 @@ const serviceSchema = {
         <h2 id="revisar-title" class={`${t.h2} mb-4`}>Los seis números que hay que comparar</h2>
 
         <p class={`${t.body} mb-8`}>
-          Antes de mirar el precio, mira estas seis cosas. Un plan barato con deducible alto puede
+          Antes de mirar el precio, mira estas seis cosas. Un plan barato con
+          <GlossaryTerm slug="deducible">deducible</GlossaryTerm> alto puede
           costarte más que uno caro cuando de verdad lo necesitas.
         </p>
 
@@ -325,8 +327,8 @@ const serviceSchema = {
         <h2 id="pago-title" class={`${t.h2} mb-4`}>Cómo se paga</h2>
 
         <p class={`${t.body} mb-6`}>
-          La prima depende de la edad de cada integrante, la ciudad, el deducible, el coaseguro y el
-          plan elegido. La cifra exacta la confirma la cotización de la aseguradora; no publicamos
+          La prima depende de la edad de cada integrante, la ciudad, el deducible, el
+          <GlossaryTerm slug="coaseguro">coaseguro</GlossaryTerm> y el plan elegido. La cifra exacta la confirma la cotización de la aseguradora; no publicamos
           montos ni límites porque cambiarían según cada caso.
         </p>
 
@@ -352,10 +354,9 @@ const serviceSchema = {
       </div>
     </section>
 
-    <LandingForm
-      idPrefix="medicos"
-      subject="Cotización gastos médicos - AV Seguros Real"
+    <LeadForm
       source="seguros-de-gastos-medicos"
+      context="Landing de gastos médicos"
       whatsappHref={whatsappHref}
     />
 

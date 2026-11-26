@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
-import LandingForm from '../components/landing/LandingForm.astro';
+import LeadForm from '../components/forms/LeadForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
 import LandingTestimonials from '../components/landing/LandingTestimonials.astro';
 import { landingTokens as t } from '../components/landing/tokens';
@@ -193,14 +194,14 @@ const serviceSchema = {
         <h2 id="que-es-title" class={`${t.h2} mb-4`}>Qué es un seguro de vida y qué resuelve</h2>
 
         <p class={`${t.body} mb-4`}>
-          Es un contrato con una aseguradora: tú pagas una prima y, si ocurre el evento cubierto, la
+          Es un contrato con una aseguradora: tú pagas una <GlossaryTerm slug="prima">prima</GlossaryTerm> y, si ocurre el evento cubierto, la
           aseguradora paga una suma a las personas que designaste como beneficiarias. No es un
           producto para “dejar dinero”: es la forma de que un ingreso que hoy sostiene a una familia no
           desaparezca de un día para otro.
         </p>
 
         <p class={`${t.body} mb-4`}>
-          La póliza no decide en qué se gasta la suma asegurada; eso lo deciden los beneficiarios. Lo
+          La póliza no decide en qué se gasta la <GlossaryTerm slug="suma-asegurada">suma asegurada</GlossaryTerm>; eso lo deciden los beneficiarios. Lo
           que sí define el contrato es <strong>cuánto se paga, en qué casos y a quién</strong>. Por eso
           la conversación empieza por el gasto familiar que quieres cubrir y termina en las condiciones
           escritas del plan.
@@ -300,7 +301,7 @@ const serviceSchema = {
           </ul>
           <p class="mt-4 max-w-[70ch] text-sm text-[var(--text-muted)]">
             Para cotizar bastan tus datos generales y el objetivo de protección. Los documentos se
-            piden al momento de emitir la póliza, no antes.
+            piden al momento de emitir la <GlossaryTerm slug="poliza">póliza</GlossaryTerm>, no antes.
           </p>
         </div>
       </div>
@@ -339,10 +340,9 @@ const serviceSchema = {
       </div>
     </section>
 
-    <LandingForm
-      idPrefix="vida"
-      subject="Cotización seguro de vida - AV Seguros Real"
+    <LeadForm
       source="seguros-de-vida"
+      context="Landing de seguro de vida"
       whatsappHref={whatsappHref}
     />
 
