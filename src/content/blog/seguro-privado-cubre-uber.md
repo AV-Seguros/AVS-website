@@ -1,7 +1,7 @@
 ---
 title: "¿Mi seguro de auto privado cubre Uber o DiDi?"
 description: "Uso particular y uso comercial no son lo mismo: qué pasa si manejas para Uber o DiDi con una póliza privada, por qué el uso no declarado es un riesgo y cómo corregirlo."
-publishDate: 2026-11-26
+publishDate: 2026-11-24
 category: "Conductores"
 keywords:
   - seguro para Uber
