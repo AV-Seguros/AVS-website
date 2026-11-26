@@ -136,19 +136,41 @@ export const toolGroups: NavGroup[] = [
 ];
 
 /**
+ * Glossary and printable materials, in display order. These are references
+ * rather than tools, so they get their own mega-menu column.
+ */
+export const resourceNavigation: NavLink[] = [
+  { label: 'Glosario de seguros', href: '/glosario/' },
+  { label: 'Guías para imprimir', href: '/recursos/' },
+];
+
+/** Mega-menu column for the glossary and the printable resources. */
+export const resourceGroups: NavGroup[] = [
+  {
+    id: 'recursos',
+    label: 'Recursos',
+    description: 'Glosario de términos y materiales listos para imprimir.',
+    links: resourceNavigation,
+  },
+];
+
+/**
  * Every insurance product in display order, derived from `serviceGroups` so
  * the header menu and the footer column can never disagree. Tools are kept out
  * of this list: the footer "Servicios" column lists products only.
  */
 export const productNavigation: NavLink[] = serviceGroups.flatMap((group) => group.links);
 
-/** Every group the header mega menu renders: products first, tools last. */
-export const menuGroups: NavGroup[] = [...serviceGroups, ...toolGroups];
+/**
+ * Every group the header mega menu renders: products, tools, then resources.
+ */
+export const menuGroups: NavGroup[] = [...serviceGroups, ...toolGroups, ...resourceGroups];
 
 /** Site links rendered in the footer "Enlaces" column. */
 export const siteNavigation: NavLink[] = [
   { label: 'Inicio', href: '/' },
   ...mainNavigation.map(({ label, href }) => ({ label, href })),
+  ...resourceNavigation,
 ];
 
 /**

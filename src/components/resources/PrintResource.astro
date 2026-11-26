@@ -1,0 +1,95 @@
+---
+// Shell shared by every printable resource: on screen it is a white sheet with
+// an actions bar; in print the site chrome, the breadcrumbs and the actions
+// disappear so the visitor gets a clean page to save as PDF.
+interface Props {
+  /** Screen-reader hint is not needed; the button label is self-explanatory. */
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<main class="mx-auto w-full max-w-[860px] px-4 py-8 sm:px-6 sm:py-10">
+  <div class="print-resource__actions mb-6 flex flex-wrap items-center gap-3">
+    <button
+      type="button"
+      data-print-button
+      class="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-light)]"
+    >
+      <i class="fas fa-print" aria-hidden="true"></i>
+      Imprimir / Guardar como PDF
+    </button>
+    <a
+      href="/recursos/"
+      class="inline-flex items-center gap-2 rounded-full border border-[#cbd5e1] px-5 py-2.5 text-sm font-semibold text-[var(--navy)] transition hover:border-[var(--navy)]"
+    >
+      Volver a recursos
+    </a>
+  </div>
+
+  <div
+    class="print-resource__sheet rounded-2xl border border-[#e2e8f0] bg-white p-6 sm:p-10"
+    {...title ? { 'data-resource-title': title } : {}}
+  >
+    <slot />
+  </div>
+</main>
+
+<script>
+  const printButton = document.querySelector<HTMLButtonElement>('[data-print-button]');
+
+  printButton?.addEventListener('click', () => window.print());
+
+  // The `/recursos/` hub links here with `#imprimir`, so the print dialog opens
+  // as soon as the resource the visitor picked has rendered.
+  if (window.location.hash === '#imprimir') {
+    window.addEventListener('load', () => window.print());
+  }
+</script>
+
+<style lang="scss">
+  @media print {
+    :global(header.header),
+    :global(footer.footer),
+    :global(.whatsapp-float),
+    :global(nav[aria-label='Ruta de navegación']) {
+      display: none !important;
+    }
+
+    :global(body) {
+      background: #fff !important;
+      color: #000 !important;
+    }
+
+    :global(main) {
+      max-width: none !important;
+      padding: 0 !important;
+    }
+
+    .print-resource__actions {
+      display: none !important;
+    }
+
+    .print-resource__sheet {
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    :global(h1),
+    :global(h2),
+    :global(h3),
+    :global(p),
+    :global(li),
+    :global(strong),
+    :global(a) {
+      color: #000 !important;
+    }
+
+    :global(a) {
+      text-decoration: none !important;
+    }
+  }
+</style>

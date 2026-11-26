@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PrintResource from '../../components/resources/PrintResource.astro';
+
+const PATH = '/recursos/checklist-cotizacion/';
+
+const groups = [
+  {
+    title: 'Datos del vehículo',
+    items: [
+      'Marca, modelo, versión y año.',
+      'Placas y entidad donde está registrado.',
+      'Número de serie (VIN).',
+      'Valor comercial aproximado hoy.',
+    ],
+  },
+  {
+    title: 'Datos del conductor',
+    items: [
+      'Nombre completo y fecha de nacimiento.',
+      'Domicilio o código postal donde duerme el auto.',
+      'Número de licencia y fecha de vigencia.',
+      'Historial de siniestros de los últimos años, si la aseguradora lo solicita.',
+    ],
+  },
+  {
+    title: 'Uso del auto',
+    items: [
+      'Uso particular o comercial.',
+      'Si trabajas con aplicaciones de transporte o reparto.',
+      'Kilometraje aproximado al año.',
+      'Quién más conduce el vehículo de forma habitual.',
+    ],
+  },
+  {
+    title: 'Si ya tienes póliza',
+    items: [
+      'Carátula vigente con aseguradora y número de póliza.',
+      'Fecha de renovación.',
+      'Coberturas contratadas, deducible y coaseguro actuales.',
+      'Siniestros reportados en el periodo.',
+    ],
+  },
+  {
+    title: 'Para cerrar la cotización',
+    items: [
+      'Forma de pago que prefieres.',
+      'Correo y WhatsApp de contacto.',
+      'Comprobante de domicilio, si la aseguradora lo pide.',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Documentos necesarios para cotizar tu seguro · AV Seguros Real"
+  description="Lista imprimible de los datos y documentos que necesitas para cotizar un seguro de auto en México: vehículo, conductor, uso, póliza actual y forma de pago."
+  canonicalPath={PATH}
+>
+  <PrintResource title="Documentos necesarios para cotizar">
+    <Breadcrumbs
+      trail={[
+        { label: 'Recursos', href: '/recursos/' },
+        { label: 'Documentos para cotizar', href: PATH },
+      ]}
+    />
+
+    <h1 class="mb-2 text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">
+      Documentos necesarios para cotizar
+    </h1>
+    <p class="mb-6 text-sm text-[var(--text-muted)]">
+      Reúne estos datos antes de pedir tu cotización: con ellos la comparación entre aseguradoras
+      sale completa desde el primer intento. Marca cada punto conforme lo tengas listo.
+    </p>
+
+    <div class="space-y-6">
+      {
+        groups.map((group) => (
+          <section>
+            <h2 class="mb-3 text-base font-bold uppercase tracking-[0.06em] text-[var(--navy)]">
+              {group.title}
+            </h2>
+            <ul class="space-y-2">
+              {group.items.map((item) => (
+                <li>
+                  <label class="flex cursor-pointer items-start gap-3 text-sm text-[var(--text-muted)]">
+                    <input
+                      type="checkbox"
+                      class="print-checkbox mt-0.5 h-4 w-4 shrink-0 accent-[var(--red-bright)]"
+                    />
+                    <span>{item}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 border-t border-[#e2e8f0] pt-4 text-xs text-[var(--text-muted)]">
+      Esta lista es una referencia general. Cada aseguradora puede solicitar documentación
+      adicional según el tipo de vehículo y el uso declarado.
+    </p>
+  </PrintResource>
+</BaseLayout>

@@ -85,30 +85,36 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
                     ))
                   }
 
-                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[781px]:block">
-                    <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#b0c4de]">
-                      Asesoría personal
-                    </p>
-                    <p class="mt-2 text-[1.05rem] font-semibold leading-snug">
-                      ¿No sabes cuál te conviene?
-                    </p>
-                    <p class="mt-2 text-sm text-[#c9d6e6]">
-                      Cuéntanos tu caso y te ayudamos a comparar opciones.
-                    </p>
-                    <a
-                      href={whatsappUrl}
-                      class="mt-4 inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--red)]"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <i class="fab fa-whatsapp" aria-hidden="true" /> Escríbenos
-                    </a>
-                    <a
-                      href="/contacto/"
-                      class="mt-2 block text-sm font-medium text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
-                    >
-                      Ver todos los servicios
-                    </a>
+                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[781px]:col-span-2 min-[781px]:block min-[1040px]:col-span-4">
+                    <div class="flex flex-col gap-4 min-[781px]:flex-row min-[781px]:items-center min-[781px]:justify-between">
+                      <div>
+                        <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#b0c4de]">
+                          Asesoría personal
+                        </p>
+                        <p class="mt-1 text-[1.05rem] font-semibold leading-snug">
+                          ¿No sabes cuál te conviene?
+                        </p>
+                        <p class="mt-1 text-sm text-[#c9d6e6]">
+                          Cuéntanos tu caso y te ayudamos a comparar opciones.
+                        </p>
+                      </div>
+                      <div class="flex flex-wrap items-center gap-4 min-[781px]:shrink-0">
+                        <a
+                          href={whatsappUrl}
+                          class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[var(--red)]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <i class="fab fa-whatsapp" aria-hidden="true" /> Escríbenos
+                        </a>
+                        <a
+                          href="/contacto/"
+                          class="text-sm font-medium text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
+                        >
+                          Ver todos los servicios
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

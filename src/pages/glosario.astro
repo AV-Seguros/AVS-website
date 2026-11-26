@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { GLOSSARY_PATH, GLOSSARY_TERMS } from '../config/glossary';
+import { siteConfig } from '../config/site';
+
+const PATH = GLOSSARY_PATH;
+
+const pageTitle = 'Glosario de seguros: términos explicados | AV Seguros Real';
+const pageDescription =
+  'Glosario de seguros en México: prima, deducible, póliza, siniestro, cobertura, endoso y más de quince términos explicados en lenguaje claro.';
+
+const canonicalUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+// One node per term, each pointing at its own anchor on this page.
+const glossarySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  '@id': `${canonicalUrl}#glossary`,
+  name: 'Glosario de seguros de AV Seguros Real',
+  description: pageDescription,
+  url: canonicalUrl,
+  inLanguage: 'es-MX',
+  hasDefinedTerm: GLOSSARY_TERMS.map((term) => ({
+    '@type': 'DefinedTerm',
+    '@id': `${canonicalUrl}#${term.slug}`,
+    name: term.term,
+    description: term.definition,
+    url: `${canonicalUrl}#${term.slug}`,
+    inDefinedTermSet: canonicalUrl,
+  })),
+};
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalPath={PATH}
+  schema={[glossarySchema]}
+>
+  <main class="mx-auto w-full max-w-[900px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Glosario', href: PATH }]} />
+
+    <header class="mb-8 max-w-[70ch]">
+      <h1 class="mb-3 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
+        Glosario de seguros
+      </h1>
+      <p class="text-[var(--text-muted)]">
+        Los términos que aparecen en tu póliza, explicados sin tecnicismos y en el orden en que te
+        los vas a encontrar. Si un término no está aquí, escríbenos y lo agregamos.
+      </p>
+    </header>
+
+    <div class="mb-8 rounded-2xl border border-[#e2e8f0] bg-white p-5">
+      <label for="glossary-search" class="mb-2 block text-sm font-bold text-[var(--navy)]">
+        Buscar un término
+      </label>
+      <input
+        id="glossary-search"
+        type="search"
+        autocomplete="off"
+        placeholder="Ej. deducible, póliza, coaseguro"
+        aria-describedby="glossary-count"
+        class="w-full rounded-xl border border-[#cbd5e1] bg-white px-4 py-2.5 text-base text-[var(--text-dark)] outline-none transition focus:border-[var(--red-bright)] focus:ring-2 focus:ring-[var(--red-bright)]/25"
+      />
+      <p id="glossary-count" class="mt-2 text-sm text-[var(--text-muted)]" aria-live="polite">
+        {GLOSSARY_TERMS.length} términos
+      </p>
+    </div>
+
+    <ul class="space-y-4">
+      {
+        GLOSSARY_TERMS.map((term) => (
+          <li
+            id={term.slug}
+            data-glossary-item
+            data-search={`${term.term} ${term.definition}`}
+            class="glossary__item scroll-mt-28 rounded-2xl border border-[#e2e8f0] bg-white p-5 sm:p-6"
+          >
+            <h2 class="mb-2 text-lg font-bold text-[var(--navy)]">
+              <a href={`#${term.slug}`} class="hover:text-[var(--red)]">
+                {term.term}
+              </a>
+            </h2>
+            <p class="text-sm leading-relaxed text-[var(--text-muted)]">{term.definition}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p
+      id="glossary-empty"
+      hidden
+      class="mt-6 rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-5 text-sm text-[var(--text-muted)]"
+    >
+      No encontramos un término con esa búsqueda. Prueba con otra palabra o escríbenos por WhatsApp
+      y te explicamos el concepto que necesitas.
+    </p>
+
+    <aside class="mt-10 rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8">
+      <h2 class="mb-2 text-2xl font-bold">¿Necesitas el glosario en papel?</h2>
+      <p class="mb-5 max-w-[60ch] text-sm text-[#c9d6e6]">
+        La guía rápida de términos está lista para imprimir y guardar con tu póliza.
+      </p>
+      <a
+        href="/recursos/guia-terminos/"
+        class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--red)]"
+      >
+        Abrir guía imprimible
+        <i class="fas fa-arrow-right text-[0.7rem]" aria-hidden="true"></i>
+      </a>
+    </aside>
+  </main>
+</BaseLayout>
+
+<script>
+  const searchInput = document.querySelector<HTMLInputElement>('#glossary-search');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-glossary-item]'));
+  const counter = document.getElementById('glossary-count');
+  const emptyState = document.getElementById('glossary-empty');
+
+  // Accents and case are ignored, so "poliza" finds "Póliza".
+  const normalize = (value: string) =>
+    value
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+
+  const applyFilter = () => {
+    const query = normalize(searchInput?.value ?? '');
+    let visible = 0;
+
+    items.forEach((item) => {
+      const matches = query === '' || normalize(item.dataset.search ?? '').includes(query);
+      item.hidden = !matches;
+      if (matches) visible += 1;
+    });
+
+    if (emptyState) emptyState.hidden = visible !== 0;
+    if (counter) {
+      counter.textContent =
+        visible === items.length
+          ? `${items.length} términos`
+          : `${visible} de ${items.length} términos`;
+    }
+  };
+
+  searchInput?.addEventListener('input', applyFilter);
+  applyFilter();
+</script>
+
+<style lang="scss">
+  .glossary__item {
+    transition: border-color 0.2s ease;
+
+    &:target {
+      border-color: var(--red-bright);
+    }
+  }
+</style>

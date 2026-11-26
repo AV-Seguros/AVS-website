@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.4.3`
-**Next milestone:** `1.4.4`
+**Current version:** `1.4.4`
+**Next milestone:** `1.5.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -458,6 +458,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Downloads require no personal data.
 
 **Verification:** filtering narrows the list; every anchor resolves; each PDF link returns a valid file in the build.
+
+**Status:** Done, with one deliberate substitution: the downloads are **print-ready HTML pages instead of PDFs in `public/descargas/`**. Generating binary PDFs from code would add a build step and a second copy of every checklist to maintain, while a printable page stays indexable, accessible and translated with the rest of the site. `/glosario/` renders 18 terms (the 14 required plus coaseguro, suma asegurada, ajustador and cancelación) from `src/config/glossary.ts`, each with a stable anchor (`#deducible`, `#responsabilidad-civil`, …), an `h2` and a two-to-three-sentence definition, plus a vanilla-JS search box that filters on term and definition ignoring accents and case, an `aria-live` counter and an empty state, and a `DefinedTermSet` JSON-LD node per term. `/recursos/` is the hub for three printable pages built on `src/components/resources/PrintResource.astro`: `/recursos/checklist-cotizacion/`, `/recursos/guia-terminos/` (rendered from the same glossary data) and `/recursos/checklist-renovacion/`; each one prints black on white with the header, footer, floating WhatsApp button, breadcrumbs and action bar hidden, and opens the print dialog directly when reached with `#imprimir` from the hub's **Imprimir / Guardar como PDF** buttons. A `Recursos` column (glosario and guías) now sits in the header mega menu as its fourth column, and the menu CTA moved to a full-width band under the columns so no cell has to wrap. Both routes are listed in the footer "Enlaces" column.
 
 ---
 
