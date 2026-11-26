@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const PATH = '/recursos/';
+
+/**
+ * Printable resources. Each one opens its own page, and the print button sends
+ * the visitor there with `#imprimir`, which opens the browser print dialog on
+ * that page (the resources themselves hide the site chrome when printed).
+ */
+const resources = [
+  {
+    title: 'Documentos para cotizar',
+    description:
+      'Los datos del vehículo, del conductor, del uso y de tu póliza actual que necesitas reunir antes de pedir una cotización.',
+    href: '/recursos/checklist-cotizacion/',
+    icon: 'fa-clipboard-check',
+  },
+  {
+    title: 'Guía rápida de términos',
+    description:
+      'Prima, deducible, cobertura, endoso y el resto del glosario en una hoja, para guardarla junto a tu póliza.',
+    href: '/recursos/guia-terminos/',
+    icon: 'fa-book',
+  },
+  {
+    title: 'Checklist de renovación',
+    description:
+      'Qué revisar en tu póliza antes de renovarla, qué comparar entre aseguradoras y qué tener a mano.',
+    href: '/recursos/checklist-renovacion/',
+    icon: 'fa-calendar-check',
+  },
+];
+---
+
+<BaseLayout
+  title="Recursos para imprimir: checklists y guía de seguros | AV Seguros Real"
+  description="Recursos imprimibles de seguros: documentos para cotizar, guía rápida de términos y checklist de renovación. Ábrelos, imprímelos o guárdalos como PDF."
+  canonicalPath={PATH}
+>
+  <main class="mx-auto w-full max-w-[1000px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Recursos', href: PATH }]} />
+
+    <header class="mb-10 max-w-[70ch]">
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--red)]">
+        Materiales de apoyo
+      </p>
+      <h1 class="mb-3 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
+        Recursos para imprimir
+      </h1>
+      <p class="text-[var(--text-muted)]">
+        Listas y guías listas para llevar en papel. Ábrelas, revisa lo que falta y usa el botón de
+        impresión para guardarlas como PDF o imprimirlas sin el menú del sitio.
+      </p>
+    </header>
+
+    <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        resources.map((resource) => (
+          <li class="flex">
+            <article class="flex w-full flex-col rounded-2xl border border-[#e2e8f0] bg-white p-6">
+              <i
+                class={`fas ${resource.icon} mb-4 text-2xl text-[var(--red-bright)]`}
+                aria-hidden="true"
+              />
+              <h2 class="mb-2 text-lg font-bold leading-snug text-[var(--navy)]">
+                <a href={resource.href} class="hover:text-[var(--red)]">
+                  {resource.title}
+                </a>
+              </h2>
+              <p class="mb-5 text-sm leading-relaxed text-[var(--text-muted)]">
+                {resource.description}
+              </p>
+
+              <div class="mt-auto flex flex-col gap-2">
+                <button
+                  type="button"
+                  data-print-target={resource.href}
+                  class="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--navy)] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-light)]"
+                >
+                  <i class="fas fa-print" aria-hidden="true"></i>
+                  Imprimir / Guardar como PDF
+                </button>
+                <a
+                  href={resource.href}
+                  class="inline-flex items-center justify-center gap-2 text-sm font-bold text-[var(--red)] hover:underline"
+                >
+                  Abrir recurso
+                </a>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="mt-8 text-sm text-[var(--text-muted)]">
+      También puedes abrir cualquier recurso y usar la impresión de tu navegador. Las páginas están
+      pensadas en blanco y negro, sin menús ni botones en el papel.
+    </p>
+  </main>
+</BaseLayout>
+
+<script>
+  // The button opens the chosen resource with `#imprimir`; that page raises the
+  // print dialog once it has rendered.
+  document.querySelectorAll<HTMLButtonElement>('[data-print-target]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const target = button.dataset.printTarget;
+      if (target) window.location.href = `${target}#imprimir`;
+    });
+  });
+</script>

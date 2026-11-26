@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PrintResource from '../../components/resources/PrintResource.astro';
+
+const PATH = '/recursos/checklist-renovacion/';
+
+const groups = [
+  {
+    title: 'Antes de la fecha de vencimiento',
+    items: [
+      'Confirma el día exacto en que termina la vigencia.',
+      'Pide la cotización de renovación con anticipación suficiente.',
+      'Revisa si tienes recibos pendientes de pago.',
+    ],
+  },
+  {
+    title: 'Qué revisar en tu póliza actual',
+    items: [
+      'Valor asegurado del auto: ¿sigue correspondiendo al valor comercial?',
+      'Uso declarado: ¿cambió tu forma de trabajar?',
+      'Conductores autorizados: ¿alguien más maneja el auto?',
+      'Deducible y coaseguro: ¿puedes cubrirlos hoy?',
+      'Coberturas que usaste y coberturas que te faltaron.',
+    ],
+  },
+  {
+    title: 'Qué comparar antes de aceptar',
+    items: [
+      'Prima total del periodo, no solo el pago mensual.',
+      'Deducible expresado en pesos.',
+      'Red de talleres y distancia al más cercano.',
+      'Asistencia en carretera y auto sustituto.',
+      'Qué cambió respecto al año anterior.',
+    ],
+  },
+  {
+    title: 'Ten a mano',
+    items: [
+      'Carátula de la póliza vigente.',
+      'Licencia y tarjeta de circulación.',
+      'Comprobante del último pago.',
+      'Número de reporte de siniestros del periodo, si hubo.',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Qué revisar antes de renovar tu póliza de auto · AV Seguros Real"
+  description="Lista imprimible para revisar tu póliza antes de renovarla: valor asegurado, uso declarado, deducible, coberturas y qué comparar entre aseguradoras."
+  canonicalPath={PATH}
+>
+  <PrintResource title="Qué revisar antes de renovar tu póliza">
+    <Breadcrumbs
+      trail={[
+        { label: 'Recursos', href: '/recursos/' },
+        { label: 'Checklist de renovación', href: PATH },
+      ]}
+    />
+
+    <h1 class="mb-2 text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">
+      Qué revisar antes de renovar tu póliza
+    </h1>
+    <p class="mb-6 text-sm text-[var(--text-muted)]">
+      Renovar sin revisar es pagar por la póliza del año pasado. Recorre esta lista antes de aceptar
+      la renovación: quince minutos ahora pueden evitar un reclamo rechazado después.
+    </p>
+
+    <div class="space-y-6">
+      {
+        groups.map((group) => (
+          <section>
+            <h2 class="mb-3 text-base font-bold uppercase tracking-[0.06em] text-[var(--navy)]">
+              {group.title}
+            </h2>
+            <ul class="space-y-2">
+              {group.items.map((item) => (
+                <li>
+                  <label class="flex cursor-pointer items-start gap-3 text-sm text-[var(--text-muted)]">
+                    <input
+                      type="checkbox"
+                      class="print-checkbox mt-0.5 h-4 w-4 shrink-0 accent-[var(--red-bright)]"
+                    />
+                    <span>{item}</span>
+                  </label>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 border-t border-[#e2e8f0] pt-4 text-xs text-[var(--text-muted)]">
+      Esta lista es una guía general. Las condiciones de la renovación son las que aparezcan en la
+      carátula que emita la aseguradora.
+    </p>
+  </PrintResource>
+</BaseLayout>

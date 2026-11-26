@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PrintResource from '../../components/resources/PrintResource.astro';
+import { GLOSSARY_TERMS } from '../../config/glossary';
+
+const PATH = '/recursos/guia-terminos/';
+---
+
+<BaseLayout
+  title="Guía rápida de términos de seguros para imprimir · AV Seguros Real"
+  description="Versión imprimible del glosario de seguros: prima, deducible, póliza, siniestro, cobertura, endoso y más términos explicados en lenguaje claro."
+  canonicalPath={PATH}
+>
+  <PrintResource title="Guía rápida de términos de seguros">
+    <Breadcrumbs
+      trail={[
+        { label: 'Recursos', href: '/recursos/' },
+        { label: 'Guía de términos', href: PATH },
+      ]}
+    />
+
+    <h1 class="mb-2 text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">
+      Guía rápida de términos de seguros
+    </h1>
+    <p class="mb-6 text-sm text-[var(--text-muted)]">
+      Los conceptos que aparecen en tu póliza, en una hoja. Guarda esta guía con tu carátula para
+      consultarla cuando llegue un recibo, una renovación o un siniestro.
+    </p>
+
+    <dl class="space-y-4">
+      {
+        GLOSSARY_TERMS.map((term) => (
+          <div class="print-term border-b border-[#e2e8f0] pb-3">
+            <dt class="text-sm font-bold text-[var(--navy)]">{term.term}</dt>
+            <dd class="mt-1 text-sm text-[var(--text-muted)]">{term.definition}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <p class="mt-6 text-xs text-[var(--text-muted)]">
+      Esta guía es información educativa. Las condiciones aplicables son las de tu carátula y el
+      condicionado de la póliza.
+    </p>
+  </PrintResource>
+</BaseLayout>
+
+<style lang="scss">
+  @media print {
+    .print-term {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+</style>
