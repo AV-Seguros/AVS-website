@@ -1,0 +1,279 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
+
+const PATH = '/herramientas/checklist-accidente/';
+const whatsappHref = buildWhatsAppUrl('checklist-accidente');
+
+/**
+ * Steps shown in order. The copy is plain HTML so the page stays readable
+ * without JavaScript; only the checkbox progress needs the script below.
+ */
+const steps = [
+  {
+    title: 'Ponte a salvo y señaliza',
+    summary:
+      'Antes de revisar los daños, protege a las personas que están en el auto.',
+    points: [
+      'Oríllate a la derecha, fuera de los carriles, y enciende las luces intermitentes.',
+      'Coloca los triángulos de seguridad a la distancia que indique el reglamento de tránsito.',
+      'Si el auto quedó en un lugar peligroso y puedes moverlo sin exponerte, sal del vehículo por el lado contrario al tráfico.',
+    ],
+  },
+  {
+    title: 'Llama al 911 si hay lesionados',
+    summary:
+      'Una persona herida no se mueve por iniciativa propia: espera a los servicios de emergencia.',
+    points: [
+      'Marca al 911 y describe la ubicación exacta, el número de lesionados y si hay algún riesgo mayor (fuga de combustible, incendio).',
+      'No muevas a un lesionado salvo que exista peligro inminente en el lugar.',
+      'Cuando llegue la autoridad, pide el número de folio o parte de hechos: la aseguradora lo va a solicitar.',
+    ],
+  },
+  {
+    title: 'Reporta el siniestro a tu aseguradora',
+    summary:
+      'El reporte se hace desde el lugar cuando es posible, y la línea de asistencia está en la carátula de tu póliza.',
+    points: [
+      'Ten a mano el número de póliza, la placa del auto y una identificación.',
+      'Explica qué pasó sin aceptar responsabilidad: la valoración la hace el ajustador.',
+      'Anota el número de reporte que te den y el nombre de quien te atendió.',
+    ],
+  },
+  {
+    title: 'No negocies ni pagues en el lugar',
+    summary:
+      'Los acuerdos verbales o los pagos directos suelen complicar el reclamo.',
+    points: [
+      'Nunca aceptes cubrir daños por fuera del procedimiento de la aseguradora.',
+      'No firmes documentos que no entiendas ni entregues dinero a terceros.',
+      'Si alguien insiste en un arreglo inmediato, pide apoyo a la autoridad y avisa a tu aseguradora.',
+    ],
+  },
+  {
+    title: 'Reúne datos y evidencia',
+    summary:
+      'La documentación que juntes en el momento es la que sostiene el reclamo después.',
+    points: [
+      'Fotografía la posición de los vehículos, las placas, los daños y el entorno antes de mover nada.',
+      'Toma los datos del otro conductor: nombre, teléfono, aseguradora, número de póliza y placas.',
+      'Guarda datos de testigos y, si hubo autoridad, el parte de hechos.',
+    ],
+  },
+  {
+    title: 'Sigue las instrucciones de tu aseguradora',
+    summary:
+      'El ajustador define el taller, la valuación y los documentos que faltan.',
+    points: [
+      'Lleva el auto al taller que te indiquen; no lo repares por tu cuenta antes de la autorización.',
+      'Entrega los documentos que te pidan en los plazos que te den.',
+      'Conserva todos los comprobantes, aunque parezcan menores: grúa, taxi, estacionamiento.',
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Qué hacer después de un accidente de auto · AV Seguros Real"
+  description="Guía paso a paso para actuar después de un accidente de auto en México: seguridad, servicios de emergencia, reporte a la aseguradora, evidencia y seguimiento del reclamo."
+  canonicalPath={PATH}
+>
+  <main class="checklist mx-auto w-full max-w-[900px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Checklist de accidente', href: PATH }]} />
+
+    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">
+      ¿Qué hacer después de un accidente de auto?
+    </h1>
+
+    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+      Los primeros minutos después de un choque definen buena parte del reclamo. Esta guía ordena lo
+      que conviene hacer, en el orden en que conviene hacerlo. Marca cada paso conforme lo completes:
+      el avance se guarda solo mientras esta página está abierta.
+    </p>
+
+    <!-- Progress -->
+    <div class="checklist__progress mb-8 rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-5">
+      <div class="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+        <p class="text-sm font-semibold text-[var(--navy)]">Tu avance</p>
+        <p
+          id="checklist-progress-text"
+          class="text-sm font-bold text-[var(--red)] tabular-nums"
+          aria-live="polite"
+        >
+          0 de 6 pasos completados
+        </p>
+      </div>
+      <div
+        class="h-2 w-full overflow-hidden rounded-full bg-[#dbe3ee]"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="6"
+        aria-valuenow="0"
+        aria-label="Pasos completados"
+      >
+        <div
+          id="checklist-progress-bar"
+          class="h-full w-0 rounded-full bg-[var(--red-bright)] transition-[width] duration-300"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Steps -->
+    <ol class="space-y-4">
+      {
+        steps.map((step, index) => (
+          <li class="checklist__step rounded-2xl border border-[#e2e8f0] bg-white p-5 sm:p-6">
+            <label class="flex cursor-pointer items-start gap-4">
+              <input
+                type="checkbox"
+                class="checklist__box mt-1 h-6 w-6 shrink-0 cursor-pointer accent-[var(--red-bright)]"
+                data-checklist-box
+                aria-describedby={`checklist-step-${index + 1}-body`}
+              />
+              <span class="min-w-0">
+                <span class="mb-1 block text-xs font-bold uppercase tracking-[0.08em] text-[var(--text-muted)]">
+                  Paso {index + 1}
+                </span>
+                <span class="checklist__title block text-lg font-bold leading-snug text-[var(--navy)]">
+                  {step.title}
+                </span>
+                <span class="mt-1 block text-sm text-[var(--text-muted)]">{step.summary}</span>
+              </span>
+            </label>
+
+            <ul
+              id={`checklist-step-${index + 1}-body`}
+              class="mt-4 list-disc space-y-2 pl-10 text-sm text-[var(--text-muted)]"
+            >
+              {step.points.map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- Disclaimer -->
+    <aside
+      class="mt-8 rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-5"
+      aria-label="Aviso sobre el alcance de esta guía"
+    >
+      <p class="text-sm font-semibold text-[var(--navy)]">
+        <i class="fas fa-exclamation-triangle text-[var(--red-bright)]" aria-hidden="true"></i>
+        Esta guía no reemplaza el procedimiento oficial de la aseguradora.
+      </p>
+      <p class="mt-2 text-sm text-[var(--text-muted)]">
+        Cada póliza define su línea de asistencia, sus talleres y los documentos que pide. Lo que aquí
+        se describe es una referencia general: ante cualquier duda, llama a la aseguradora o consulta
+        tu condicionado.
+      </p>
+    </aside>
+
+    <!-- Advisor CTA -->
+    <section class="checklist__cta mt-8 rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8">
+      <h2 class="mb-2 text-2xl font-bold">¿Tu reclamo se atoró?</h2>
+      <p class="mb-5 max-w-[65ch] text-sm text-[#c9d6e6]">
+        Si el ajustador no responde, si no estás de acuerdo con la valuación o si solo quieres que
+        alguien revise el expediente contigo, escríbenos por WhatsApp y le damos seguimiento.
+      </p>
+
+      <a
+        href={whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+      >
+        <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+        Escribir al asesor por WhatsApp
+      </a>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const boxes = Array.from(
+    document.querySelectorAll<HTMLInputElement>('input[data-checklist-box]'),
+  );
+  const progressText = document.getElementById('checklist-progress-text');
+  const progressBar = document.getElementById('checklist-progress-bar');
+  const progressTrack = progressBar?.parentElement;
+
+  // Progress lives only in the DOM: nothing is written to storage, and a
+  // reload starts the list clean.
+  const renderProgress = () => {
+    const total = boxes.length;
+    const done = boxes.filter((box) => box.checked).length;
+
+    if (progressText) progressText.textContent = `${done} de ${total} pasos completados`;
+    if (progressBar) progressBar.style.width = `${total === 0 ? 0 : (done / total) * 100}%`;
+    progressTrack?.setAttribute('aria-valuenow', String(done));
+
+    boxes.forEach((box) => {
+      box.closest('.checklist__step')?.toggleAttribute('data-complete', box.checked);
+    });
+  };
+
+  boxes.forEach((box) => box.addEventListener('change', renderProgress));
+  renderProgress();
+</script>
+
+<style lang="scss">
+  .checklist {
+    &__step {
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+
+      &[data-complete] {
+        border-color: var(--red-bright);
+        background: #fff5f5;
+      }
+
+      &[data-complete] .checklist__title {
+        text-decoration: line-through;
+        text-decoration-thickness: 2px;
+        text-decoration-color: var(--red-bright);
+      }
+    }
+  }
+
+  // Print: the guide becomes a plain sheet the visitor can take to the scene
+  // or keep in the glovebox. Navigation, progress and CTAs are not part of the
+  // paper version. These rules sit outside `.checklist` so the site header and
+  // footer, which are siblings of the page, can actually be hidden.
+  @media print {
+    :global(header.header),
+    :global(footer.footer),
+    :global(.whatsapp-float) {
+      display: none !important;
+    }
+
+    :global(body) {
+      background: #fff !important;
+      color: #000 !important;
+    }
+
+    .checklist {
+      max-width: none;
+      padding: 0;
+    }
+
+    .checklist__progress,
+    .checklist__cta {
+      display: none !important;
+    }
+
+    .checklist__step {
+      border: 1px solid #999;
+      background: #fff;
+      box-shadow: none;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .checklist__box {
+      print-color-adjust: exact;
+    }
+  }
+</style>

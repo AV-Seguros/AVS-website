@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.3.2`
-**Next milestone:** `1.3.0`
+**Current version:** `1.3.4`
+**Next milestone:** `1.4.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -388,6 +388,8 @@ Tools must never present themselves as underwriting, eligibility or quotation sy
 
 **Verification:** every CTA on the site produces a distinct, correctly encoded message; no `wa.me` URL with a hardcoded number remains in components.
 
+**Status:** Done. `src/scripts/whatsapp.ts` exports `buildWhatsAppUrl(context, params)` and the message builder behind it; the number is read from `site.ts` in that module only, and `{placeholders}` are filled from the optional params and re-spaced so no marker or double space ever ships. The templates cover general, car quotation, one key per insurance type, Uber, DiDi, delivery, services, other products, contact, the calculator, the assistant, the accident guide, an existing policy and a renewal. Header, footer, floating button, homepage services block, `/servicios/`, `/contacto/`, the calculator, `/herramientas/que-seguro-necesito/` and the eight landing pages now call the builder; the React assistant keeps its own signature but delegates to the same utility through `assistantLogic.ts`, so its behavior did not change.
+
 ### `1.3.4` — Post-accident checklist
 
 **Route:** `/herramientas/checklist-accidente/`
@@ -398,6 +400,8 @@ Tools must never present themselves as underwriting, eligibility or quotation sy
 - Print-friendly styling and a clear disclaimer that it does not replace the insurer's official procedure.
 
 **Verification:** checkboxes toggle and progress updates; page prints legibly; content renders without JS.
+
+**Status:** Done. `/herramientas/checklist-accidente/` lists six ordered steps as static HTML (safety, emergency services, insurer report, no agreements on site, evidence, follow the insurer's instructions), with native checkboxes that drive a `X de 6 pasos completados` counter, a progress bar and a completed state, all held in the DOM and never in storage. The disclaimer `Esta guía no reemplaza el procedimiento oficial de la aseguradora.` sits under the list, and a WhatsApp CTA closes the page. Print rules hide the header, footer, progress and CTA and keep each step on one page, and the route is listed in the tools mega menu.
 
 ---
 

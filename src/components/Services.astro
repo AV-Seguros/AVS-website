@@ -1,5 +1,9 @@
 ---
-// Sección de Servicios adicionales
+// Additional services section
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const otherInsuranceUrl = buildWhatsAppUrl('otros-seguros');
+
 const servicios = [
   { icon: 'fas fa-car', title: 'Seguro de auto', desc: 'Cobertura básica, amplia y total.' },
   { icon: 'fas fa-life-ring', title: 'Seguro de vida', desc: 'Protege a tu familia con respaldo.' },
@@ -38,7 +42,7 @@ const servicios = [
       </a>
     </div>
     <div class="servicios__cta">
-      <a href="https://wa.me/5218120130995?text=%C2%A1Hola%21%20Estoy%20en%20su%20p%C3%A1gina%20web%20y%20quisiera%20saber%20qu%C3%A9%20otros%20tipos%20de%20seguros%20tienen.%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" rel="noopener noreferrer" class="servicios__cta-btn">
+      <a href={otherInsuranceUrl} target="_blank" rel="noopener noreferrer" class="servicios__cta-btn">
         <i class="fab fa-whatsapp" aria-hidden="true"></i> Pregunta por otros seguros
       </a>
     </div>

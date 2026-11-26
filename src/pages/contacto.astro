@@ -3,12 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LandingForm from '../components/landing/LandingForm.astro';
 import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
 
 const PATH = '/contacto/';
 const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
 
-const whatsappMessage = '¡Hola! Quiero cotizar mi seguro y tengo algunas dudas.';
-const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappUrl = buildWhatsAppUrl('contacto');
 const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 const emailUrl = `mailto:${siteConfig.email}`;
 

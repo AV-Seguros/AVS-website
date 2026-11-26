@@ -3,13 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { landingTokens as t } from '../components/landing/tokens';
 import { serviceGroups } from '../config/navigation';
-import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
 
 const PATH = '/servicios/';
 
-const whatsappMessage =
-  'Hola, vengo de la página de servicios y quiero asesoría para elegir mi seguro.';
-const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+const whatsappHref = buildWhatsAppUrl('servicios');
 
 // The list comes from `serviceGroups`, so the page always matches the header
 // mega menu and the footer. Descriptions live next to each link in

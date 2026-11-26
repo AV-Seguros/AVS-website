@@ -6,6 +6,11 @@
  * exercised directly from Node and the UI stays a thin rendering layer.
  */
 
+import {
+  buildWhatsAppMessage as buildContextMessage,
+  buildWhatsAppUrl as buildContextUrl,
+} from '../../scripts/whatsapp';
+
 export type Protection = 'auto' | 'familia' | 'hogar' | 'negocio';
 export type VehicleType = 'auto' | 'moto';
 export type Usage = 'personal' | 'uber' | 'didi' | 'reparto';
@@ -239,10 +244,14 @@ export function describeNeed(answers: Answers): string {
 
 /** Full message sent to the advisor, in Spanish, with the answers inside. */
 export function buildWhatsAppMessage(answers: Answers): string {
-  return `Hola, necesito ${describeNeed(answers)}. Vengo del asistente web.`;
+  return buildContextMessage('asistente', { necesidad: describeNeed(answers) });
 }
 
-/** `wa.me` URL with the number from `site.ts` and the encoded message. */
-export function buildWhatsAppUrl(whatsappNumber: string, answers: Answers): string {
-  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(answers))}`;
+/**
+ * `wa.me` URL for the selected answers. The number comes from `site.ts` through
+ * the shared builder; the first argument is kept because the island already
+ * passes it, and the shared builder is the only place that reads the number.
+ */
+export function buildWhatsAppUrl(_whatsappNumber: string, answers: Answers): string {
+  return buildContextUrl('asistente', { necesidad: describeNeed(answers) });
 }
