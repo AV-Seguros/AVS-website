@@ -117,6 +117,7 @@ export const serviceGroups: NavGroup[] = [
 export const mainNavigation: NavItem[] = [
   { label: 'Servicios', href: '/servicios/', menu: 'services' },
   { label: 'Quiénes somos', href: '/quienes-somos/' },
+  { label: 'Blog', href: '/blog/' },
   { label: 'Contacto', href: '/contacto/' },
   { label: 'Preguntas frecuentes', href: '/faq/' },
 ];

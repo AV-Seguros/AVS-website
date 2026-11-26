@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.3.4`
-**Next milestone:** `1.4.0`
+**Current version:** `1.4.1`
+**Next milestone:** `1.4.2`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -420,6 +420,8 @@ Base route: `/blog/`. Content should be useful, accurate and written for real pe
 - Categories defined in a config file: Car insurance, Coverage, Insurance for drivers, Renewals, Claims and accidents, Insurance education.
 
 **Verification:** article builds at its slug, appears on the index, has unique metadata, one H1 and valid `Article` schema.
+
+**Status:** Done. The `blog` collection is defined in `src/content.config.ts` (Astro 5+ reads the collection config from there; the legacy `src/content/config.ts` is only accepted behind a deprecated flag), loads `src/content/blog/**/*.md` through the `glob` loader and validates `title`, `description`, `publishDate`, `category` (restricted to the six labels exported by `src/config/blog.ts`), `keywords`, `heroImage` and `draft`. `/blog/` lists published articles newest first in a card grid with category, Spanish long date, title, description and link; `/blog/que-cobertura-necesito/` renders the 711-word first article inside a custom typographic container (the project does not install `@tailwindcss/typography`, so no `prose` class), with `Article` JSON-LD (headline, dates, section, author, publisher, `mainEntityOfPage`) plus the existing `BreadcrumbList`, and an advisor CTA to WhatsApp and `/contacto/`. Drafts have no route. A related-articles block is intentionally left to `1.4.3`; the article section closes with the advisor CTA instead. `Blog` was added to `mainNavigation`, so the header and the footer "Enlaces" column both link to `/blog/`.
 
 ### `1.4.2` — 3 additional foundational articles
 
