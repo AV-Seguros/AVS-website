@@ -92,6 +92,8 @@ export const toolsNavigation: NavLink[] = [
   { label: 'Calculadora de deducible', href: '/herramientas/calculadora-deducible/' },
   { label: '¿Qué seguro necesito?', href: '/herramientas/que-seguro-necesito/' },
   { label: 'Checklist de accidente', href: '/herramientas/checklist-accidente/' },
+  { label: 'Documentos para cotizar', href: '/herramientas/documentos-para-cotizar/' },
+  { label: 'Guía de renovación', href: '/renovacion-de-poliza/' },
 ];
 
 /**
@@ -118,6 +120,8 @@ export const mainNavigation: NavItem[] = [
   { label: 'Servicios', href: '/servicios/', menu: 'services' },
   { label: 'Quiénes somos', href: '/quienes-somos/' },
   { label: 'Blog', href: '/blog/' },
+  { label: 'Renovación', href: '/renovacion-de-poliza/' },
+  { label: 'Documentos', href: '/herramientas/documentos-para-cotizar/' },
   { label: 'Contacto', href: '/contacto/' },
   { label: 'Preguntas frecuentes', href: '/faq/' },
 ];
@@ -130,7 +134,7 @@ export const toolGroups: NavGroup[] = [
   {
     id: 'herramientas',
     label: 'Herramientas',
-    description: 'Calcula antes de cotizar: ejercicios educativos con tus propios números.',
+    description: 'Calculadoras, listas y guías para preparar tu cotización y tu renovación.',
     links: toolsNavigation,
   },
 ];

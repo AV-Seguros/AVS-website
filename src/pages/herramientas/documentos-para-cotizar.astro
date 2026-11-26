@@ -1,0 +1,413 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PrintResource from '../../components/resources/PrintResource.astro';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
+
+const PATH = '/herramientas/documentos-para-cotizar/';
+
+interface ChecklistScenario {
+  id: string;
+  /** Tab label. */
+  label: string;
+  /** One line under the tabs that explains when this list applies. */
+  summary: string;
+  /** WhatsApp message for this scenario, resolved at build time. */
+  whatsappHref: string;
+  groups: { title: string; items: string[] }[];
+}
+
+/**
+ * The three situations that change which documents matter. Each scenario keeps
+ * its own items and its own WhatsApp message, so the advisor receives the
+ * scenario the visitor is actually preparing.
+ */
+const scenarios: ChecklistScenario[] = [
+  {
+    id: 'nueva',
+    label: 'Cotización nueva',
+    summary:
+      'Aún no tienes póliza con nosotros o vas a cambiar de aseguradora: esta es la lista para pedir una cotización desde cero.',
+    whatsappHref: buildWhatsAppUrl('cotizacion-auto', {
+      escenario: 'Ya reuní la documentación para una cotización nueva.',
+    }),
+    groups: [
+      {
+        title: 'Identificación',
+        items: [
+          'Identificación oficial del propietario del vehículo (INE o pasaporte).',
+          'Licencia de conducir vigente de quien maneja el auto.',
+          'Correo electrónico y WhatsApp de contacto.',
+        ],
+      },
+      {
+        title: 'Datos del vehículo',
+        items: [
+          'Marca, modelo, versión y año.',
+          'Número de serie (VIN).',
+          'Placas y entidad donde está registrado.',
+          'Valor comercial aproximado del auto hoy.',
+        ],
+      },
+      {
+        title: 'Dónde y cómo lo usas',
+        items: [
+          'Código postal del domicilio donde duerme el auto.',
+          'Uso declarado: particular o comercial.',
+          'Kilometraje aproximado al año.',
+          'Quién más conduce el vehículo de forma habitual.',
+        ],
+      },
+      {
+        title: 'Historial, si la aseguradora lo pide',
+        items: [
+          'Siniestros reportados en los últimos tres años.',
+          'Póliza anterior o carta de la aseguradora, si la tienes.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'renovacion',
+    label: 'Renovación',
+    summary:
+      'Tu póliza está por vencer y quieres renovarla revisando antes qué cambió en el año.',
+    whatsappHref: buildWhatsAppUrl('cotizacion-auto', {
+      escenario: 'Estoy reuniendo la documentación para renovar mi póliza.',
+    }),
+    groups: [
+      {
+        title: 'Tu póliza actual',
+        items: [
+          'Carátula vigente con aseguradora y número de póliza.',
+          'Fecha exacta de vencimiento.',
+          'Comprobante de pago del periodo en curso.',
+        ],
+      },
+      {
+        title: 'Lo que vas a revisar',
+        items: [
+          'Coberturas contratadas y cuáles ya no necesitas.',
+          'Deducible y coaseguro actuales.',
+          'Suma asegurada contra el valor comercial del auto hoy.',
+        ],
+      },
+      {
+        title: 'Lo que cambió en el año',
+        items: [
+          'Siniestros reportados durante la vigencia.',
+          'Conductores nuevos o alguien que dejó de manejar el auto.',
+          'Cambio de domicilio, de código postal o de uso.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'cambio',
+    label: 'Cambio de vehículo',
+    summary:
+      'Vendiste o cambiaste tu auto y necesitas trasladar la cobertura al vehículo nuevo.',
+    whatsappHref: buildWhatsAppUrl('cotizacion-auto', {
+      escenario: 'Estoy reuniendo la documentación porque cambié de vehículo.',
+    }),
+    groups: [
+      {
+        title: 'Del vehículo nuevo',
+        items: [
+          'Factura o tarjeta de circulación a tu nombre.',
+          'Placas nuevas y entidad donde quedó registrado.',
+          'Número de serie (VIN).',
+          'Marca, modelo, versión y año.',
+          'Valor comercial de la unidad.',
+        ],
+      },
+      {
+        title: 'Del vehículo anterior',
+        items: [
+          'Póliza vigente que se va a modificar o cancelar.',
+          'Comprobante del endoso o de la baja, si ya lo tramitaste.',
+        ],
+      },
+      {
+        title: 'El ajuste de la póliza',
+        items: [
+          'Cotización del endoso con la prima nueva.',
+          'Confirmación de qué coberturas se conservan.',
+          'Fecha desde la cual aplica el cambio.',
+        ],
+      },
+    ],
+  },
+];
+---
+
+<BaseLayout
+  title="Documentos para cotizar tu seguro de auto · AV Seguros Real"
+  description="Lista interactiva de documentos para cotizar, renovar o cambiar de vehículo: identificación, datos del auto, uso, póliza actual y avance de tu lista."
+  canonicalPath={PATH}
+>
+  <PrintResource title="Documentos para cotizar tu seguro">
+    <Breadcrumbs
+      trail={[
+        { label: 'Documentos para cotizar', href: PATH },
+      ]}
+    />
+
+    <h1 class="mb-2 text-2xl font-extrabold text-[var(--navy)] sm:text-3xl">
+      Documentos para cotizar tu seguro
+    </h1>
+    <p class="mb-6 text-sm text-[var(--text-muted)]">
+      Elige el escenario que estás preparando y marca cada punto conforme lo tengas. Con la lista
+      completa, la comparación entre aseguradoras sale bien desde el primer intento.
+    </p>
+
+    <!-- Scenario selector -->
+    <div
+      class="scenario-tabs mb-5 flex flex-wrap gap-2"
+      role="tablist"
+      aria-label="Escenario de la cotización"
+    >
+      {
+        scenarios.map((scenario, index) => (
+          <button
+            type="button"
+            id={`tab-${scenario.id}`}
+            class="scenario-tab"
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls={`panel-${scenario.id}`}
+            tabindex={index === 0 ? 0 : -1}
+            data-scenario-tab={scenario.id}
+          >
+            {scenario.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Progress for the active scenario -->
+    <div class="mb-6 rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-4">
+      <div class="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+        <p class="text-sm font-semibold text-[var(--navy)]" id="checklist-progress-label">
+          Tu avance
+        </p>
+        <p
+          id="checklist-progress-text"
+          class="text-sm font-bold text-[var(--red)] tabular-nums"
+          aria-live="polite"
+        >
+          0 de 0 puntos listos
+        </p>
+      </div>
+      <div
+        class="h-2 w-full overflow-hidden rounded-full bg-[#dbe3ee]"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-valuenow="0"
+        aria-labelledby="checklist-progress-label"
+      >
+        <div
+          id="checklist-progress-bar"
+          class="h-full w-0 rounded-full bg-[var(--red-bright)] transition-[width] duration-300"
+        >
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario panels -->
+    {
+      scenarios.map((scenario, index) => (
+        <section
+          id={`panel-${scenario.id}`}
+          class="mb-6"
+          role="tabpanel"
+          aria-labelledby={`tab-${scenario.id}`}
+          tabindex="0"
+          data-scenario-panel={scenario.id}
+          data-whatsapp={scenario.whatsappHref}
+          hidden={index !== 0}
+        >
+          <p class="mb-5 text-sm leading-relaxed text-[var(--text-muted)]">{scenario.summary}</p>
+
+          <div class="space-y-5">
+            {scenario.groups.map((group) => (
+              <div>
+                <h2 class="mb-2 text-sm font-bold uppercase tracking-[0.06em] text-[var(--navy)]">
+                  {group.title}
+                </h2>
+                <ul class="space-y-2">
+                  {group.items.map((item) => (
+                    <li>
+                      <label class="flex cursor-pointer items-start gap-3 text-sm text-[var(--text-muted)]">
+                        <input
+                          type="checkbox"
+                          class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--red-bright)]"
+                          data-checklist-box
+                        />
+                        <span>{item}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <p class="mt-6 border-t border-[#e2e8f0] pt-4 text-xs text-[var(--text-muted)]">
+      Para cotizar bastan los datos del vehículo y tu código postal. Los documentos se piden al
+      emitir la póliza, y cada aseguradora puede solicitar alguno más según el uso declarado.
+    </p>
+
+    <!-- Advisor CTA -->
+    <section class="mt-6 rounded-2xl bg-[var(--navy)] p-5 text-white sm:p-6">
+      <h2 class="mb-2 text-lg font-bold">Envía la lista a tu asesor</h2>
+      <p class="mb-4 text-sm text-[#c9d6e6]">
+        El mensaje ya indica qué escenario estás preparando, para que la respuesta llegue con los
+        datos que faltan y no con preguntas que ya contestaste.
+      </p>
+      <a
+        id="checklist-cta"
+        href={scenarios[0].whatsappHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+      >
+        <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+        Escribir al asesor por WhatsApp
+      </a>
+    </section>
+  </PrintResource>
+</BaseLayout>
+
+<script>
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-scenario-tab]'));
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-scenario-panel]'));
+  const progressText = document.getElementById('checklist-progress-text');
+  const progressBar = document.getElementById('checklist-progress-bar');
+  const progressTrack = progressBar?.parentElement;
+  const cta = document.getElementById('checklist-cta');
+
+  const activePanel = (): HTMLElement | undefined => panels.find((panel) => !panel.hidden);
+
+  const renderProgress = () => {
+    const panel = activePanel();
+    if (!panel) return;
+
+    const boxes = Array.from(panel.querySelectorAll<HTMLInputElement>('input[data-checklist-box]'));
+    const done = boxes.filter((box) => box.checked).length;
+    const total = boxes.length;
+    const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+
+    if (progressText) progressText.textContent = `${done} de ${total} puntos listos`;
+    if (progressBar) progressBar.style.width = `${percent}%`;
+    progressTrack?.setAttribute('aria-valuenow', String(percent));
+  };
+
+  const activate = (id: string) => {
+    tabs.forEach((tab) => {
+      const selected = tab.dataset.scenarioTab === id;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+
+    panels.forEach((panel) => {
+      panel.hidden = panel.dataset.scenarioPanel !== id;
+    });
+
+    // The CTA was built per scenario at build time; switching tabs only swaps
+    // the URL, so the message always carries the scenario on screen.
+    const panel = activePanel();
+    const href = panel?.dataset.whatsapp;
+    if (cta instanceof HTMLAnchorElement && href) cta.href = href;
+
+    renderProgress();
+  };
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.scenarioTab;
+      if (id) activate(id);
+    });
+
+    tab.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+      event.preventDefault();
+
+      const offset = event.key === 'ArrowRight' ? 1 : -1;
+      const next = tabs[(index + offset + tabs.length) % tabs.length];
+      const id = next.dataset.scenarioTab;
+
+      if (id) {
+        activate(id);
+        next.focus();
+      }
+    });
+  });
+
+  panels.forEach((panel) => {
+    panel.querySelectorAll<HTMLInputElement>('input[data-checklist-box]').forEach((box) => {
+      box.addEventListener('change', renderProgress);
+    });
+  });
+
+  renderProgress();
+</script>
+
+<style lang="scss">
+  .scenario-tab {
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: #fff;
+    transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      border-color: var(--navy);
+    }
+
+    &[aria-selected='true'] {
+      border-color: var(--navy);
+      background: var(--navy);
+      color: #fff;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--red-bright);
+      outline-offset: 2px;
+    }
+  }
+
+  [data-scenario-panel]:focus-visible {
+    outline: 2px solid var(--red-bright);
+    outline-offset: 4px;
+  }
+
+  // Print: the visitor gets every scenario as one sheet, so the selector, the
+  // progress and the CTA disappear and the hidden panels become visible.
+  // These rules sit outside `.scenario-tab` so they are not scoped away.
+  @media print {
+    .scenario-tabs {
+      display: none !important;
+    }
+
+    [data-scenario-panel][hidden] {
+      display: block !important;
+    }
+
+    [data-scenario-panel] {
+      margin-bottom: 1.25rem;
+      break-inside: avoid;
+    }
+
+    :global(main section:last-of-type) {
+      display: none !important;
+    }
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+// Inline link from a landing page to the glossary.
+//
+// The definition itself lives only in `src/config/glossary.ts`: this component
+// resolves the term by slug and renders its anchor, so a page can never point
+// at a term that does not exist. Written once and reused, with no duplicated
+// definitions and no client-side JavaScript.
+import { GLOSSARY_PATH, GLOSSARY_TERMS } from '../config/glossary';
+
+interface Props {
+  /** Slug of the term in `GLOSSARY_TERMS`, e.g. "deducible". */
+  slug: string;
+}
+
+const { slug } = Astro.props;
+const entry = GLOSSARY_TERMS.find((term) => term.slug === slug);
+
+if (!entry) {
+  throw new Error(`GlossaryTerm: "${slug}" is not defined in src/config/glossary.ts`);
+}
+---
+
+<a
+  href={`${GLOSSARY_PATH}#${entry.slug}`}
+  class="glossary-term"
+  title={`Ver definición de ${entry.term} en el glosario`}
+>
+  <slot>{entry.term}</slot>
+</a>
+
+<style lang="scss">
+  // A dotted underline keeps the sentence readable: the link reads as a term
+  // with a definition behind it, not as a call to action.
+  .glossary-term {
+    color: inherit;
+    text-decoration: underline dotted;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--red);
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
 import LandingForm from '../components/landing/LandingForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
@@ -188,8 +189,8 @@ const serviceSchema = {
 
         <p class="mt-6 max-w-[70ch] text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
           Si declaras uso particular y después repartes, la aseguradora puede considerar que hubo un
-          cambio de riesgo no informado. Eso se descubre en el peor momento: cuando hay un siniestro y
-          toca reclamar. Declararlo bien desde el inicio es más barato que corregirlo después.
+          cambio de riesgo no informado. Eso se descubre en el peor momento: cuando hay un <GlossaryTerm slug="siniestro">siniestro</GlossaryTerm> y
+          toca reclamar. Si el cambio ya ocurrió, se corrige con un <GlossaryTerm slug="endoso">endoso</GlossaryTerm> antes de que haya un reclamo; declararlo bien desde el inicio es más barato que corregirlo después.
         </p>
 
         <div class="mt-8">
@@ -212,7 +213,7 @@ const serviceSchema = {
 
         <p class={`${t.body} mb-6`}>
           Repartir con Rappi significa muchas entregas cortas, en zonas con tráfico denso y con el
-          vehículo detenido buena parte del día. Ese patrón de uso pesa distinto en la póliza que un
+          vehículo detenido buena parte del día. Ese patrón de uso pesa distinto en la <GlossaryTerm slug="poliza">póliza</GlossaryTerm> que un
           trayecto diario al trabajo, y conviene que la aseguradora lo sepa.
         </p>
 
