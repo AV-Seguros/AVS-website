@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
 import LandingForm from '../components/landing/LandingForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
@@ -135,7 +136,7 @@ const serviceSchema = {
         <p class={`${t.body} mb-8`}>
           La respuesta corta es: no necesariamente. Un seguro de auto contratado como uso privado no
           está pensado para transportar pasajeros de forma remunerada. Antes de asumir que estás
-          cubierto, conviene leer tu póliza y confirmarlo con la aseguradora.
+          cubierto, conviene leer tu <GlossaryTerm slug="poliza">póliza</GlossaryTerm> y confirmarlo con la aseguradora.
         </p>
 
         <div class="grid gap-8 md:grid-cols-2">
@@ -145,7 +146,7 @@ const serviceSchema = {
               Una póliza de uso privado se tarifa para traslados personales. Cuando manejas para una
               aplicación de transporte, el vehículo se expone a más kilómetros, más horarios y más
               pasajeros: eso es uso comercial. Si la póliza no lo contempla, la aseguradora puede no
-              responder ante un siniestro ocurrido mientras trabajabas con la aplicación.
+              responder ante un <GlossaryTerm slug="siniestro">siniestro</GlossaryTerm> ocurrido mientras trabajabas con la aplicación.
             </p>
           </div>
 
@@ -153,7 +154,7 @@ const serviceSchema = {
             <h3 class={t.h3}>Por qué importa el uso declarado</h3>
             <p class={t.body}>
               El uso declarado es parte del contrato, no un trámite. Declarar “particular” un vehículo
-              que opera con una plataforma puede dejar la cobertura sin efecto. Nosotros te ayudamos a
+              que opera con una plataforma puede dejar la <GlossaryTerm slug="cobertura">cobertura</GlossaryTerm> sin efecto. Nosotros te ayudamos a
               declararlo correctamente desde la cotización, para que no haya sorpresas el día del
               siniestro.
             </p>

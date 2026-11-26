@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import GlossaryTerm from '../components/GlossaryTerm.astro';
 import LandingFAQ from '../components/landing/LandingFAQ.astro';
 import LandingForm from '../components/landing/LandingForm.astro';
 import LandingHero from '../components/landing/LandingHero.astro';
@@ -200,14 +201,14 @@ const serviceSchema = {
         </h2>
 
         <p class={`${t.body} mb-4`}>
-          Un seguro de auto es un contrato con una aseguradora: tú pagas una prima anual y ella
-          responde económicamente cuando ocurre un siniestro cubierto. No es un trámite para poder
+          Un seguro de auto es un contrato con una aseguradora: tú pagas una <GlossaryTerm slug="prima">prima</GlossaryTerm> anual y ella
+          responde económicamente cuando ocurre un <GlossaryTerm slug="siniestro">siniestro</GlossaryTerm> cubierto. No es un trámite para poder
           circular, aunque también sirva para eso. Es la diferencia entre un choque que se resuelve
           con una llamada y un choque que se convierte en una deuda de años.
         </p>
 
         <p class={`${t.body} mb-4`}>
-          En México la <strong>responsabilidad civil</strong> es la cobertura mínima que la autoridad
+          En México la <GlossaryTerm slug="responsabilidad-civil"><strong>responsabilidad civil</strong></GlossaryTerm> es la cobertura mínima que la autoridad
           pide para circular, y se revisa en carreteras federales y en operativos de varios estados.
           Esa cobertura solo paga los daños que causas a otras personas y a sus bienes: no arregla tu
           auto. Por eso la mayoría de los propietarios termina en una cobertura limitada o amplia.
@@ -283,7 +284,7 @@ const serviceSchema = {
         <h2 id="deducible-title" class={`${t.h2} mb-4`}>Deducible y coaseguro: lo que pagas tú</h2>
 
         <p class={`${t.body} mb-6`}>
-          El precio de una póliza no se entiende sin estos dos números. Son la parte del siniestro que
+          El precio de una <GlossaryTerm slug="poliza">póliza</GlossaryTerm> no se entiende sin estos dos números. Son la parte del siniestro que
           corre por tu cuenta, y son la razón por la que dos cotizaciones con la misma cobertura pueden
           diferir tanto.
         </p>
@@ -308,7 +309,7 @@ const serviceSchema = {
         </div>
 
         <p class="mt-6 max-w-[70ch] text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
-          La regla práctica: un deducible alto baja la prima y encarece el siniestro; uno bajo hace lo
+          La regla práctica: un <GlossaryTerm slug="deducible">deducible</GlossaryTerm> alto baja la prima y encarece el siniestro; uno bajo hace lo
           contrario. Lo sensato es elegirlo pensando en cuánto podrías pagar hoy sin descapitalizarte,
           no en el precio mensual más bajo.
         </p>

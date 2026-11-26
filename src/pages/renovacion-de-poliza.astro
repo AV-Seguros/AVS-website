@@ -1,0 +1,307 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const PATH = '/renovacion-de-poliza/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappHref = buildWhatsAppUrl('renovacion');
+const checklistHref = '/herramientas/documentos-para-cotizar/';
+
+const changes = [
+  {
+    title: 'El valor del auto',
+    description:
+      'Tu unidad vale menos que el año pasado, pero la prima no siempre baja: la aseguradora recalcula con el valor comercial vigente y con la siniestralidad del modelo. Revisar la suma asegurada evita pagar por un valor que ya no corresponde.',
+  },
+  {
+    title: 'El uso declarado',
+    description:
+      'Si empezaste a trabajar con una aplicación, cambiaste de ciudad o ahora el auto recorre el doble de kilómetros, el riesgo que aceptó la aseguradora ya no es el real. Ese cambio se declara con un endoso, no al momento del siniestro.',
+  },
+  {
+    title: 'Deducible y coaseguro',
+    description:
+      'Son la parte del daño que pagas tú. Un deducible alto baja la prima, pero encarece cada reclamo: en la renovación conviene revisar si el número sigue siendo pagable con tu ingreso actual.',
+  },
+  {
+    title: 'Conductores y beneficiarios',
+    description:
+      'Un hijo que ya maneja, una pareja que usa el auto entre semana o un conductor que se mudó cambian el perfil. La póliza debe nombrarlos antes de que ocurra un siniestro.',
+  },
+  {
+    title: 'Coberturas que ya no aplican',
+    description:
+      'Los planes se acumulan con los años: gastos médicos a ocupantes, asistencia vial ampliada o coberturas que nunca usaste. Quitarlas puede bajar la prima sin dejar el auto sin protección.',
+  },
+  {
+    title: 'Siniestros del periodo',
+    description:
+      'Un reclamo durante la vigencia puede mover la prima del siguiente periodo. Conviene saberlo antes de recibir el recibo, no después.',
+  },
+];
+
+const comparison = [
+  {
+    title: 'La prima total, no la mensual',
+    description:
+      'Compara el costo del año completo y con la misma forma de pago. Un plan con mensualidad baja puede costar más al final por cargos de financiamiento.',
+  },
+  {
+    title: 'El deducible, en pesos',
+    description:
+      'Un 5% sobre un auto de $300,000 son $15,000. Pide el número en pesos para comparar entre aseguradoras: el porcentaje solo no dice nada.',
+  },
+  {
+    title: 'Qué cubre y qué excluye',
+    description:
+      'Rotura de cristales, fenómenos naturales, robo de autopartes, asistencia en carretera y circulación en Estados Unidos se negocian plan por plan. Lo que no está escrito no se cubre.',
+  },
+  {
+    title: 'La suma asegurada',
+    description:
+      'Debe reflejar el valor comercial del vehículo. Si es muy alta pagas de más; si es muy baja, la indemnización en pérdida total no alcanza para reemplazar el auto.',
+  },
+  {
+    title: 'Los talleres y la asistencia',
+    description:
+      'Revisa si puedes elegir taller, cuántas grúas incluye el plan y en qué radio operan. Son las diferencias que se notan el día del siniestro.',
+  },
+];
+
+const timeline = [
+  {
+    when: '30 días antes',
+    title: 'Lee tu carátula',
+    description:
+      'Anota la fecha de vencimiento, las coberturas, el deducible y la suma asegurada. Revisa si cambió tu uso, tu domicilio o quién maneja el auto.',
+  },
+  {
+    when: '21 días antes',
+    title: 'Pide la cotización de renovación',
+    description:
+      'Con los datos del vehículo y tu código postal comparamos la renovación de tu aseguradora contra la otra opción, con coberturas equivalentes.',
+  },
+  {
+    when: '15 días antes',
+    title: 'Compara con números',
+    description:
+      'Pon las dos cotizaciones lado a lado: prima anual, deducible en pesos, suma asegurada y coberturas. Decide con el costo total, no solo con el primer recibo.',
+  },
+  {
+    when: '7 días antes',
+    title: 'Confirma el pago',
+    description:
+      'El pago se hace directo a la aseguradora. Conserva el comprobante y pide la carátula nueva: es lo que se presenta ante la autoridad y lo que se usa en un reclamo.',
+  },
+  {
+    when: 'Día del vencimiento',
+    title: 'Revisa que no haya hueco',
+    description:
+      'La póliza nueva debe empezar el mismo día en que termina la anterior. Un día sin vigencia es un día sin cobertura, aunque el pago se haya hecho después.',
+  },
+];
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: 'Cómo renovar tu póliza de auto en México sin perder cobertura',
+  description:
+    'Guía para revisar tu póliza antes de renovarla: qué cambia de un año a otro, qué comparar entre aseguradoras y el calendario de 30 días previos al vencimiento.',
+  url: pageUrl,
+  inLanguage: 'es-MX',
+  author: {
+    '@type': 'Organization',
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.siteName,
+  },
+  datePublished: '2026-11-26',
+  dateModified: '2026-11-26',
+};
+---
+
+<BaseLayout
+  title="Renovación de póliza de auto: guía paso a paso · AV Seguros Real"
+  description="Qué revisar antes de renovar tu seguro de auto: valor del vehículo, uso declarado, deducible, coberturas y un calendario de 30 días antes del vencimiento."
+  canonicalPath={PATH}
+  schema={[articleSchema]}
+>
+  <main class="mx-auto w-full max-w-[900px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Renovación de póliza', href: PATH }]} />
+
+    <header class="mb-10 max-w-[70ch]">
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--red)]">
+        Guía de renovación
+      </p>
+      <h1 class="mb-4 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
+        Cómo renovar tu póliza de auto sin perder cobertura
+      </h1>
+      <p class="text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
+        Renovar no debería ser pagar el recibo que llega. En doce meses cambia el valor del auto,
+        cambia tu uso y cambian las condiciones del mercado: la renovación es el único momento del año
+        en que puedes corregir todo eso sin costo. Esta guía ordena qué revisar, qué comparar y
+        cuándo hacerlo.
+      </p>
+    </header>
+
+    <section class="mb-10" aria-labelledby="por-que-title">
+      <h2 id="por-que-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Por qué conviene revisar la cobertura en cada renovación
+      </h2>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        La renovación automática es cómoda y también es la razón por la que mucha gente paga durante
+        años una póliza que ya no corresponde a su vida. El auto se depreció, el uso cambió, quizá
+        apareció otro conductor, y la aseguradora sigue cobrando con el perfil del año anterior.
+      </p>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Revisar antes de pagar tiene dos efectos concretos: puedes quitar coberturas que no usas y
+        puedes corregir datos que, mal declarados, dejarían el reclamo en riesgo. Ninguna de las dos
+        cosas se arregla después del siniestro.
+      </p>
+      <p class="max-w-[70ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[var(--gray-bg)] p-4 text-sm text-[var(--navy)]">
+        <i class="fas fa-info-circle text-[var(--red-bright)]" aria-hidden="true"></i>
+        Renovar tarde también cuesta: si la póliza vence y pasa un tiempo sin pago, la aseguradora
+        puede exigir una inspección o rechazar el riesgo. El periodo de gracia depende del
+        condicionado, no de lo que diga el recibo.
+      </p>
+    </section>
+
+    <section class="mb-10" aria-labelledby="que-cambia-title">
+      <h2 id="que-cambia-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Qué cambia de un año a otro
+      </h2>
+      <p class="mb-6 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Estos son los seis puntos que movemos en cada renovación. No todos aplican a tu caso, pero
+        todos se revisan antes de firmar.
+      </p>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {
+          changes.map((change) => (
+            <div class="rounded-2xl border border-[#e2e8f0] bg-white p-5">
+              <h3 class="mb-2 text-base font-bold text-[var(--navy)]">{change.title}</h3>
+              <p class="text-sm leading-relaxed text-[var(--text-muted)]">{change.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mb-10" aria-labelledby="comparar-title">
+      <h2 id="comparar-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Qué comparar entre aseguradoras
+      </h2>
+      <p class="mb-6 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Dos cotizaciones con el mismo nombre de cobertura pueden no cubrir lo mismo. Compara estos
+        cinco puntos con las dos propuestas en la mano.
+      </p>
+
+      <ol class="space-y-4">
+        {
+          comparison.map((item, index) => (
+            <li class="flex gap-4 rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-5">
+              <span
+                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--navy)] text-sm font-bold text-white"
+                aria-hidden="true"
+              >
+                {index + 1}
+              </span>
+              <div>
+                <h3 class="mb-1 text-base font-bold text-[var(--navy)]">{item.title}</h3>
+                <p class="text-sm leading-relaxed text-[var(--text-muted)]">{item.description}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="mt-6 max-w-[70ch] text-sm text-[var(--text-muted)]">
+        Si quieres la definición exacta de cualquiera de estos conceptos, están en el
+        <a href="/glosario/" class="font-semibold text-[var(--red)] hover:underline">glosario de seguros</a
+        >.
+      </p>
+    </section>
+
+    <section class="mb-10" aria-labelledby="calendario-title">
+      <h2 id="calendario-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Tu calendario: 30 días antes del vencimiento
+      </h2>
+      <p class="mb-6 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Treinta días es tiempo suficiente para comparar sin prisa y para que la póliza nueva empiece
+        justo cuando termina la anterior.
+      </p>
+
+      <ol class="border-l-2 border-[#dbe3ee] pl-6">
+        {
+          timeline.map((step) => (
+            <li class="relative mb-6 last:mb-0">
+              <span
+                class="absolute -left-[1.9rem] top-1.5 h-3 w-3 rounded-full bg-[var(--red-bright)]"
+                aria-hidden="true"
+              />
+              <p class="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+                {step.when}
+              </p>
+              <h3 class="mb-1 text-base font-bold text-[var(--navy)]">{step.title}</h3>
+              <p class="max-w-[65ch] text-sm leading-relaxed text-[var(--text-muted)]">
+                {step.description}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="mb-8" aria-labelledby="documentos-title">
+      <h2 id="documentos-title" class="mb-3 text-2xl font-bold text-[var(--navy)]">
+        Ten la documentación a mano
+      </h2>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Para renovar necesitas la carátula vigente, el comprobante de pago y los datos del vehículo.
+        Armamos una lista interactiva por escenario —cotización nueva, renovación y cambio de
+        vehículo— para que no falte nada cuando pidas la cotización.
+      </p>
+
+      <a
+        href={checklistHref}
+        class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-6 py-3 text-sm font-bold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+      >
+        <i class="fas fa-clipboard-check" aria-hidden="true"></i>
+        Abrir la lista de documentos
+      </a>
+    </section>
+
+    <section class="rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8" aria-labelledby="cta-title">
+      <h2 id="cta-title" class="mb-2 text-2xl font-bold">Revisa tu renovación con un asesor</h2>
+      <p class="mb-5 max-w-[65ch] text-sm text-[#c9d6e6]">
+        Mándanos la carátula de tu póliza actual y tu código postal: comparamos la renovación con las
+        dos aseguradoras, con las coberturas equivalentes y el deducible en pesos. Sin costo y sin
+        obligación de contratar.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+        >
+          <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+          Escribir al asesor por WhatsApp
+        </a>
+        <a
+          href={checklistHref}
+          class="text-sm font-semibold text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
+        >
+          Ver la lista de documentos
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

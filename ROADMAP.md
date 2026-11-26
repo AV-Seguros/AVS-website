@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.4.4`
-**Next milestone:** `1.5.0`
+**Current version:** `1.5.0`
+**Next milestone:** `1.6.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -478,6 +478,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 
 **Verification:** each scenario shows the correct subset; CTA carries the scenario context.
 
+**Status:** Done. `/herramientas/documentos-para-cotizar/` reuses `PrintResource.astro` and renders the three scenarios (cotización nueva, renovación, cambio de vehículo) as an accessible tab set: each panel holds only its own items, the progress bar and its `aria-live` counter follow the active panel, and arrow keys move between tabs. Every scenario carries a `cotizacion-auto` WhatsApp URL built at build time with its own `{escenario}` line, so the advisor receives the situation the visitor is preparing; the message template gained a trailing optional placeholder, which leaves the other `cotizacion-auto` CTAs untouched. In print the tab bar, the progress block and the CTA disappear while the hidden panels are forced visible, so the paper version is the complete list instead of one tab.
+
 ### `1.5.2` — Policy renewal guide
 
 **Route:** `/renovacion-de-poliza/`
@@ -488,6 +490,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 
 **Verification:** route builds with unique metadata, one H1, and both CTAs working.
 
+**Status:** Done. `/renovacion-de-poliza/` uses `BaseLayout`, `Breadcrumbs` and an `Article` JSON-LD node, with one H1 and sections for why to review coverage, the six things that change between periods, the five points to compare, a 30-day timeline before expiry and the closing advisor CTA. It links to `/herramientas/documentos-para-cotizar/` twice (inline and next to the CTA) and uses `buildWhatsAppUrl('renovacion')`. No reminder automation and no email capture were added.
+
 ### `1.5.3` — Glossary integration with landing pages
 
 - Add inline glossary tooltips/links to defined terms on `/seguros-de-auto/`, `/seguro-para-uber/`, `/seguro-para-didi/`, `/seguros-para-repartidores/` and the four product pages.
@@ -495,6 +499,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Limit to 3–6 terms per page so reading is not interrupted.
 
 **Verification:** every tooltip term matches a glossary entry; links land on the correct anchor; no broken anchors across the site.
+
+**Status:** Done for the four landing pages required by this milestone. `src/components/GlossaryTerm.astro` resolves each term from `src/config/glossary.ts` by slug, throws at build time when the slug does not exist, and renders a dotted-underline link to `/glosario/#<slug>`; it is used inline in the prose instead of a JavaScript tooltip so the links are crawlable, work without scripts and land on the existing anchors. Each page stays inside the 3–6 term budget: `/seguros-de-auto/` links prima, siniestro, responsabilidad civil, póliza and deducible; `/seguro-para-uber/` and `/seguro-para-didi/` link póliza, cobertura and siniestro; `/seguros-para-repartidores/` links póliza and siniestro plus endoso in the new sentence about correcting a changed use. The four product pages in `personNavigation` are not wired yet.
 
 ---
 

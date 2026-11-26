@@ -351,7 +351,9 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
 
     &__nav {
       display: flex;
-      gap: 2rem;
+      // Seven top-level entries plus the CTA only fit on one row at 1280px
+      // with a tighter gap; below that the bar wraps, as it already did.
+      gap: 1.4rem;
       align-items: center;
       flex-wrap: wrap;
     }
