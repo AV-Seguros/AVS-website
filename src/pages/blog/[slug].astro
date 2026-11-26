@@ -1,0 +1,217 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import { BLOG_PATH, blogPostPath, formatBlogDate } from '../../config/blog';
+import { siteConfig } from '../../config/site';
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
+
+export async function getStaticPaths() {
+  // Drafts have no route at all, so an unpublished article cannot be reached
+  // by guessing its URL.
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const PATH = blogPostPath(post.id);
+const canonicalUrl = new URL(PATH, siteConfig.siteUrl).toString();
+const publishDate = post.data.publishDate.toISOString();
+const whatsappHref = buildWhatsAppUrl('general');
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${canonicalUrl}#article`,
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: publishDate,
+  dateModified: publishDate,
+  inLanguage: 'es-MX',
+  articleSection: post.data.category,
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl },
+  author: {
+    '@type': 'Person',
+    name: siteConfig.advisorName,
+    url: new URL('/quienes-somos/', siteConfig.siteUrl).toString(),
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${siteConfig.siteUrl}/#organization`,
+    name: siteConfig.siteName,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/logo.png', siteConfig.siteUrl).toString(),
+    },
+  },
+  ...(post.data.heroImage
+    ? { image: new URL(post.data.heroImage, siteConfig.siteUrl).toString() }
+    : {}),
+  ...(post.data.keywords ? { keywords: post.data.keywords.join(', ') } : {}),
+};
+---
+
+<BaseLayout
+  title={`${post.data.title} · ${siteConfig.siteName}`}
+  description={post.data.description}
+  canonicalPath={PATH}
+  ogImage={post.data.heroImage}
+  schema={[articleSchema]}
+>
+  <main class="mx-auto w-full max-w-[760px] px-6 py-10">
+    <Breadcrumbs
+      trail={[
+        { label: 'Blog', href: BLOG_PATH },
+        { label: post.data.title, href: PATH },
+      ]}
+    />
+
+    <article>
+      <header class="mb-8 border-b border-[#e2e8f0] pb-6">
+        <p class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+          <span>{post.data.category}</span>
+          <time datetime={publishDate} class="font-medium normal-case tracking-normal text-[var(--text-muted)]">
+            {formatBlogDate(post.data.publishDate)}
+          </time>
+        </p>
+
+        <h1 class="mb-3 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
+          {post.data.title}
+        </h1>
+
+        <p class="text-lg leading-relaxed text-[var(--text-muted)]">{post.data.description}</p>
+      </header>
+
+      {post.data.heroImage && (
+        <img
+          src={post.data.heroImage}
+          alt=""
+          class="mb-8 w-full rounded-2xl"
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+
+      <div class="article-body">
+        <Content />
+      </div>
+
+      <aside class="mt-10 rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8">
+        <h2 class="mb-2 text-2xl font-bold">¿Te quedó una duda sobre tu cobertura?</h2>
+        <p class="mb-5 max-w-[60ch] text-sm text-[#c9d6e6]">
+          Cuéntanos qué auto tienes, cómo lo usas y qué te preocupa perder. Revisamos juntos las
+          opciones entre AXA y Afirme y te explicamos qué cubre cada una antes de que decidas.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a
+            href={whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+          >
+            <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+            Escribir al asesor
+          </a>
+          <a
+            href="/contacto/"
+            class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:border-white hover:bg-white/10"
+          >
+            Ir a contacto
+            <i class="fas fa-arrow-right text-[0.7rem]" aria-hidden="true"></i>
+          </a>
+        </div>
+      </aside>
+
+      <p class="mt-8 text-xs leading-relaxed text-[var(--text-muted)]">
+        Este artículo es información educativa y no sustituye las condiciones de una póliza ni la
+        asesoría de la aseguradora.
+      </p>
+    </article>
+  </main>
+</BaseLayout>
+
+<style lang="scss">
+  // Markdown output is injected as raw HTML, so the typography rules have to be
+  // written as global selectors scoped by the `.article-body` wrapper.
+  .article-body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-dark);
+
+    :global(> * + *) {
+      margin-top: 1.1rem;
+    }
+
+    :global(h2) {
+      margin-top: 2.2rem;
+      font-size: 1.5rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: var(--navy);
+    }
+
+    :global(h3) {
+      margin-top: 1.6rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    :global(p),
+    :global(li) {
+      color: var(--text-muted);
+    }
+
+    :global(ul),
+    :global(ol) {
+      padding-left: 1.4rem;
+      list-style: disc;
+    }
+
+    :global(ol) {
+      list-style: decimal;
+    }
+
+    :global(li + li) {
+      margin-top: 0.45rem;
+    }
+
+    :global(strong) {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    :global(a) {
+      color: var(--red);
+      font-weight: 600;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+
+      &:hover {
+        color: var(--navy);
+      }
+    }
+
+    :global(blockquote) {
+      border-left: 3px solid var(--red-bright);
+      padding-left: 1rem;
+      font-style: italic;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 1rem;
+    }
+  }
+</style>
