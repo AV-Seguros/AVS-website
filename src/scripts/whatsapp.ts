@@ -5,11 +5,13 @@
  * destination number is defined only in `site.ts` and each page sends the
  * advisor a message that says where the visitor came from and what they need.
  *
- * Pure functions with no browser APIs: the pages import them in their Astro
- * frontmatter at build time, and the output can be exercised from Node.
+ * The pages import them in their Astro frontmatter at build time, where nothing
+ * of the visitor is known; in the browser the URL gains a short `[Ref: …]` line
+ * with the first-touch attribution (see `scripts/attribution.ts`).
  */
 
 import { siteConfig } from '../config/site';
+import { getAttributionReference } from './attribution';
 
 /**
  * Where the visitor clicked. Each key has one message in `CONTEXT_MESSAGES`.
@@ -92,13 +94,47 @@ export function buildWhatsAppMessage(
  * Encoded `wa.me` URL for a context, with the number from `site.ts`.
  *
  * `encodeURIComponent` is applied to the whole message, so accents, line
- * breaks and punctuation survive the trip to WhatsApp.
+ * breaks and punctuation survive the trip to WhatsApp. In the browser the
+ * message ends with the attribution reference; during the build there is no
+ * storage to read, so the static href stays clean and `refreshWhatsAppLinks()`
+ * adds the reference once the page loads.
  */
 export function buildWhatsAppUrl(
   context: WhatsAppContext,
   params: Record<string, string> = {},
 ): string {
-  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
-    buildWhatsAppMessage(context, params),
-  )}`;
+  const message = buildWhatsAppMessage(context, params) + getAttributionReference();
+
+  return `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+
+const WHATSAPP_HREF_PREFIX = 'https://wa.me/';
+
+/** Matches the reference this module appends, so a second pass replaces it. */
+const ATTRIBUTION_REFERENCE = / ?\[Ref: [^\]]*\]$/;
+
+/**
+ * Adds the first-touch reference to every WhatsApp CTA already on the page.
+ *
+ * The links are built at build time, when the visitor is unknown, so the client
+ * rewrites the `text` parameter once the DOM is ready. Links without a message
+ * are left alone, and a URL that fails to parse is skipped instead of breaking
+ * the others.
+ */
+export function refreshWhatsAppLinks(root: ParentNode = document): void {
+  const reference = getAttributionReference();
+  if (!reference) return;
+
+  root.querySelectorAll<HTMLAnchorElement>(`a[href^="${WHATSAPP_HREF_PREFIX}"]`).forEach((link) => {
+    try {
+      const url = new URL(link.href);
+      const message = url.searchParams.get('text');
+      if (!message) return;
+
+      url.searchParams.set('text', `${message.replace(ATTRIBUTION_REFERENCE, '')}${reference}`);
+      link.href = url.toString();
+    } catch {
+      // Leave the original href in place.
+    }
+  });
 }

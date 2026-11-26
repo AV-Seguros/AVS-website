@@ -62,6 +62,21 @@ const {
     />
   </head>
   <body>
+    <script>
+      import { captureAttribution } from '../scripts/attribution';
+      import { refreshWhatsAppLinks } from '../scripts/whatsapp';
+
+      // First touch is recorded before anything else reads it, and every WhatsApp
+      // CTA built at build time gains the `[Ref: …]` line once the DOM is ready.
+      captureAttribution();
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => refreshWhatsAppLinks());
+      } else {
+        refreshWhatsAppLinks();
+      }
+    </script>
+
     {showHeaderFooter && <Header />}
     <slot />
     {showHeaderFooter && <Footer />}
