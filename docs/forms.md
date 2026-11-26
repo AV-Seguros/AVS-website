@@ -65,6 +65,13 @@ places that have to be updated. Requirements for that migration:
 Hidden fields: `_subject` (from `context` or `source`), `_source` (the page) and
 `_context` (when the page passes one).
 
+Attribution fields: `_utm_source`, `_utm_medium`, `_utm_campaign`, `_utm_content`,
+`_utm_term`, `_referrer` and `_landing_page`. They ship empty and are filled
+client-side from `sessionStorage` (`src/scripts/attribution.ts`) with the **first
+touch** of the tab session, so the campaign is reported even when the form is
+submitted from a page reached later. A direct visit with no referrer leaves them
+empty; it never fails the submission.
+
 ## States
 
 - **Invalid:** inline error under each field, `aria-invalid` on the input and
