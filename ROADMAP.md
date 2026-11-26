@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.0.0`
-**Next milestone:** `1.1.0`
+**Current version:** `1.2.7`
+**Next milestone:** `1.3.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -218,6 +218,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - WhatsApp link opens with the pre-filled, correctly encoded message.
 - At 375px there is no horizontal overflow.
 
+**Status:** Done. Delivered at `/seguro-para-uber/` with the hero background served as WebP (1920px, quality 80); linked from the header mega menu and the footer.
+
 ### `1.2.2` — DiDi landing page
 
 **Route:** `/seguro-para-didi/`
@@ -227,6 +229,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - Replace all Uber references; check for leftover strings before finishing.
 
 **Verification:** same checklist as `1.2.1`, plus a search for `Uber` in the DiDi page source returning no matches.
+
+**Status:** Done. Delivered at `/seguro-para-didi/`; the repeated sections were extracted to `src/components/landing/` so both driver pages render from the same components.
 
 ### `1.2.3` — Delivery Drivers landing page
 
@@ -239,6 +243,8 @@ This milestone is the technical foundation for everything that follows. It is de
 
 **Verification:** same checklist as `1.2.1`; both platform subsections present with their own content.
 
+**Status:** Done. Delivered at `/seguros-para-repartidores/` with platform-specific guidance and FAQ entries for Rappi and Uber Eats drivers.
+
 ### `1.2.4` — General Car Insurance landing page
 
 **Route:** `/seguros-de-auto/`
@@ -250,6 +256,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - Internal links to the Uber, DiDi and delivery-driver pages where the visitor's use case differs.
 
 **Verification:** same checklist as `1.2.1`; content overlap with the Uber/DiDi pages limited to shared boilerplate (form, testimonials, CTA).
+
+**Status:** Done. Delivered at `/seguros-de-auto/` as the canonical general car insurance page, with internal links to the driver landings.
 
 ### `1.2.5` — Landing pages for other insurance types
 
@@ -266,6 +274,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - Do not invent coverage details, prices, or insurer guarantees.
 
 **Verification:** each route builds, is indexable, has unique metadata, a working form and a working WhatsApp CTA.
+
+**Status:** Done. The four product routes build from the shared landing components and are listed in the header mega menu and the footer, so no `/otros-seguros/` hub was needed.
 
 ### `1.2.6` — Global FAQ page and Contact page schema
 
@@ -304,6 +314,34 @@ This milestone is the technical foundation for everything that follows. It is de
 - Header and footer agree on the same product list (single source of truth in `navigation.ts`).
 
 **Status:** Done. The "Servicios" entry opens a two-column mega menu (people / work) on desktop and an accordion group in the mobile menu, both driven by `serviceGroups` in `navigation.ts`. The same session completed the `/contacto/` layout (lead form, advisor, contact channels, hours) and removed the unreferenced hero PNGs from `public/images/heroes/`.
+
+### `1.2.8` — Services and legal pages content
+
+**Objective:** Replace the three routes that still render an empty placeholder block with real content, so no published page is a skeleton.
+
+**Routes**
+
+| Route                       | Page file                                |
+| --------------------------- | ---------------------------------------- |
+| `/servicios/`               | `src/pages/servicios.astro`               |
+| `/aviso-de-privacidad/`     | `src/pages/aviso-de-privacidad.astro`     |
+| `/terminos-y-condiciones/`  | `src/pages/terminos-y-condiciones.astro`  |
+
+**Tasks**
+
+- Fill `/servicios/` with every insurance type the agency sells (car, life, home, business, medical expenses, Uber, DiDi and delivery drivers), one short paragraph per product and a link to its landing page. Derive the list from `productNavigation` in `navigation.ts` so the page cannot drift from the header and the footer.
+- Write the real privacy notice for `/aviso-de-privacidad/` as an LFPDPPP-compliant draft: identity and domicile of the data controller (from `site.ts`), categories of personal data collected, primary and secondary purposes, the consent mechanism the forms already use, means to exercise ARCO rights, the contact channel for data requests, transfers (insurers only when a quotation is requested) and how changes to the notice are communicated.
+- Write `/terminos-y-condiciones/`: scope of the published information, the statement that no page is an insurance offer or an underwriting decision, that AXA and Afirme are independent insurers, that platform names (Uber, DiDi, Rappi, Uber Eats) are used descriptively with no partnership implied, intellectual property, third-party links and governing law (Mexico).
+- Both legal pages show a visible `Última actualización` date sourced from a single place, so future edits keep it current.
+- The legal drafts are delivered for the advisor's review; the session report must state that they are drafts and not legal advice.
+
+**Verification**
+
+- `npm run build` succeeds and none of the three routes still contains `data-placeholder="content"`.
+- `/servicios/` lists every entry in `productNavigation` and every link resolves to a built route.
+- Each route keeps a unique title, description, canonical and exactly one `<h1>`.
+- The privacy notice names the data controller from `site.ts` character for character and links to a working contact channel.
+- Both legal routes are indexable and appear in the sitemap.
 
 ---
 
