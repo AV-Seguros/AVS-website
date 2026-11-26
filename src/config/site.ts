@@ -31,6 +31,11 @@ export interface SiteConfig {
   address: PostalAddress;
   socialLinks: SocialLink[];
   defaultOgImage: string;
+  /**
+   * ISO date of the last revision of the legal pages (`/aviso-de-privacidad/`
+   * and `/terminos-y-condiciones/`). Update it whenever their content changes.
+   */
+  legalLastUpdated: string;
 }
 
 export const siteConfig: SiteConfig = {
@@ -50,4 +55,5 @@ export const siteConfig: SiteConfig = {
   // No social profiles are linked from the current site.
   socialLinks: [],
   defaultOgImage: '/og/default.jpg',
+  legalLastUpdated: '2026-11-26',
 };

@@ -1,23 +1,111 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { serviceGroups } from '../config/navigation';
+import { siteConfig } from '../config/site';
+
+const PATH = '/servicios/';
+
+const whatsappMessage =
+  'Hola, vengo de la página de servicios y quiero asesoría para elegir mi seguro.';
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+
+// The list comes from `serviceGroups`, so the page always matches the header
+// mega menu and the footer. Descriptions live next to each link in
+// `navigation.ts`; the build fails if a product is added without one, instead
+// of publishing a card with an empty body.
+const groups = serviceGroups.map((group) => ({
+  ...group,
+  links: group.links.map((link) => {
+    if (!link.description) {
+      throw new Error(`Missing \`description\` for ${link.href} in src/config/navigation.ts`);
+    }
+    return { label: link.label, href: link.href, description: link.description };
+  }),
+}));
 ---
 
 <BaseLayout
   title="Servicios de seguros · AV Seguros Real"
-  description="Seguros de auto, vida, hogar, negocio y gastos médicos con asesoría personal y respaldo de AXA y Afirme."
-  canonicalPath="/servicios/"
+  description="Seguros de auto, vida, hogar, gastos médicos, Uber, DiDi, repartidores y empresarial con asesoría personal y respaldo de AXA y Afirme."
+  canonicalPath={PATH}
 >
-  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <Breadcrumbs trail={[{ label: 'Servicios', href: '/servicios/' }]} />
+  <main>
+    <div class={`${t.container} pt-8 pb-4`}>
+      <Breadcrumbs trail={[{ label: 'Servicios', href: PATH }]} />
 
-    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Servicios</h1>
+      <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Servicios</h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
-      Acompañamiento personal para elegir el seguro que corresponde a tu vehículo, tu patrimonio o tu
-      negocio.
-    </p>
+      <p class={`${t.body} mb-2`}>
+        Acompañamiento personal para elegir el seguro que corresponde a tu vehículo, tu patrimonio o tu
+        negocio. Cotizamos con AXA y Afirme, te explicamos qué queda fuera antes de que firmes y
+        seguimos contigo cuando llega el momento de un reclamo.
+      </p>
+    </div>
 
-    <div data-placeholder="content"></div>
+    {
+      groups.map((group, index) => (
+        <section
+          class={index % 2 === 0 ? 'bg-white py-12' : 'py-12'}
+          aria-labelledby={`${group.id}-title`}
+        >
+          <div class={t.container}>
+            <h2 id={`${group.id}-title`} class={`${t.h2} mb-3`}>
+              {group.label}
+            </h2>
+            <p class={`${t.body} mb-8`}>{group.description}</p>
+
+            <ul class="grid gap-6 md:grid-cols-2">
+              {group.links.map((link) => (
+                <li class="flex flex-col rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                  <h3 class={t.h3}>{link.label}</h3>
+                  <p class="mb-5 text-sm text-[var(--text-muted)]">{link.description}</p>
+                  <a
+                    href={link.href}
+                    class="mt-auto inline-flex items-center gap-2 font-semibold text-[var(--red)] hover:underline"
+                    aria-label={`Ver coberturas de ${link.label}`}
+                  >
+                    Ver coberturas <i class="fas fa-arrow-right text-xs" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))
+    }
+
+    <section class="bg-white py-12" aria-labelledby="servicios-cta-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="servicios-cta-title" class={`${t.h2} mb-3`}>¿No sabes cuál te conviene?</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Cuéntanos qué quieres proteger y con qué presupuesto cuentas. Comparamos las opciones que
+          existen para tu caso y te decimos con claridad qué cubre cada una y qué no.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href="/contacto/"
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Solicitar asesoría
+          </a>
+          <a
+            href={whatsappHref}
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Preguntar por WhatsApp
+          </a>
+        </div>
+
+        <p class="mx-auto mt-6 max-w-[60ch] text-xs text-[var(--text-muted)]">
+          Somos una agencia: la póliza la emite y la cobra la aseguradora. Los nombres de Uber, DiDi,
+          Rappi y Uber Eats se usan solo para describir el tipo de actividad que se asegura.
+        </p>
+      </div>
+    </section>
   </main>
 </BaseLayout>

@@ -1,22 +1,280 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LegalPageNotice from '../components/LegalPageNotice.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+
+const PATH = '/aviso-de-privacidad/';
+
+const { street, city, region, postalCode } = siteConfig.address;
+const addressLine = `${street}, ${city}, ${region}, C.P. ${postalCode}, México`;
+const emailUrl = `mailto:${siteConfig.email}`;
+const phoneUrl = `tel:+${siteConfig.whatsappNumber}`;
 ---
 
 <BaseLayout
   title="Aviso de privacidad · AV Seguros Real"
-  description="Cómo AV Seguros Real recopila, usa y protege los datos personales de las personas que solicitan una cotización."
-  canonicalPath="/aviso-de-privacidad/"
+  description="Cómo AV Seguros Real recopila, usa y protege los datos personales de las personas que solicitan una cotización: finalidades, transferencias y derechos ARCO."
+  canonicalPath={PATH}
 >
-  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <Breadcrumbs trail={[{ label: 'Aviso de privacidad', href: '/aviso-de-privacidad/' }]} />
+  <main class={`${t.container} py-10`}>
+    <Breadcrumbs trail={[{ label: 'Aviso de privacidad', href: PATH }]} />
 
     <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Aviso de privacidad</h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
-      Información sobre el tratamiento de los datos personales que compartes al solicitar una cotización.
+    <p class={`${t.body} mb-8`}>
+      Información sobre el tratamiento de los datos personales que compartes al solicitar una
+      cotización, contratar una póliza o pedir orientación para un siniestro.
     </p>
 
-    <div data-placeholder="content"></div>
+    <LegalPageNotice />
+
+    <div class="max-w-[75ch] space-y-9 text-[var(--text-muted)]">
+      <section aria-labelledby="responsable-title">
+        <h2 id="responsable-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          1. Identidad y domicilio del responsable
+        </h2>
+        <p class="mb-3">
+          <strong class="text-[var(--navy)]">AV Seguros Real</strong> es el nombre comercial con el
+          que opera {siteConfig.advisorName}, agente de seguros persona física con cédula de la
+          Comisión Nacional de Seguros y Fianzas 649610.
+        </p>
+        <p class="mb-3">
+          Su domicilio es {addressLine}. Puedes contactarlo por correo en
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a
+          >, por teléfono en
+          <a href={phoneUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.phone}</a
+          > o en el domicilio anterior.
+        </p>
+        <p>
+          Para efectos de la Ley Federal de Protección de Datos Personales en Posesión de los
+          Particulares (LFPDPPP) y su Reglamento, {siteConfig.advisorName} es el responsable del
+          tratamiento de tus datos personales.
+        </p>
+      </section>
+
+      <section aria-labelledby="datos-title">
+        <h2 id="datos-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          2. Qué datos personales recabamos
+        </h2>
+        <p class="mb-3">
+          Los formularios de este sitio solicitan únicamente tu nombre, un teléfono o WhatsApp, tu
+          correo electrónico y el mensaje en el que describes qué quieres asegurar.
+        </p>
+        <p class="mb-3">
+          Cuando la cotización avanza, el agente y la aseguradora pueden solicitar, según el producto,
+          las siguientes categorías de datos:
+        </p>
+        <ul class="mb-3 list-disc space-y-2 pl-5">
+          <li>
+            <strong class="text-[var(--navy)]">Identificación:</strong> nombre completo, fecha de
+            nacimiento, sexo e identificación oficial vigente.
+          </li>
+          <li>
+            <strong class="text-[var(--navy)]">Contacto:</strong> teléfono, WhatsApp, correo
+            electrónico y domicilio.
+          </li>
+          <li>
+            <strong class="text-[var(--navy)]">Del bien asegurado:</strong> en auto, marca, modelo, año,
+            placas, número de serie y uso del vehículo; en hogar, dirección y características del
+            inmueble; en negocio, giro, domicilio y bienes.
+          </li>
+          <li>
+            <strong class="text-[var(--navy)]">Patrimoniales o financieros:</strong> forma de pago,
+            datos de facturación y, cuando la aseguradora lo exige, comprobante de ingresos.
+          </li>
+          <li>
+            <strong class="text-[var(--navy)]">Datos personales sensibles:</strong> estado de salud y
+            antecedentes médicos, únicamente en seguros de vida y de gastos médicos, porque la
+            aseguradora los necesita para evaluar el riesgo.
+          </li>
+        </ul>
+        <p>
+          No recabamos datos de menores de edad en este sitio. Cuando una póliza incluye a un menor, el
+          trámite lo realiza quien ejerce la patria potestad o la tutela.
+        </p>
+      </section>
+
+      <section aria-labelledby="primarias-title">
+        <h2 id="primarias-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          3. Finalidades primarias
+        </h2>
+        <p class="mb-3">
+          Usamos tus datos para las finalidades que son necesarias para el servicio que solicitas:
+        </p>
+        <ul class="mb-3 list-disc space-y-2 pl-5">
+          <li>Elaborar y comparar cotizaciones de seguro con AXA y Afirme.</li>
+          <li>Gestionar la emisión, renovación, endosos y cancelación de tu póliza.</li>
+          <li>Orientarte y acompañarte en el reporte y seguimiento de un siniestro.</li>
+          <li>Atender dudas, solicitudes y aclaraciones relacionadas con el servicio.</li>
+          <li>Cumplir obligaciones legales, fiscales y regulatorias aplicables.</li>
+        </ul>
+        <p>
+          Sin estos datos no podríamos cotizar ni gestionar tu póliza, por lo que no es posible
+          oponerte a su tratamiento mientras la relación con la aseguradora esté vigente.
+        </p>
+      </section>
+
+      <section aria-labelledby="secundarias-title">
+        <h2 id="secundarias-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          4. Finalidades secundarias
+        </h2>
+        <p class="mb-3">
+          De manera adicional, y solo si no manifiestas tu negativa, usamos tus datos de contacto para:
+        </p>
+        <ul class="mb-3 list-disc space-y-2 pl-5">
+          <li>Enviarte información sobre productos, promociones y contenidos de AV Seguros Real.</li>
+          <li>Invitarte a encuestas de satisfacción o a revisar tu renovación.</li>
+          <li>Enviarte mensajes de temporada o felicitaciones.</li>
+        </ul>
+        <p class="mb-3">
+          Si no quieres que tus datos se usen para estas finalidades, envía un correo a
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a>
+          con el asunto «Finalidades secundarias». Si no manifiestas tu negativa dentro de los cinco
+          días hábiles siguientes a que este aviso se ponga a tu disposición, entenderemos que lo
+          consientes.
+        </p>
+        <p>
+          Negarte a las finalidades secundarias no afecta la cotización, la emisión de tu póliza ni la
+          atención de un siniestro.
+        </p>
+      </section>
+
+      <section aria-labelledby="consentimiento-title">
+        <h2 id="consentimiento-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          5. Cómo obtenemos tu consentimiento
+        </h2>
+        <p class="mb-3">
+          Al enviar cualquiera de los formularios del sitio marcas la casilla en la que aceptas este
+          aviso de privacidad y el contacto por WhatsApp o correo para recibir tu cotización. Ese es el
+          mecanismo con el que manifestamos tu consentimiento.
+        </p>
+        <p class="mb-3">
+          El tratamiento de datos personales sensibles requiere tu consentimiento expreso y por
+          escrito, que otorgas con tu firma en la solicitud o el cuestionario de salud correspondiente.
+        </p>
+        <p>
+          Puedes revocar tu consentimiento en cualquier momento por los medios descritos en la sección
+          de derechos ARCO. La revocación no tiene efectos retroactivos y puede impedir que
+          continuemos gestionando tu póliza.
+        </p>
+      </section>
+
+      <section aria-labelledby="transferencias-title">
+        <h2 id="transferencias-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          6. Transferencias de datos personales
+        </h2>
+        <p class="mb-3">
+          Para cotizar, emitir y dar seguimiento a tu póliza compartimos los datos necesarios con la
+          aseguradora que elijas:
+          <strong class="text-[var(--navy)]">AXA Seguros, S.A. de C.V.</strong> o
+          <strong class="text-[var(--navy)]">Seguros Afirme, S.A. de C.V.</strong> Estas
+          transferencias se limitan a esa finalidad y se realizan con el consentimiento que otorgas al
+          solicitar la cotización.
+        </p>
+        <p class="mb-3">
+          Una vez que la aseguradora recibe tus datos se convierte en responsable de su tratamiento y
+          aplica su propio aviso de privacidad, que se pone a tu disposición junto con la documentación
+          de la póliza.
+        </p>
+        <p>
+          No vendemos tus datos ni los transferimos a terceros con fines de mercadotecnia. Cualquier
+          otra transferencia requiere tu consentimiento, salvo las excepciones previstas en el artículo
+          37 de la LFPDPPP.
+        </p>
+      </section>
+
+      <section aria-labelledby="arco-title">
+        <h2 id="arco-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          7. Derechos ARCO y cómo ejercerlos
+        </h2>
+        <p class="mb-3">
+          Tienes derecho a <strong class="text-[var(--navy)]">acceder</strong> a tus datos personales y
+          conocer los detalles de su tratamiento; a <strong class="text-[var(--navy)]">rectificarlos</strong>
+          cuando sean inexactos o estén incompletos; a
+          <strong class="text-[var(--navy)]">cancelarlos</strong> cuando ya no sean necesarios para las
+          finalidades señaladas; y a <strong class="text-[var(--navy)]">oponerte</strong> a su
+          tratamiento por causas legítimas.
+        </p>
+        <p class="mb-3">
+          Para ejercerlos, envía una solicitud a
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a> o
+          preséntala en el domicilio del responsable. La solicitud debe incluir:
+        </p>
+        <ul class="mb-3 list-disc space-y-2 pl-5">
+          <li>Tu nombre completo y un domicilio o correo electrónico para recibir notificaciones.</li>
+          <li>
+            Copia de una identificación oficial que acredite tu identidad, o la del representante legal
+            junto con el documento que acredite la representación.
+          </li>
+          <li>
+            La descripción clara de los datos personales sobre los que quieres ejercer el derecho y del
+            derecho que deseas ejercer.
+          </li>
+          <li>Cualquier elemento que facilite la localización de tus datos.</li>
+        </ul>
+        <p class="mb-3">
+          Responderemos en un plazo máximo de 20 días hábiles contados desde la recepción de tu
+          solicitud. Si procede, se hará efectiva dentro de los 15 días hábiles siguientes. El acceso es
+          gratuito: solo cubrirías los costos de envío o reproducción de documentos.
+        </p>
+        <p>
+          Si consideras que no atendimos tu solicitud, puedes acudir al Instituto Nacional de
+          Transparencia, Acceso a la Información y Protección de Datos Personales (INAI).
+        </p>
+      </section>
+
+      <section aria-labelledby="limitacion-title">
+        <h2 id="limitacion-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          8. Limitación del uso o divulgación
+        </h2>
+        <p>
+          Puedes solicitar que tus datos se incorporen a una lista de exclusión para dejar de recibir
+          comunicaciones, escribiendo a
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a>.
+          También puedes inscribirte en el Registro Público para Evitar Publicidad (REPEP) de la
+          PROFECO para limitar la publicidad de otros proveedores.
+        </p>
+      </section>
+
+      <section aria-labelledby="seguridad-title">
+        <h2 id="seguridad-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          9. Medidas de seguridad
+        </h2>
+        <p>
+          Aplicamos medidas administrativas, técnicas y físicas para proteger tus datos contra daño,
+          pérdida, alteración, destrucción o uso no autorizado. El acceso se limita a las personas
+          involucradas en tu cotización o póliza. Ningún sistema es infalible: si ocurre una
+          vulneración que afecte de forma significativa tus derechos, te lo informaremos por los medios
+          de contacto que nos hayas proporcionado y, cuando corresponda, al INAI.
+        </p>
+      </section>
+
+      <section aria-labelledby="cambios-title">
+        <h2 id="cambios-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          10. Cambios al aviso de privacidad
+        </h2>
+        <p>
+          Este aviso puede cambiar por reformas legales, por nuevos productos o por ajustes en nuestro
+          proceso. La versión vigente es siempre la publicada en esta página, con la fecha de última
+          actualización visible al inicio. Si un cambio requiere tu consentimiento, te lo solicitaremos
+          antes de aplicar el nuevo tratamiento.
+        </p>
+      </section>
+
+      <section aria-labelledby="contacto-legal-title">
+        <h2 id="contacto-legal-title" class="mb-3 text-[1.25rem] font-bold text-[var(--navy)]">
+          11. Contacto
+        </h2>
+        <p>
+          Para cualquier duda sobre este aviso o sobre el tratamiento de tus datos, escríbenos a
+          <a href={emailUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.email}</a>,
+          llámanos al
+          <a href={phoneUrl} class="font-semibold text-[var(--red)] underline">{siteConfig.phone}</a> o
+          acude a {addressLine}.
+        </p>
+      </section>
+    </div>
   </main>
 </BaseLayout>
