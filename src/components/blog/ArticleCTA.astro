@@ -1,0 +1,33 @@
+---
+// Closing advisor CTA shared by every article. The WhatsApp URL is built by
+// the site-wide utility so the number lives in `site.ts` only.
+import { buildWhatsAppUrl } from '../../scripts/whatsapp';
+
+const whatsappHref = buildWhatsAppUrl('general');
+---
+
+<aside class="mt-10 rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8">
+  <h2 class="mb-2 text-2xl font-bold">¿Te quedó una duda sobre tu cobertura?</h2>
+  <p class="mb-5 max-w-[60ch] text-sm text-[#c9d6e6]">
+    Cuéntanos qué auto tienes, cómo lo usas y qué te preocupa perder. Revisamos juntos las opciones
+    entre AXA y Afirme y te explicamos qué cubre cada una antes de que decidas.
+  </p>
+  <div class="flex flex-wrap gap-3">
+    <a
+      href={whatsappHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+    >
+      <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+      Escribir al asesor
+    </a>
+    <a
+      href="/contacto/"
+      class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:border-white hover:bg-white/10"
+    >
+      Ir a contacto
+      <i class="fas fa-arrow-right text-[0.7rem]" aria-hidden="true"></i>
+    </a>
+  </div>
+</aside>

@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.4.2`
-**Next milestone:** `1.4.3`
+**Current version:** `1.4.3`
+**Next milestone:** `1.4.4`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -444,6 +444,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Blog breadcrumbs: Home → Blog → Category → Article.
 
 **Verification:** category pages list only their category; related links never include the current article; no orphan articles.
+
+**Status:** Done. `/blog/categoria/<slug>/` is a single dynamic route that builds one page per category (ASCII slugs, Spanish labels preserved) from `BLOG_CATEGORY_INFO` in `src/config/blog.ts`; each page emits `CollectionPage` with an `ItemList` of its articles plus the existing `BreadcrumbList`, and the three categories without published articles render an explicit empty state instead of a 404. The card design moved into `src/components/blog/ArticleCard.astro`, shared by the index and every category page, and the category label on each card links to its category page. Reading time is `Math.ceil(words / 200)` computed from the Markdown body in `blog.ts` and shown on every card and below the article title. Related articles are filtered by category, exclude the current article, are capped at three and the whole block is omitted when the category has no sibling. Article breadcrumbs now read `Blog → Category → Article` (with `Inicio` still present in the JSON-LD), and the closing CTA moved to `src/components/blog/ArticleCTA.astro`. The four articles were re-dated from 2026-11-20 to 2026-11-26 so the newest-first order is meaningful.
 
 ### `1.4.4` — Insurance glossary + downloadable resources
 
