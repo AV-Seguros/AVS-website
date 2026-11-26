@@ -1,0 +1,33 @@
+---
+/**
+ * Draft banner and "last updated" line shared by the two legal pages.
+ *
+ * The date comes from `siteConfig.legalLastUpdated`, so both pages always
+ * report the same revision. The banner stays visible until the advisor's
+ * lawyer approves the texts.
+ */
+import { siteConfig } from '../config/site';
+
+const updatedDate = new Date(`${siteConfig.legalLastUpdated}T12:00:00Z`);
+const updatedLabel = updatedDate.toLocaleDateString('es-MX', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<div
+  class="mb-6 max-w-[75ch] rounded-2xl border-l-4 border-[var(--red-bright)] bg-[#fff5f5] p-4 text-sm text-[var(--navy)]"
+  role="note"
+>
+  <p>
+    <i class="fas fa-triangle-exclamation mr-1 text-[var(--red-bright)]" aria-hidden="true"></i>
+    <strong>Este es un borrador.</strong> Debe ser revisado por un asesor legal antes de considerarse
+    definitivo.
+  </p>
+</div>
+
+<p class="mb-10 max-w-[75ch] text-sm text-[var(--text-muted)]">
+  Última actualización: <time datetime={siteConfig.legalLastUpdated}>{updatedLabel}</time>
+</p>

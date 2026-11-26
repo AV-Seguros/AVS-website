@@ -8,6 +8,11 @@
 export interface NavLink {
   label: string;
   href: string;
+  /**
+   * One-sentence summary of the product. Required on every insurance product
+   * because `/servicios/` renders it as the card description.
+   */
+  description?: string;
 }
 
 /** A titled column inside the header mega menu. */
@@ -26,18 +31,58 @@ export interface NavItem extends NavLink {
 
 /** Insurance for individuals: car, life, home and medical expenses. */
 export const personNavigation: NavLink[] = [
-  { label: 'Seguro de auto', href: '/seguros-de-auto/' },
-  { label: 'Seguro de vida', href: '/seguros-de-vida/' },
-  { label: 'Seguro de hogar', href: '/seguros-de-hogar/' },
-  { label: 'Seguro de gastos médicos', href: '/seguros-de-gastos-medicos/' },
+  {
+    label: 'Seguro de auto',
+    href: '/seguros-de-auto/',
+    description:
+      'Daños, robo y responsabilidad civil para tu auto particular, con la aseguradora que elijas entre AXA y Afirme.',
+  },
+  {
+    label: 'Seguro de vida',
+    href: '/seguros-de-vida/',
+    description:
+      'Protege el ingreso del que depende tu familia y deja a tus beneficiarios definidos por escrito.',
+  },
+  {
+    label: 'Seguro de hogar',
+    href: '/seguros-de-hogar/',
+    description:
+      'Protección para la casa, los bienes que están dentro y la responsabilidad frente a terceros.',
+  },
+  {
+    label: 'Seguro de gastos médicos',
+    href: '/seguros-de-gastos-medicos/',
+    description:
+      'Atención médica, hospitalización y estudios, con suma asegurada y deducible revisados antes de contratar.',
+  },
 ];
 
 /** Insurance tied to work: app drivers, delivery drivers and businesses. */
 export const workNavigation: NavLink[] = [
-  { label: 'Seguro para Uber', href: '/seguro-para-uber/' },
-  { label: 'Seguro para DiDi', href: '/seguro-para-didi/' },
-  { label: 'Seguro para repartidores', href: '/seguros-para-repartidores/' },
-  { label: 'Seguro empresarial', href: '/seguros-empresariales/' },
+  {
+    label: 'Seguro para Uber',
+    href: '/seguro-para-uber/',
+    description:
+      'Cobertura para el auto con el que trabajas en la app, con las condiciones que revisa la aseguradora.',
+  },
+  {
+    label: 'Seguro para DiDi',
+    href: '/seguro-para-didi/',
+    description:
+      'Protección para el vehículo con el que conduces en DiDi, sin depender de la cobertura que ofrece la plataforma.',
+  },
+  {
+    label: 'Seguro para repartidores',
+    href: '/seguros-para-repartidores/',
+    description:
+      'Cobertura para moto o auto de reparto, pensada para quien pasa el día en la calle entregando pedidos.',
+  },
+  {
+    label: 'Seguro empresarial',
+    href: '/seguros-empresariales/',
+    description:
+      'Protege el local, el inventario, el equipo y la responsabilidad de tu negocio frente a terceros.',
+  },
 ];
 
 /**

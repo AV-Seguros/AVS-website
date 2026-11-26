@@ -1,6 +1,6 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.2.7`
+**Current version:** `1.2.8`
 **Next milestone:** `1.3.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
@@ -342,6 +342,8 @@ This milestone is the technical foundation for everything that follows. It is de
 - Each route keeps a unique title, description, canonical and exactly one `<h1>`.
 - The privacy notice names the data controller from `site.ts` character for character and links to a working contact channel.
 - Both legal routes are indexable and appear in the sitemap.
+
+**Status:** Done. `/servicios/` renders both groups from `serviceGroups`, with the one-line description stored next to each product in `navigation.ts` and a build-time guard that fails when a product lacks one. The privacy notice and the terms are published as LFPDPPP and Mexican-law **drafts**: a visible banner states that a lawyer must review them before they are considered final, and `siteConfig.legalLastUpdated` feeds the shared `LegalPageNotice` component on both routes.
 
 ---
 
