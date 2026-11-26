@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import InsuranceAssistant from '../../components/assistant/InsuranceAssistant';
+import { siteConfig } from '../../config/site';
+
+const PATH = '/herramientas/que-seguro-necesito/';
+
+// Contextual message for the advisor section: the numbered source comes from
+// `site.ts` so this link can never drift from the site configuration.
+const whatsappHref = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(
+  'Hola, usé el asistente y quiero revisar mi caso con un asesor. Vengo del asistente web.',
+)}`;
+
+const advisorPoints = [
+  'El uso real del vehículo: particular, plataforma de viajes o reparto.',
+  'Quién depende de tu ingreso y qué suma asegurada tiene sentido para tu familia.',
+  'El valor de tu casa, tu inventario o tu equipo, y cómo se declara en la póliza.',
+  'Qué deducible, coaseguro y exclusiones trae cada opción antes de firmar.',
+];
+---
+
+<BaseLayout
+  title="¿Qué seguro necesito? · AV Seguros Real"
+  description="Responde cuatro preguntas y recibe una guía educativa sobre el seguro que corresponde a tu caso: auto, vida, hogar, negocio o conductores de aplicación."
+  canonicalPath={PATH}
+>
+  <main class="mx-auto w-full max-w-[960px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: '¿Qué seguro necesito?', href: PATH }]} />
+
+    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">¿Qué seguro necesito?</h1>
+
+    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
+      Cuatro preguntas para poner en orden lo que quieres proteger. Al final verás un resumen de tus
+      respuestas, una recomendación educativa y un enlace para enviarle el contexto al asesor por
+      WhatsApp.
+    </p>
+
+    <section aria-label="Asistente de seguros" class="mb-12">
+      <InsuranceAssistant client:visible />
+    </section>
+
+    <section aria-labelledby="asesor-title" class="rounded-2xl bg-[var(--gray-bg)] p-6 sm:p-8">
+      <h2 id="asesor-title" class="mb-3 text-2xl font-bold text-[var(--navy)]">
+        Tu caso necesita una revisión con un asesor
+      </h2>
+
+      <p class="mb-4 max-w-[70ch] text-[var(--text-muted)]">
+        El asistente te da una idea general, pero lo que define qué necesitas es tu situación real:
+        el uso que le das al vehículo, quién depende de tu ingreso, el giro de tu negocio o el valor
+        de lo que quieres proteger. Un agente puede revisar contigo el condicionado, el deducible y
+        las exclusiones antes de que contrates nada, y comparar las opciones de AXA y Afirme para tu
+        caso.
+      </p>
+
+      <ul class="mb-6 grid gap-2 text-sm text-[var(--text-muted)] sm:grid-cols-2">
+        {advisorPoints.map((point) => <li class="flex gap-2"><i class="fas fa-check mt-1 text-[var(--red)]" aria-hidden="true"></i><span>{point}</span></li>)}
+      </ul>
+
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/contacto/"
+          class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--red-bright)] px-6 py-3 text-sm font-bold text-white transition hover:bg-[var(--red)] sm:w-auto"
+        >
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+          Pedir una revisión de mi caso
+        </a>
+
+        <a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-[var(--navy)] px-6 py-3 text-sm font-bold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white sm:w-auto"
+        >
+          <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+          Escribir por WhatsApp
+        </a>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

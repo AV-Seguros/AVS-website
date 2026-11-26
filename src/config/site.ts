@@ -27,7 +27,16 @@ export interface SiteConfig {
   phone: string;
   /** WhatsApp number in international format, digits only. */
   whatsappNumber: string;
+  /**
+   * Public contact address shown on the site. Used by the forms' failure
+   * fallback and by the legal pages as the ARCO contact channel.
+   */
   email: string;
+  /**
+   * Personal advisor inbox kept as a fallback when the corporate mailbox is
+   * unavailable. Never rendered on the site.
+   */
+  advisorFallbackEmail?: string;
   address: PostalAddress;
   socialLinks: SocialLink[];
   defaultOgImage: string;
@@ -44,7 +53,8 @@ export const siteConfig: SiteConfig = {
   advisorName: 'Luis Adolfo Villarreal',
   phone: '+52 1 81 2013 0995',
   whatsappNumber: '5218120130995',
-  email: 'luisadolfovillarreal@gmail.com',
+  email: 'contacto@avsegurosreal.com',
+  advisorFallbackEmail: 'luisadolfovillarreal@gmail.com',
   address: {
     street: 'Hacienda San Gabriel 310, Villas de la Hacienda',
     city: 'Juárez',
