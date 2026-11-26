@@ -1,34 +1,54 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleCard from '../../components/blog/ArticleCard.astro';
+import ArticleCTA from '../../components/blog/ArticleCTA.astro';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import { BLOG_PATH, blogPostPath, formatBlogDate } from '../../config/blog';
+import {
+  BLOG_PATH,
+  blogCategoryPath,
+  blogPostPath,
+  formatBlogDate,
+  readingTimeLabel,
+} from '../../config/blog';
 import { siteConfig } from '../../config/site';
-import { buildWhatsAppUrl } from '../../scripts/whatsapp';
 
 export async function getStaticPaths() {
   // Drafts have no route at all, so an unpublished article cannot be reached
   // by guessing its URL.
   const posts = await getCollection('blog', ({ data }) => !data.draft);
 
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    // Related articles come from the same category only, never the current one,
+    // newest first, at most three.
+    const related = posts
+      .filter(
+        (candidate) =>
+          candidate.id !== post.id && candidate.data.category === post.data.category,
+      )
+      .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+      .slice(0, 3);
+
+    return {
+      params: { slug: post.id },
+      props: { post, related },
+    };
+  });
 }
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  related: CollectionEntry<'blog'>[];
 }
 
-const { post } = Astro.props;
+const { post, related } = Astro.props;
 const { Content } = await render(post);
 
 const PATH = blogPostPath(post.id);
+const categoryPath = blogCategoryPath(post.data.category);
 const canonicalUrl = new URL(PATH, siteConfig.siteUrl).toString();
 const publishDate = post.data.publishDate.toISOString();
-const whatsappHref = buildWhatsAppUrl('general');
 
 const articleSchema = {
   '@context': 'https://schema.org',
@@ -73,15 +93,21 @@ const articleSchema = {
     <Breadcrumbs
       trail={[
         { label: 'Blog', href: BLOG_PATH },
+        { label: post.data.category, href: categoryPath },
         { label: post.data.title, href: PATH },
       ]}
     />
 
     <article>
       <header class="mb-8 border-b border-[#e2e8f0] pb-6">
-        <p class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.08em] text-[var(--red)]">
-          <span>{post.data.category}</span>
-          <time datetime={publishDate} class="font-medium normal-case tracking-normal text-[var(--text-muted)]">
+        <p class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.08em]">
+          <a href={categoryPath} class="text-[var(--red)] hover:underline">
+            {post.data.category}
+          </a>
+          <time
+            datetime={publishDate}
+            class="font-medium normal-case tracking-normal text-[var(--text-muted)]"
+          >
             {formatBlogDate(post.data.publishDate)}
           </time>
         </p>
@@ -89,6 +115,10 @@ const articleSchema = {
         <h1 class="mb-3 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
           {post.data.title}
         </h1>
+
+        <p class="mb-3 text-sm font-medium text-[var(--text-muted)]">
+          {readingTimeLabel(post.body)}
+        </p>
 
         <p class="text-lg leading-relaxed text-[var(--text-muted)]">{post.data.description}</p>
       </header>
@@ -107,37 +137,35 @@ const articleSchema = {
         <Content />
       </div>
 
-      <aside class="mt-10 rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8">
-        <h2 class="mb-2 text-2xl font-bold">¿Te quedó una duda sobre tu cobertura?</h2>
-        <p class="mb-5 max-w-[60ch] text-sm text-[#c9d6e6]">
-          Cuéntanos qué auto tienes, cómo lo usas y qué te preocupa perder. Revisamos juntos las
-          opciones entre AXA y Afirme y te explicamos qué cubre cada una antes de que decidas.
-        </p>
-        <div class="flex flex-wrap gap-3">
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
-          >
-            <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
-            Escribir al asesor
-          </a>
-          <a
-            href="/contacto/"
-            class="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:border-white hover:bg-white/10"
-          >
-            Ir a contacto
-            <i class="fas fa-arrow-right text-[0.7rem]" aria-hidden="true"></i>
-          </a>
-        </div>
-      </aside>
+      <ArticleCTA />
 
       <p class="mt-8 text-xs leading-relaxed text-[var(--text-muted)]">
         Este artículo es información educativa y no sustituye las condiciones de una póliza ni la
         asesoría de la aseguradora.
       </p>
     </article>
+
+    {
+      related.length > 0 && (
+        <section class="mt-12" aria-labelledby="related-articles">
+          <h2 id="related-articles" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+            Artículos relacionados
+          </h2>
+          <ul class="grid gap-6 sm:grid-cols-2">
+            {related.map((item) => (
+              <li class="flex">
+                <ArticleCard post={item} />
+              </li>
+            ))}
+          </ul>
+          <p class="mt-5 text-sm">
+            <a href={categoryPath} class="font-semibold text-[var(--red)] hover:underline">
+              Ver todos los artículos de {post.data.category}
+            </a>
+          </p>
+        </section>
+      )
+    }
   </main>
 </BaseLayout>
 

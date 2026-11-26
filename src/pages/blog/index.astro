@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleCard from '../../components/blog/ArticleCard.astro';
 import { getCollection } from 'astro:content';
-import { BLOG_PATH, blogPostPath, formatBlogDate } from '../../config/blog';
+import { BLOG_PATH } from '../../config/blog';
 
 const PATH = BLOG_PATH;
 
@@ -42,32 +43,7 @@ const pageDescription =
         <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <li class="flex">
-              <article class="flex w-full flex-col rounded-2xl border border-[#e2e8f0] bg-white p-6 transition hover:-translate-y-0.5 hover:border-[var(--red-bright)] hover:shadow-[0_18px_40px_rgba(11,37,69,0.10)]">
-                <p class="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold uppercase tracking-[0.08em] text-[var(--red)]">
-                  <span>{post.data.category}</span>
-                  <time datetime={post.data.publishDate.toISOString()} class="font-medium normal-case tracking-normal text-[var(--text-muted)]">
-                    {formatBlogDate(post.data.publishDate)}
-                  </time>
-                </p>
-
-                <h2 class="mb-2 text-lg font-bold leading-snug text-[var(--navy)]">
-                  <a href={blogPostPath(post.id)} class="hover:text-[var(--red)]">
-                    {post.data.title}
-                  </a>
-                </h2>
-
-                <p class="mb-5 text-sm leading-relaxed text-[var(--text-muted)]">
-                  {post.data.description}
-                </p>
-
-                <a
-                  href={blogPostPath(post.id)}
-                  class="mt-auto inline-flex items-center gap-2 text-sm font-bold text-[var(--red)] hover:underline"
-                >
-                  Leer artículo
-                  <i class="fas fa-arrow-right text-[0.7rem]" aria-hidden="true" />
-                </a>
-              </article>
+              <ArticleCard post={post} />
             </li>
           ))}
         </ul>

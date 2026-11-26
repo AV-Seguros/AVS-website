@@ -1,7 +1,7 @@
 ---
 title: "Cobertura limitada vs. cobertura amplia: ¿cuál me conviene?"
 description: "Compara cobertura limitada y cobertura amplia para auto en México: qué cubre cada una, qué riesgos quedan fuera y en qué casos conviene cada opción."
-publishDate: 2026-11-26
+publishDate: 2026-11-22
 category: "Coberturas"
 keywords:
   - cobertura limitada

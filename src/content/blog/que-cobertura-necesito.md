@@ -1,7 +1,7 @@
 ---
 title: "¿Qué cobertura de seguro de auto necesito en México?"
 description: "Aprende las diferencias entre responsabilidad civil, cobertura limitada y amplia, y qué revisar antes de contratar el seguro de tu auto en México."
-publishDate: 2026-11-26
+publishDate: 2026-11-20
 category: "Coberturas"
 keywords:
   - cobertura de seguro de auto
