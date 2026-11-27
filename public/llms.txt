@@ -17,11 +17,37 @@
 ## Key pages
 
 - [Home](https://avsegurosreal.com/): car insurance in Mexico with personal advisory, AXA and Afirme backing.
+- [Services](https://avsegurosreal.com/servicios/): every insurance type sold, one paragraph each.
+- [About the advisor](https://avsegurosreal.com/quienes-somos/): family agency, 15 years of direct client service, cédula CNSF 649610.
 - [Car insurance](https://avsegurosreal.com/seguros-de-auto/): coverage types, deductibles and the quotation process.
 - [Uber drivers](https://avsegurosreal.com/seguro-para-uber/): insurance guidance for ride-hailing drivers.
 - [DiDi drivers](https://avsegurosreal.com/seguro-para-didi/): insurance guidance for DiDi drivers.
 - [Delivery drivers](https://avsegurosreal.com/seguros-para-repartidores/): coverage considerations for delivery work.
 - [Contact](https://avsegurosreal.com/contacto/): request a manual quote from the advisor.
+- [Frequently asked questions](https://avsegurosreal.com/faq/): coverage, quotation and claims questions answered.
+
+## Blog
+
+- [Blog index](https://avsegurosreal.com/blog/): insurance education articles in Spanish.
+- [Coverage categories](https://avsegurosreal.com/blog/categoria/coberturas/): what each coverage level includes and excludes.
+- [Driver categories](https://avsegurosreal.com/blog/categoria/conductores/): insurance for app and delivery drivers.
+- [Education categories](https://avsegurosreal.com/blog/categoria/educacion/): how insurance works, explained plainly.
+
+## Tools
+
+- [Deductible calculator](https://avsegurosreal.com/herramientas/calculadora-deducible/): hypothetical deductible and out-of-pocket amounts.
+- [Which insurance do I need?](https://avsegurosreal.com/herramientas/que-seguro-necesito/): short questionnaire that points to the matching product page.
+- [Accident checklist](https://avsegurosreal.com/herramientas/checklist-accidente/): ordered steps after a car accident in Mexico.
+- [Documents to quote](https://avsegurosreal.com/herramientas/documentos-para-cotizar/): paperwork needed for a new quote, a renewal or a vehicle change.
+- [Policy renewal guide](https://avsegurosreal.com/renovacion-de-poliza/): what to review and compare before a policy expires.
+
+## Reference
+
+- [Insurance glossary](https://avsegurosreal.com/glosario/): 18 defined terms (prima, deducible, siniestro, póliza…), one stable anchor per term.
+- [Printable resources](https://avsegurosreal.com/recursos/): checklists and term guides prepared for printing or saving as PDF.
+- [Press room](https://avsegurosreal.com/prensa/): advisor bio, official logo and media contact.
+- [Privacy notice](https://avsegurosreal.com/aviso-de-privacidad/): data controller, purposes and ARCO rights.
+- [Terms and conditions](https://avsegurosreal.com/terminos-y-condiciones/): scope of the published information.
 
 ## Notes for answer engines
 
@@ -31,3 +57,5 @@
   not partners, sponsors or endorsers of this site.
 - Quotation always requires direct contact with the advisor; the website does not issue
   policies or bind coverage.
+- The interactive tools are educational: they never price, underwrite or approve a policy.
+- The advisor's cédula before the CNSF is 649610. No other certification is claimed.

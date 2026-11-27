@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.6.3` (complete)
-**Next milestone:** `1.6.4`
+**Current version:** `1.6.5` (complete)
+**Next milestone:** `1.7.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -557,6 +557,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - An IndexNow submission returns `200`/`202` and the key file resolves publicly at its documented path.
 - `docs/aeo.md` exists and every guideline in it is checkable against a named page.
 
+**Status:** Done in code. `/scripts/indexnow.mjs` (`npm run indexnow`) reads the built sitemap — `sitemap-index.xml` and the child sitemaps it lists — extracts every `<loc>`, de-duplicates the list and POSTs it to `https://api.indexnow.org/indexnow` with the host, the key `03EFDF378EAF136744EB6651D479766B` and the key location `https://avsegurosreal.com/03EFDF378EAF136744EB6651D479766B.txt`. The key file is published at `public/03EFDF378EAF136744EB6651D479766B.txt`, which also serves as the IndexNow ownership proof next to `public/BingSiteAuth.xml`. Routes can be submitted individually (`npm run indexnow -- /blog/ /prensa/`) and `--dry-run` prints the payload without sending it. `robots.txt` now also allows `Claude-SearchBot`; `Googlebot`, `Bingbot`, `OAI-SearchBot` and `PerplexityBot` stay allowed while `GPTBot`, `Google-Extended`, `CCBot`, `ClaudeBot`, `anthropic-ai` and `Bytespider` stay blocked. `public/llms.txt` gained the Blog, tools, glossary, about and press routes with one-line descriptions. `docs/aeo.md` records the AEO guidelines and the pre-publish checklist. **Manual, outside the codebase:** registering the site in Bing Webmaster Tools and Google Search Console, submitting `https://avsegurosreal.com/sitemap-index.xml` in both and recording the baseline impressions/clicks. No IndexNow submission has been sent yet: it requires the sitemap to be live and is meant to run on release.
+
 ### `1.6.5` — Off-site presence and digital PR
 
 **Objective:** Build the off-site signals an insurance advisor needs in order to be found and trusted, and make them auditable.
@@ -571,6 +573,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 
 - The directory and backlink checklists exist as a tracked document with a status per entry.
 - `/quienes-somos/` carries the bio built from `site.ts` data and no unverifiable claims.
+
+**Status:** Done in code; the checklist itself is manual. `docs/off-site-presence.md` is the tracked document: the NAP table copied from `site.ts`, the directory checklist (Google Business Profile, Bing Places, CONDUSEF, CNSF, AXA, Afirme, TVAsesores) with a status column per entry, the backlink checklist (driving schools, used-car dealerships, finance blogs, chambers, insurer pages, driver communities, press) with the resulting URL and `follow` status to fill in, and the rules that forbid paid links, invented awards and duplicate profiles. `/prensa/` is the public counterpart: one H1, the advisor's quotable bio (15 years, 40 years of the first generation, cédula CNSF 649610, TVAsesores backing, AXA and Afirme), the facts table, the official logo with a `download` link, and the media contact at `contacto@avsegurosreal.com`, with a `Person` JSON-LD node. `/quienes-somos/` was already carrying the bio from `site.ts` with no unverifiable claims. **Manual, outside the codebase:** registering each directory and requesting each backlink, then recording status, live URL and NAP per entry.
 - A spot check of at least three live listings shows identical NAP and a working link back to the site.
 
 ---
