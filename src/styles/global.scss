@@ -7,7 +7,13 @@
   --navy: #0b2545;
   --navy-light: #1a3a5e;
   --red: #c92a2a;
-  --red-bright: #e63946;
+  // One shade darker than the original #e63946 so white text on the primary
+  // buttons reaches WCAG AA (4.82:1 instead of 4.17:1) while the hue stays the
+  // same. See docs/audit-1.7.0.md.
+  --red-bright: #d92b39;
+  // Red for text and links on the navy surfaces (hero form, contact band):
+  // #c92a2a and #d92b39 both fail AA there, this tint reaches 6.83:1.
+  --red-on-dark: #ff8a94;
   --gray-bg: #f0f2f5;
   --gray-card: #f8fafc;
   --text-dark: #0b1e2f;

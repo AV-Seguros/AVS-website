@@ -175,6 +175,9 @@ export const siteNavigation: NavLink[] = [
   { label: 'Inicio', href: '/' },
   ...mainNavigation.map(({ label, href }) => ({ label, href })),
   ...resourceNavigation,
+  // The press room is a reference page rather than a header destination, so it
+  // is linked from the footer only.
+  { label: 'Sala de prensa', href: '/prensa/' },
 ];
 
 /**

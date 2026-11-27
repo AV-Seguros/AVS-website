@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.6.5` (complete)
-**Next milestone:** `1.7.0`
+**Current version:** `1.7.0` (complete)
+**Next milestone:** `1.8.0`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -592,6 +592,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Review the Google Search Console and Bing Webmaster Tools baselines collected in `1.6.4`; do not re-verify properties or resubmit the sitemap here.
 - Deliverable: written audit findings + fixes applied.
 
+**Status:** Done. `docs/audit-1.7.0.md` is the deliverable and `scripts/audit.mjs` (`npm run audit`) is the repeatable check: it parses the 39 built pages and fails the run on a duplicate title, description or canonical, a missing or insecure canonical, a page without exactly one `<h1>`, a skipped heading level, a broken or incomplete JSON-LD node (`Organization`/`InsuranceAgency` graph, sequential absolute `BreadcrumbList`, `Article` required fields, `FAQPage` question text that is not visible on the page), an indexable orphan page, a `noindex` page still listed in `sitemap-0.xml`, an image without `alt` or dimensions, a form control without a label and a contrast pair below AA. Findings fixed: `/renovacion-de-poliza/` was the only `Article` without `mainEntityOfPage`; three blog categories with no published article were indexable, orphan and in the sitemap, so they are now `noindex` while empty and a `sitemap-excludes-noindex` build hook drops every noindexed canonical from `sitemap-0.xml` (37 → 34 URLs); `/prensa/` gained its footer link. Every other check was already clean: 39 unique titles, descriptions and canonicals, one `<h1>` per page, no skipped heading levels, no orphan among indexable routes. Search Console and Bing baselines were not re-verified, as instructed.
+
 ### `1.7.2` — Performance and Core Web Vitals
 
 - Measure LCP, CLS and INP on Home and the three highest-traffic landing pages (mobile, throttled).
@@ -600,6 +602,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Review CSS delivery and font loading.
 - Record before/after measurements in the audit document; do not claim improvements without numbers.
 
+**Status:** Done, with before/after numbers in the audit document. Images were the main fix: the home hero was a 1,609 kB 4000×2667 JPEG that was **lazy-loaded** and had no dimensions — it is now a 328 kB WebP (1920 px) with a 102 kB variant below 768 px, `loading="eager"`, `fetchpriority="high"` and explicit `width`/`height`; the header logo went from a 115 kB 501 px PNG on all 39 pages to a 4.6 kB 100 px WebP; the AXA logo from 3840 px to 400 px; the Afirme JPEG to a 4 kB WebP; the four images that lacked dimensions now declare them. The three imported assets moved from `public/` to `src/assets/` so they are emitted once (dist 3.8 MB → 3.4 MB). The React island was confirmed to hydrate on `/herramientas/que-seguro-necesito/` only: it is the build's single `<astro-island>`, the three React chunks are requested by no other page, and every other route loads 5.1 kB of its own module scripts. Lighthouse 13.6 on `astro preview`: home 77 → 82–87 with LCP 6.1 s → 3.7–4.4 s and CLS 0, `/seguros-de-auto/` 98, `/seguro-para-uber/` 94, `/contacto/` 98, the island page 97–98, CLS 0 on all five. The remaining LCP cost is the two render-blocking third-party stylesheets (Google Fonts and Font Awesome on cdnjs, ~1.4–1.6 s of estimated savings); self-hosting them is documented as the next recommendation because it changes the design system.
+
 ### `1.7.3` — Accessibility
 
 - Keyboard-only pass on navigation, mobile menu, forms and tools; visible focus states throughout.
@@ -607,6 +611,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Color contrast check on text and CTA buttons against WCAG AA.
 - Screen-reader labels for icon-only controls; `aria-live` for form and tool feedback.
 - Fix findings; document what was fixed and what remains.
+
+**Status:** Done for the markup and contrast layer; the manual keyboard/screen-reader pass is recorded as open. Markup checks pass on all 39 pages: `lang="es"`, `alt` on all 44 images, accessible names on every icon-only control, `aria-expanded` + `aria-controls` on the mega menu trigger, the hamburger and the mobile column toggles, native `<details>/<summary>` accordions (no duplicated `aria-expanded`), `<label for>` on every form field plus `aria-describedby`/`aria-invalid` on errors, `aria-live` feedback on the glossary counter, the checklist progress and the document tabs, no duplicate ids and no skipped heading level. Three contrast failures were fixed: white on the primary red buttons 4.17:1 → 4.82:1 (`--red-bright` one shade darker), the footer legal note 3.96:1 → 4.73:1, and red labels/links on the navy form 3.19:1 → 6.83:1 through a new `--red-on-dark` token. Lighthouse accessibility is 100/100 on the five audited pages (home was 96). Lighthouse also exposed a bug the static pass could not see: the navy contact band carried both `text-[var(--text-muted)]` and `text-[#cbd5e1]` on the same `<p>`, so the muted colour won and the text sat at 3.19:1 — `LeadForm` now builds its navy and light class lists conditionally.
 
 ---
 

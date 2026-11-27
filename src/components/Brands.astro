@@ -3,7 +3,7 @@
 const base = import.meta.env.BASE_URL;
 const marcas = [
   { img: `${base}logo-axa.webp`, alt: 'Logo AXA', name: 'AXA', logo: true },
-  { img: `${base}logo-afirme.jpg`, alt: 'Logo Afirme', name: 'Afirme', logo: true },
+  { img: `${base}logo-afirme.webp`, alt: 'Logo Afirme', name: 'Afirme', logo: true },
   { icon: 'fas fa-people-group', name: '+2500 clientes respaldados por TVAsesores' },
 ];
 ---
@@ -18,7 +18,7 @@ const marcas = [
       {marcas.map((m) => (
         <div class:list={['marcas__item', { 'marcas__item--logo': 'logo' in m && m.logo }]}>
           {'img' in m ? (
-            <img src={m.img} alt={m.alt} class="marcas__logo" />
+            <img src={m.img} alt={m.alt} width="400" height="400" class="marcas__logo" />
           ) : (
             <>
               <i class={m.icon} aria-hidden="true"></i>
