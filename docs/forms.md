@@ -91,4 +91,6 @@ Validation is client-side only; the backend is still the source of truth.
 - `source` must be unique per page (it namespaces the ids) and descriptive:
   `uber-landing`, `contact-page`, `home-hero`.
 - Visible copy stays in Spanish; identifiers, comments and docs stay in English.
-- No analytics events are wired here yet (that is `1.6.3`).
+- Analytics events (`lead_form_start`, `lead_form_submit`, `lead_form_error`)
+  are sent from this component through `src/scripts/tracking.ts`; see
+  `docs/analytics.md` before adding more.

@@ -194,6 +194,8 @@ const steps = [
 </BaseLayout>
 
 <script>
+  import { trackToolComplete } from '../../scripts/tracking';
+
   const boxes = Array.from(
     document.querySelectorAll<HTMLInputElement>('input[data-checklist-box]'),
   );
@@ -201,11 +203,20 @@ const steps = [
   const progressBar = document.getElementById('checklist-progress-bar');
   const progressTrack = progressBar?.parentElement;
 
+  // The tool is reported once per page view, the first time every step is
+  // checked; unchecking and rechecking does not send it again.
+  let completionTracked = false;
+
   // Progress lives only in the DOM: nothing is written to storage, and a
   // reload starts the list clean.
   const renderProgress = () => {
     const total = boxes.length;
     const done = boxes.filter((box) => box.checked).length;
+
+    if (total > 0 && done === total && !completionTracked) {
+      completionTracked = true;
+      trackToolComplete('checklist-accidente');
+    }
 
     if (progressText) progressText.textContent = `${done} de ${total} pasos completados`;
     if (progressBar) progressBar.style.width = `${total === 0 ? 0 : (done / total) * 100}%`;

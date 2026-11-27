@@ -133,6 +133,7 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
         method="POST"
         data-lead-form
         data-lead-base={baseId}
+        data-lead-source={source}
         novalidate
       >
         <input type="hidden" name="_subject" value={subject} />
@@ -275,6 +276,7 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
 
 <script>
   import { readAttribution } from '../../scripts/attribution';
+  import { trackLeadFormError, trackLeadFormStart, trackLeadFormSubmit } from '../../scripts/tracking';
 
   // One handler per rendered form. Fields are looked up inside the form, so any
   // number of LeadForm instances can share a page.
@@ -284,8 +286,13 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
 
   forms.forEach((form) => {
     const base = form.dataset.leadBase;
+    const source = form.dataset.leadSource ?? 'unknown';
     const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
     if (!base || !button) return;
+
+    // Fires once per form instance, the first time the visitor touches any
+    // field, so it measures a started form rather than every focus change.
+    form.addEventListener('focusin', () => trackLeadFormStart(source), { once: true });
 
     const nameInput = document.getElementById(`${base}-nombre`) as HTMLInputElement | null;
     const whatsappInput = document.getElementById(`${base}-whatsapp`) as HTMLInputElement | null;
@@ -329,6 +336,8 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
       const results = [hasName, hasWhatsApp, hasEmail, hasConsent, hasValidPhone];
       const firstInvalid = results.indexOf(false);
       if (firstInvalid !== -1) {
+        const fieldNames = ['name', 'whatsapp', 'email', 'consent', 'phone'];
+        trackLeadFormError(source, fieldNames[firstInvalid] ?? 'unknown');
         [nameInput, whatsappInput, emailInput, consentInput, phoneInput][firstInvalid]?.focus();
         return;
       }
@@ -347,8 +356,10 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
 
         if (!response.ok) throw new Error('Submission failed');
 
+        trackLeadFormSubmit(source);
         window.location.href = `${import.meta.env.BASE_URL}gracias`;
       } catch {
+        trackLeadFormError(source, 'submission');
         formError?.classList.remove('hidden');
         button.disabled = false;
         button.removeAttribute('aria-busy');

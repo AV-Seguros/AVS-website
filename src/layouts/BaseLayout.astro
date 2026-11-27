@@ -1,5 +1,6 @@
 ---
 import SEO from '../components/SEO.astro';
+import { siteConfig } from '../config/site';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -52,6 +53,21 @@ const {
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
 
+    {/*
+      Umami Cloud: conversion events only, no cookies and no consent banner.
+      Rendered only once the real website id is set in `site.ts`.
+    */}
+    {
+      siteConfig.umamiWebsiteId !== 'REPLACE_WITH_UMAMI_WEBSITE_ID' && (
+        <script
+          is:inline
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id={siteConfig.umamiWebsiteId}
+        />
+      )
+    }
+
     <SEO
       title={title}
       description={description}
@@ -64,11 +80,15 @@ const {
   <body>
     <script>
       import { captureAttribution } from '../scripts/attribution';
-      import { refreshWhatsAppLinks } from '../scripts/whatsapp';
+      import { refreshWhatsAppLinks, initWhatsAppTracking } from '../scripts/whatsapp';
 
       // First touch is recorded before anything else reads it, and every WhatsApp
       // CTA built at build time gains the `[Ref: …]` line once the DOM is ready.
       captureAttribution();
+
+      // One delegated listener covers every `wa.me` CTA on the page, including
+      // the ones rendered later by a hydrated island.
+      initWhatsAppTracking();
 
       if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => refreshWhatsAppLinks());

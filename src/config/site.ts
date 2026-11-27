@@ -41,6 +41,12 @@ export interface SiteConfig {
   socialLinks: SocialLink[];
   defaultOgImage: string;
   /**
+   * Umami Cloud website id used for conversion events. The placeholder keeps
+   * the analytics script out of the build until the real id is set, so a
+   * forgotten value never ships a broken request to Umami.
+   */
+  umamiWebsiteId: string;
+  /**
    * ISO date of the last revision of the legal pages (`/aviso-de-privacidad/`
    * and `/terminos-y-condiciones/`). Update it whenever their content changes.
    */
@@ -65,5 +71,6 @@ export const siteConfig: SiteConfig = {
   // No social profiles are linked from the current site.
   socialLinks: [],
   defaultOgImage: '/og/default.jpg',
+  umamiWebsiteId: 'REPLACE_WITH_UMAMI_WEBSITE_ID',
   legalLastUpdated: '2026-11-26',
 };

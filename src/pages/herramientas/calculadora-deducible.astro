@@ -178,6 +178,7 @@ const rules = [
 
 <script>
   import { calculateDeductible, formatMxn } from '../../scripts/deductible';
+  import { trackToolComplete } from '../../scripts/tracking';
 
   const vehicleValue = document.getElementById('calc-vehicle-value') as HTMLInputElement | null;
   const deductiblePercent = document.getElementById('calc-deductible-percent') as HTMLInputElement | null;
@@ -186,6 +187,10 @@ const rules = [
   const deductibleOutput = document.getElementById('calc-result-deductible');
   const policyholderOutput = document.getElementById('calc-result-policyholder');
   const insurerOutput = document.getElementById('calc-result-insurer');
+
+  // The tool is reported once per visit: the visitor reached a usable result,
+  // not every keystroke that redraws it.
+  let completionTracked = false;
 
   const render = () => {
     const result = calculateDeductible({
@@ -197,6 +202,12 @@ const rules = [
     if (deductibleOutput) deductibleOutput.textContent = formatMxn(result.deductible);
     if (policyholderOutput) policyholderOutput.textContent = formatMxn(result.policyholderPays);
     if (insurerOutput) insurerOutput.textContent = formatMxn(result.insurerPays);
+
+    const hasResult = result.deductible > 0 && result.insurerPays > 0;
+    if (hasResult && !completionTracked) {
+      completionTracked = true;
+      trackToolComplete('calculadora-deducible');
+    }
   };
 
   [vehicleValue, deductiblePercent, damageAmount].forEach((input) =>
