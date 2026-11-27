@@ -1,6 +1,6 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.6.3`
+**Current version:** `1.6.3` (complete)
 **Next milestone:** `1.6.4`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
@@ -539,7 +539,7 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 
 **Verification:** each event fires once per action with the expected payload; pages remain functional with the analytics script blocked.
 
-**Status:** Done. **Umami Cloud** carries the conversion events and Cloudflare Web Analytics stays on pageviews; both are cookieless, so the site keeps shipping without a consent banner. `site.ts` gained `umamiWebsiteId`, still set to `REPLACE_WITH_UMAMI_WEBSITE_ID`, and `BaseLayout` renders the Umami script only when that value has been replaced, so a forgotten id produces a build with no analytics rather than a broken request. `src/scripts/tracking.ts` is the single helper module: `track(eventName, data)` returns silently when `window.umami` is missing or the tracker throws, and named wrappers cover `whatsapp_click` (with `context`), `lead_form_start`, `lead_form_submit`, `lead_form_error` (with the failing field or `submission`) and `tool_complete`. Every WhatsApp CTA, including the one the React assistant renders, is reported through one delegated click listener in `whatsapp.ts`, which resolves `context` from the message by matching the templates in that module. The forms report first focus, accepted submission and validation or endpoint errors; the deductible calculator, the assistant summary and the accident checklist report `tool_complete` once per visit. The rationale, the event table and the recipe for adding an event are in `docs/analytics.md`.
+**Status:** Done. **Umami Cloud** carries the conversion events and Cloudflare Web Analytics stays on pageviews; both are cookieless, so the site keeps shipping without a consent banner. `site.ts` gained `umamiWebsiteId`, which now carries the real Cloud website id (`1.6.3-fixes`), and `BaseLayout` renders the Umami script only when that value is not the placeholder, so a forgotten id produces a build with no analytics rather than a broken request. `src/scripts/tracking.ts` is the single helper module: `track(eventName, data)` returns silently when `window.umami` is missing or the tracker throws, and named wrappers cover `whatsapp_click` (with `context`), `lead_form_start`, `lead_form_submit`, `lead_form_error` (with the failing field or `submission`) and `tool_complete`. Every WhatsApp CTA, including the one the React assistant renders, is reported through one delegated click listener in `whatsapp.ts`, which resolves `context` from the message by matching the templates in that module. The forms report first focus, accepted submission and validation or endpoint errors; the deductible calculator, the assistant summary and the accident checklist report `tool_complete` once per visit. The rationale, the event table and the recipe for adding an event are in `docs/analytics.md`.
 
 ### `1.6.4` — AI-era discoverability
 
@@ -654,6 +654,19 @@ These services do not need to be adopted simultaneously.
 - Improved multilingual or regional content if business demand justifies it.
 
 Features requiring real-time insurer pricing, underwriting or policy data must remain out of scope until reliable integrations or authorized data sources are available.
+
+### `1.9.1` — Car Insurance Quote Simulator
+
+**Objective:** Turn the car quote into a guided, self-service step that hands the advisor a lead that is already qualified.
+
+**Scope**
+
+- A lead-generation tool, not a pricing engine. Inputs: car brand, model, year, driver's gender and postal code.
+- Real-time pricing requires insurer APIs that are not available yet, so the simulator must never show a price, a discount or a coverage promise it cannot back.
+- On submit, redirect to WhatsApp or the `LeadForm` with every vehicle detail pre-filled, opening with `Hola, quiero una cotización para mi [Marca] [Modelo] [Año]`.
+- Reuse `buildWhatsAppUrl` and the `tool_complete` event from `1.6.3` instead of adding a second message builder or a second tracking path.
+
+**Verification:** a submitted vehicle produces a WhatsApp message (and a form) that names brand, model and year; no price is displayed anywhere in the flow.
 
 ---
 

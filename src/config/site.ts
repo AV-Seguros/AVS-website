@@ -71,6 +71,6 @@ export const siteConfig: SiteConfig = {
   // No social profiles are linked from the current site.
   socialLinks: [],
   defaultOgImage: '/og/default.jpg',
-  umamiWebsiteId: 'REPLACE_WITH_UMAMI_WEBSITE_ID',
+  umamiWebsiteId: '1ae12a5e-999d-480c-bd93-16e3d6a3223d',
   legalLastUpdated: '2026-11-26',
 };
