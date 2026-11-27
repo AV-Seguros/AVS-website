@@ -55,37 +55,54 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
               </button>
 
               <div class="header__panel" id="servicesMenu" data-nav-panel hidden>
-                <div class="grid gap-5 p-4 md:gap-6 md:p-6 min-[1150px]:grid-cols-4">
+                <div class="header__panel-inner">
                   {
                     menuGroups.map((group) => (
-                      <div>
-                        <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+                      <div class="menu-group" data-menu-group>
+                        {/* Mobile only: the column heading doubles as the accordion trigger. */}
+                        <button
+                          type="button"
+                          class="menu-group__toggle"
+                          id={`${group.id}-toggle`}
+                          data-group-toggle
+                          aria-expanded="false"
+                          aria-controls={`${group.id}-group`}
+                        >
                           {group.label}
-                        </p>
-                        <p class="mt-1 mb-2 text-sm leading-snug text-[var(--text-muted)]">
-                          {group.description}
-                        </p>
-                        <ul>
-                          {group.links.map((item) => (
-                            <li>
-                              <a
-                                href={item.href}
-                                class="flex items-center justify-between gap-2 rounded-lg px-2 py-2 text-[0.95rem] font-medium text-[var(--navy)] transition hover:bg-[var(--gray-card)] hover:text-[var(--red)]"
-                                aria-current={
-                                  isCurrentPath(item.href, pathname) ? 'page' : undefined
-                                }
-                              >
-                                {item.label}
-                                <i class="fas fa-arrow-right text-[0.65rem]" aria-hidden="true" />
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
+                          <i class="fas fa-chevron-down menu-group__chevron" aria-hidden="true" />
+                        </button>
+
+                        <p class="menu-group__heading">{group.label}</p>
+
+                        <div
+                          class="menu-group__body"
+                          id={`${group.id}-group`}
+                          data-group-body
+                          data-collapsed
+                        >
+                          <p class="menu-group__description">{group.description}</p>
+                          <ul>
+                            {group.links.map((item) => (
+                              <li>
+                                <a
+                                  href={item.href}
+                                  class="menu-group__link"
+                                  aria-current={
+                                    isCurrentPath(item.href, pathname) ? 'page' : undefined
+                                  }
+                                >
+                                  {item.label}
+                                  <i class="fas fa-arrow-right" aria-hidden="true" />
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
                     ))
                   }
 
-                  <div class="hidden rounded-xl bg-[var(--navy)] p-5 text-white min-[1150px]:col-span-4 min-[1150px]:block">
+                  <div class="rounded-xl bg-[var(--navy)] p-5 text-white min-[1150px]:col-span-4">
                     <div class="flex flex-col gap-4 min-[1150px]:flex-row min-[1150px]:items-center min-[1150px]:justify-between">
                       <div>
                         <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[#b0c4de]">
@@ -108,7 +125,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
                           <i class="fab fa-whatsapp" aria-hidden="true" /> Escríbenos
                         </a>
                         <a
-                          href="/contacto/"
+                          href="/servicios/"
                           class="text-sm font-medium text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
                         >
                           Ver todos los servicios
@@ -170,6 +187,27 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
   };
 
   const isServicesOpen = () => navTrigger?.getAttribute('aria-expanded') === 'true';
+
+  // Mobile accordion: each mega-menu column is collapsed behind its own button.
+  // Opening one closes the rest, so the panel never grows past the viewport.
+  const groupToggles = Array.from(
+    navLinks?.querySelectorAll<HTMLButtonElement>('[data-group-toggle]') ?? [],
+  );
+
+  const setGroupOpen = (toggle: HTMLButtonElement, open: boolean) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    const bodyId = toggle.getAttribute('aria-controls');
+    if (!bodyId) return;
+    document.getElementById(bodyId)?.toggleAttribute('data-collapsed', !open);
+  };
+
+  groupToggles.forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+      groupToggles.forEach((other) => setGroupOpen(other, false));
+      if (willOpen) setGroupOpen(toggle, true);
+    });
+  });
 
   const desktopQuery = window.matchMedia('(min-width: 1150px)');
 
@@ -356,6 +394,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
       gap: 0.85rem;
       align-items: center;
       flex-wrap: wrap;
+      min-width: 0;
     }
 
     &__link {
@@ -443,6 +482,69 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
       display: none;
     }
 
+    &__panel-inner {
+      display: grid;
+      gap: 1.25rem;
+      min-width: 0;
+      padding: 1rem;
+
+      @media (min-width: 768px) {
+        gap: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      @media (min-width: 1150px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    // Mega-menu column. On desktop these are plain columns; below 1150px each
+    // one becomes an accordion, with the heading replaced by a toggle button.
+    .menu-group {
+      min-width: 0;
+    }
+
+    .menu-group__heading {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .menu-group__toggle {
+      display: none;
+    }
+
+    .menu-group__description {
+      margin: 0.25rem 0 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.35;
+      color: var(--text-muted);
+    }
+
+    .menu-group__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--navy);
+      transition: 0.2s;
+
+      i {
+        font-size: 0.65rem;
+      }
+
+      &:hover {
+        background: var(--gray-card);
+        color: var(--red);
+      }
+    }
+
     &__hamburger {
       display: none;
       font-size: 1.6rem;
@@ -476,6 +578,7 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
         gap: 0.8rem;
         padding: 1rem 0 0.5rem;
         max-height: calc(100vh - 6rem);
+        overflow-x: hidden;
         overflow-y: auto;
 
         &.open {
@@ -496,11 +599,59 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
       &__panel {
         display: block;
         width: 100%;
+        max-width: 100%;
         margin-top: 0.4rem;
         border: 1px solid #e2e8f0;
         border-radius: 0.9rem;
         background: white;
-        overflow: hidden;
+        overflow-x: hidden;
+      }
+
+      .menu-group {
+        border-bottom: 1px solid #e2e8f0;
+
+        &:last-of-type {
+          border-bottom: 0;
+        }
+      }
+
+      .menu-group__heading {
+        display: none;
+      }
+
+      .menu-group__toggle {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        padding: 0.8rem 0;
+        background: none;
+        border: 0;
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--navy);
+        text-align: left;
+        cursor: pointer;
+
+        .menu-group__chevron {
+          font-size: 0.65rem;
+          transition: transform 0.2s;
+        }
+
+        &[aria-expanded='true'] .menu-group__chevron {
+          transform: rotate(180deg);
+        }
+      }
+
+      .menu-group__body {
+        padding-bottom: 0.6rem;
+        overflow-x: hidden;
+
+        &[data-collapsed] {
+          display: none;
+        }
       }
 
       &__hamburger {

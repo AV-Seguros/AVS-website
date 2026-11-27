@@ -10,11 +10,12 @@
 Both are cookieless and do not fingerprint visitors, so the site needs no
 consent banner for them. No other analytics or advertising script is loaded.
 
-The Umami website id lives in `src/config/site.ts` as `umamiWebsiteId`.
-`BaseLayout.astro` renders `<script src="https://cloud.umami.is/script.js"
-data-website-id="…" defer>` only when that value is not the placeholder
-`REPLACE_WITH_UMAMI_WEBSITE_ID`, so a build with an unset id ships no analytics
-at all instead of a broken request.
+The Umami website id lives in `src/config/site.ts` as `umamiWebsiteId`, and the
+real Cloud website id is set there. `BaseLayout.astro` renders
+`<script src="https://cloud.umami.is/script.js" data-website-id="…" defer>`
+only when that value is not the placeholder `REPLACE_WITH_UMAMI_WEBSITE_ID`, so
+a build that loses the id ships no analytics at all instead of a broken
+request.
 
 ## Events
 
