@@ -9,9 +9,10 @@
  * coverage. All rules live in `assistantLogic.ts` so they can be tested
  * without a browser.
  */
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { siteConfig } from '../../config/site';
+import { trackToolComplete } from '../../scripts/tracking';
 import {
   buildRecommendation,
   buildWhatsAppUrl,
@@ -81,6 +82,10 @@ export default function InsuranceAssistant() {
   const [answers, setAnswers] = useState<Answers>(EMPTY_ANSWERS);
   const [stepIndex, setStepIndex] = useState(0);
 
+  // The questionnaire counts as completed the first time the summary is shown
+  // in this mount; going back and forth does not send the event again.
+  const completionTracked = useRef(false);
+
   // The vehicle step only exists once the visitor chooses a vehicle, so the
   // questionnaire runs in four steps for vehicles and three for everything else.
   const steps: Step[] =
@@ -115,6 +120,12 @@ export default function InsuranceAssistant() {
     setAnswers(EMPTY_ANSWERS);
     setStepIndex(0);
   };
+
+  useEffect(() => {
+    if (step !== 'summary' || completionTracked.current) return;
+    completionTracked.current = true;
+    trackToolComplete('asistente-necesidades');
+  }, [step]);
 
   const recommendation = step === 'summary' ? buildRecommendation(answers) : null;
   const rows = step === 'summary' ? summarizeAnswers(answers) : [];
