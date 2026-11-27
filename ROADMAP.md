@@ -1,7 +1,7 @@
 # AV Seguros Real — Website Roadmap
 
-**Current version:** `1.6.2`
-**Next milestone:** `1.6.3`
+**Current version:** `1.6.3`
+**Next milestone:** `1.6.4`
 **Project type:** Insurance Website & Digital Lead Generation Platform
 **Market:** Mexico
 **Primary insurers:** AXA and Seguros Afirme
@@ -538,6 +538,8 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - Verify no events fire before consent where consent is required.
 
 **Verification:** each event fires once per action with the expected payload; pages remain functional with the analytics script blocked.
+
+**Status:** Done. **Umami Cloud** carries the conversion events and Cloudflare Web Analytics stays on pageviews; both are cookieless, so the site keeps shipping without a consent banner. `site.ts` gained `umamiWebsiteId`, still set to `REPLACE_WITH_UMAMI_WEBSITE_ID`, and `BaseLayout` renders the Umami script only when that value has been replaced, so a forgotten id produces a build with no analytics rather than a broken request. `src/scripts/tracking.ts` is the single helper module: `track(eventName, data)` returns silently when `window.umami` is missing or the tracker throws, and named wrappers cover `whatsapp_click` (with `context`), `lead_form_start`, `lead_form_submit`, `lead_form_error` (with the failing field or `submission`) and `tool_complete`. Every WhatsApp CTA, including the one the React assistant renders, is reported through one delegated click listener in `whatsapp.ts`, which resolves `context` from the message by matching the templates in that module. The forms report first focus, accepted submission and validation or endpoint errors; the deductible calculator, the assistant summary and the accident checklist report `tool_complete` once per visit. The rationale, the event table and the recipe for adding an event are in `docs/analytics.md`.
 
 ### `1.6.4` — AI-era discoverability
 
