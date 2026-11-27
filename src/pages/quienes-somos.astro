@@ -1,22 +1,283 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { landingTokens as t } from '../components/landing/tokens';
+import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const PATH = '/quienes-somos/';
+
+const whatsappUrl = buildWhatsAppUrl('contacto');
+
+// Numbers that summarize the agency. Every value comes from the advisor's own
+// account of his career; nothing here is estimated.
+const facts = [
+  {
+    value: '15',
+    label: 'años de experiencia',
+    note: 'Atendiendo clientes de forma directa, póliza por póliza.',
+  },
+  {
+    value: '40',
+    label: 'años de respaldo',
+    note: 'La trayectoria de TVAsesores, la agencia que nos acompaña.',
+  },
+  {
+    value: '649610',
+    label: 'Cédula CNSF',
+    note: 'Asesor registrado ante la Comisión Nacional de Seguros y Fianzas.',
+  },
+];
+
+// Career timeline. `stage` is the short label on the rail, `title` the heading
+// of the entry and `body` the explanation in the advisor's own terms.
+const milestones = [
+  {
+    stage: 'Primera generación',
+    title: 'Cuatro décadas asegurando familias',
+    body: 'El papá de Luis empezó en Comercial América, siguió en ING y hoy trabaja con AXA, colaborando además con Afirme y Quálitas. Cuarenta años en el mismo oficio: conocer al cliente antes de venderle una póliza.',
+  },
+  {
+    stage: 'Luis, a los 15 años',
+    title: 'De mensajero a gerente de ventas',
+    body: 'Luis entró a la agencia siendo adolescente, como mensajero. Pasó por administración y capacitación hasta llegar a gerente de ventas, aprendiendo cada parte del negocio desde abajo.',
+  },
+  {
+    stage: '15 años frente a clientes',
+    title: 'Asesoría directa, no un mostrador',
+    body: 'Desde hace 15 años atiende él mismo a los clientes: revisa el uso del auto, la situación de la familia y el presupuesto antes de proponer una cobertura.',
+  },
+  {
+    stage: 'Hoy',
+    title: 'Dos generaciones, el mismo trato',
+    body: 'AV Seguros Real une la experiencia de la primera generación con el respaldo de TVAsesores y una forma de trabajar muy sencilla: explicar con claridad y acompañar cuando llega el momento del reclamo.',
+  },
+];
+
+// What the advisor actually does, beyond quoting a price.
+const specialties = [
+  {
+    icon: 'fa-car',
+    title: 'Autos particulares',
+    body: 'Cobertura limitada o amplia según el uso real del vehículo, con deducible y suma asegurada revisados antes de contratar.',
+  },
+  {
+    icon: 'fa-truck-fast',
+    title: 'Flotas y vehículos de trabajo',
+    body: 'Autos de empresa, conductores de aplicación y equipos de reparto, con una sola persona que conoce todas las unidades.',
+  },
+  {
+    icon: 'fa-screwdriver-wrench',
+    title: 'Daños y siniestros',
+    body: 'Apoyo para reportar, dar seguimiento al ajustador y reunir los documentos que pide la aseguradora.',
+  },
+  {
+    icon: 'fa-handshake-angle',
+    title: 'Acompañamiento personalizado',
+    body: 'No vendemos un seguro y desaparecemos: revisamos la póliza cada año y ajustamos lo que cambió en tu vida.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Quiénes somos · AV Seguros Real"
-  description="AV Seguros Real es una agencia de seguros con atención personal y respaldo de AXA y Afirme en Nuevo León."
-  canonicalPath="/quienes-somos/"
+  title="Conoce a tu asesor de seguros · AV Seguros Real"
+  description="Luis Adolfo Villarreal, asesor de seguros en Nuevo León con 15 años de experiencia, cédula CNSF 649610 y el respaldo de TVAsesores y AXA."
+  canonicalPath={PATH}
 >
-  <main class="mx-auto w-full max-w-[1200px] px-6 py-10">
-    <Breadcrumbs trail={[{ label: 'Quiénes somos', href: '/quienes-somos/' }]} />
+  <main>
+    <div class={`${t.container} pt-8 pb-4`}>
+      <Breadcrumbs trail={[{ label: 'Quiénes somos', href: PATH }]} />
 
-    <h1 class="mb-4 text-3xl font-extrabold text-[var(--navy)]">Quiénes somos</h1>
+      <h1 class="mb-4 max-w-[24ch] text-3xl font-extrabold leading-tight text-[var(--navy)] md:text-4xl">
+        Conoce a tu asesor de seguros
+      </h1>
 
-    <p class="mb-8 max-w-[70ch] text-[var(--text-muted)]">
-      Una agencia que atiende personas, no un cotizador automático: cada solicitud la revisa un asesor.
-    </p>
+      <p class={`${t.body} mb-2`}>
+        Detrás de cada cotización hay una persona que responde el teléfono, revisa tu caso y te
+        acompaña si algún día tienes que usar la póliza. Esta es su historia.
+      </p>
+    </div>
 
-    <div data-placeholder="content"></div>
+    {/* Story: portrait on one column, the family history on the other. */}
+    <section class="bg-white py-12" aria-labelledby="historia-title">
+      <div class={`${t.container} grid items-start gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]`}>
+        <div class="lg:sticky lg:top-28">
+          <div class="overflow-hidden rounded-3xl border border-[#e2e8f0] bg-[var(--navy)] shadow-[0_24px_60px_rgba(11,37,69,0.16)]">
+            {/* Portrait placeholder: drop the real photo here when it is available. */}
+            <div class="relative flex aspect-[4/5] flex-col items-center justify-center gap-3 bg-[linear-gradient(160deg,var(--navy)_0%,var(--navy-light)_60%,#24507f_100%)] px-6 text-center text-white">
+              <span
+                class="flex h-24 w-24 items-center justify-center rounded-full border border-white/30 bg-white/10 text-3xl font-bold tracking-[0.06em]"
+                aria-hidden="true"
+              >
+                LV
+              </span>
+              <p class="mt-2 text-lg font-bold">{siteConfig.advisorName}</p>
+              <p class="text-sm text-[#c9d6e6]">Asesor de seguros · Cédula CNSF 649610</p>
+              <p class="absolute bottom-5 text-[0.7rem] uppercase tracking-[0.14em] text-white/60">
+                Fotografía del asesor
+              </p>
+            </div>
+          </div>
+
+          <ul class="mt-6 grid gap-3">
+            {
+              facts.map((fact) => (
+                <li class="flex items-center gap-4 rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] px-4 py-3">
+                  <span class="min-w-[4.5rem] text-2xl font-extrabold leading-none text-[var(--red)]">
+                    {fact.value}
+                  </span>
+                  <div>
+                    <p class="text-sm font-bold text-[var(--navy)]">{fact.label}</p>
+                    <p class="text-xs text-[var(--text-muted)]">{fact.note}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2 id="historia-title" class={`${t.h2} mb-4`}>Un negocio familiar de dos generaciones</h2>
+
+          <div class={`${t.body} space-y-4`}>
+            <p>
+              AV Seguros Real nació en una familia que lleva cuarenta años en el ramo. La primera
+              generación construyó su carrera en Comercial América, continuó en ING y hoy trabaja con
+              AXA, colaborando también con Afirme y Quálitas. Ese recorrido dejó algo que no se
+              aprende en un curso: criterio para saber qué cobertura sirve y cuál solo encarece la
+              prima.
+            </p>
+            <p>
+              Luis creció dentro de esa agencia. Empezó a los 15 años como mensajero y fue subiendo
+              paso a paso: administración, capacitación y, más adelante, gerencia de ventas. Conoce el
+              negocio desde el papeleo hasta la negociación con la aseguradora, y desde hace 15 años
+              atiende personalmente a sus clientes.
+            </p>
+            <p>
+              Hoy la agencia trabaja con el respaldo de <strong>TVAsesores</strong>, una organización con
+              40 años de experiencia, y con una idea que no ha cambiado: el seguro se explica, no se
+              impone.
+            </p>
+          </div>
+
+          <div class="mt-8 rounded-2xl border-l-4 border-[var(--red)] bg-[var(--gray-card)] p-6">
+            <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+              Cédula profesional
+            </p>
+            <p class="mt-1 text-lg font-bold text-[var(--navy)]">CNSF 649610</p>
+            <p class="mt-1 text-sm text-[var(--text-muted)]">
+              Asesor de seguros registrado ante la Comisión Nacional de Seguros y Fianzas. Puedes
+              solicitar el número de cédula de cualquier asesor antes de contratar.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {/* Career timeline. */}
+    <section class="py-12" aria-labelledby="trayectoria-title">
+      <div class={t.container}>
+        <h2 id="trayectoria-title" class={`${t.h2} mb-3`}>La trayectoria, paso a paso</h2>
+        <p class={`${t.body} mb-8`}>
+          De la agencia de su papá al escritorio donde hoy atiende a sus propios clientes.
+        </p>
+
+        <ol class="relative ml-2 border-l-2 border-[#dbe3ee] pl-6 md:ml-4 md:pl-8">
+          {
+            milestones.map((milestone) => (
+              <li class="relative pb-8 last:pb-0">
+                <span
+                  class="absolute -left-[1.85rem] top-1.5 h-3 w-3 rounded-full border-2 border-white bg-[var(--red-bright)] md:-left-[2.35rem]"
+                  aria-hidden="true"
+                />
+                <p class="text-[0.72rem] font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+                  {milestone.stage}
+                </p>
+                <h3 class={`${t.h3} mt-1`}>{milestone.title}</h3>
+                <p class="max-w-[65ch] text-[0.98rem] leading-relaxed text-[var(--text-muted)]">
+                  {milestone.body}
+                </p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    {/* What the advisor does. */}
+    <section class="bg-white py-12" aria-labelledby="especialidad-title">
+      <div class={t.container}>
+        <h2 id="especialidad-title" class={`${t.h2} mb-3`}>En qué te podemos ayudar</h2>
+        <p class={`${t.body} mb-8`}>
+          Acompañamiento personalizado: autos, flotas y daños, con la misma persona de principio a fin.
+        </p>
+
+        <ul class="grid gap-5 sm:grid-cols-2">
+          {
+            specialties.map((item) => (
+              <li class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-6">
+                <span class="mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-[var(--navy)] text-white">
+                  <i class={`fas ${item.icon}`} aria-hidden="true" />
+                </span>
+                <h3 class={t.h3}>{item.title}</h3>
+                <p class="text-sm leading-relaxed text-[var(--text-muted)]">{item.body}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    {/* Mission. */}
+    <section class="py-12" aria-labelledby="mision-title">
+      <div class={`${t.container} max-w-[900px]`}>
+        <div class="rounded-3xl bg-[var(--navy)] p-7 text-white md:p-10">
+          <p class="text-[0.72rem] font-bold uppercase tracking-[0.1em] text-[#b0c4de]">Nuestra misión</p>
+          <h2 id="mision-title" class="mt-2 text-2xl font-bold leading-snug md:text-[1.9rem]">
+            No hay un seguro universal
+          </h2>
+          <blockquote class="mt-4 space-y-3 text-[1.02rem] leading-relaxed text-[#dbe6f2]">
+            <p>
+              Cada póliza se adapta a tus necesidades: no es lo mismo asegurar el auto que usas para
+              llevar a tus hijos a la escuela que el que manejas doce horas al día.
+            </p>
+            <p>
+              Por eso primero te conocemos —tu familia, el uso de tu auto, lo que quieres proteger— y
+              después te ofrecemos lo mejor para ese caso. Ni más cobertura de la necesaria, ni menos
+              de la que hace falta.
+            </p>
+          </blockquote>
+          <p class="mt-6 text-sm font-semibold text-white">— {siteConfig.advisorName}</p>
+        </div>
+      </div>
+    </section>
+
+    {/* Closing CTA. */}
+    <section class="bg-white py-12" aria-labelledby="asesoria-title">
+      <div class={`${t.container} text-center`}>
+        <h2 id="asesoria-title" class={`${t.h2} mb-3`}>Platiquemos de tu caso</h2>
+        <p class="mx-auto mb-6 max-w-[60ch] text-[var(--text-muted)]">
+          Cuéntanos qué quieres proteger y te decimos con claridad qué opciones existen, cuánto
+          cuestan y qué queda fuera. Sin compromiso.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          <a
+            href={whatsappUrl}
+            class="inline-flex items-center gap-2 rounded-full bg-[var(--red-bright)] px-7 py-3 font-bold text-white transition hover:bg-[var(--red)]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Escríbenos por WhatsApp
+          </a>
+          <a
+            href="/contacto/"
+            class="inline-flex items-center gap-2 rounded-full border border-[var(--navy)] px-7 py-3 font-semibold text-[var(--navy)] transition hover:bg-[var(--navy)] hover:text-white"
+          >
+            <i class="fas fa-file-signature" aria-hidden="true"></i> Solicitar asesoría
+          </a>
+        </div>
+      </div>
+    </section>
   </main>
 </BaseLayout>
