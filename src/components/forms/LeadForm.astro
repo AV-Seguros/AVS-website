@@ -80,8 +80,26 @@ const cardClass = isSection
   : '';
 
 const labelClass = isDark
-  ? 'mb-1 block text-[0.85rem] font-semibold text-[var(--red-bright)]'
+  ? 'mb-1 block text-[0.85rem] font-semibold text-[var(--red-on-dark)]'
   : 'mb-1 block text-sm font-semibold text-[var(--navy)]';
+
+// The navy card needs a lighter red: `--red`/`--red-bright` on #0b2545 stays
+// below 4.5:1. `--red-on-dark` keeps the hue and reaches 6.8:1.
+const consentLinkClass = isDark
+  ? 'font-semibold text-[var(--red-on-dark)] underline'
+  : 'font-semibold text-[var(--red)] underline';
+
+// Built without the light-surface tokens so a navy heading never carries both
+// `text-[var(--navy)]` and `text-white` at once (the winner depended on the
+// order Tailwind emitted the utilities in).
+const headingClass =
+  tone === 'navy'
+    ? 'mb-3 text-[1.7rem] font-bold leading-tight tracking-[-0.02em] text-white md:text-[2.1rem]'
+    : `${landingTokens.h2} mb-3`;
+const descriptionClass =
+  tone === 'navy'
+    ? 'mb-6 mx-auto max-w-[70ch] text-center text-[1.05rem] leading-relaxed text-[#cbd5e1]'
+    : `${landingTokens.body} mb-6`;
 
 const consentClass = isDark
   ? 'flex items-start gap-3 text-sm text-[#cbd5e1]'
@@ -103,25 +121,8 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
       {
         isSection && (
           <>
-            <h2
-              id={`${baseId}-title`}
-              class:list={[
-                landingTokens.h2,
-                'mb-3',
-                tone === 'navy' ? 'text-white' : '',
-              ]}
-            >
-              {heading}
-            </h2>
-            <p
-              class:list={[
-                landingTokens.body,
-                'mb-6',
-                tone === 'navy' ? 'mx-auto text-center text-[#cbd5e1]' : '',
-              ]}
-            >
-              {description}
-            </p>
+            <h2 id={`${baseId}-title`} class={headingClass}>{heading}</h2>
+            <p class={descriptionClass}>{description}</p>
           </>
         )
       }
@@ -239,9 +240,7 @@ const fieldErrorClass = `mt-1 hidden text-sm ${isDark ? 'text-[#fca5a5]' : 'text
             />
             <span>
               Acepto el
-              <a href="/aviso-de-privacidad/" class="font-semibold text-[var(--red)] underline">
-                aviso de privacidad</a
-              >
+              <a href="/aviso-de-privacidad/" class={consentLinkClass}>aviso de privacidad</a>
               y el contacto por WhatsApp o correo para recibir mi cotización.
             </span>
           </label>

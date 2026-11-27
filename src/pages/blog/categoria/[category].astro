@@ -74,10 +74,19 @@ const collectionSchema = {
 };
 ---
 
+{
+  /*
+    A category with no published article is a thin page: it renders the empty
+    state for a visitor who lands there, but it must not be indexed until it
+    lists at least one article. `noindex` also keeps it out of the sitemap (see
+    the build hook in `astro.config.mjs`).
+  */
+}
 <BaseLayout
   title={pageTitle}
   description={description}
   canonicalPath={PATH}
+  noindex={posts.length === 0}
   schema={[collectionSchema]}
 >
   <main class="mx-auto w-full max-w-[1100px] px-6 py-10">
