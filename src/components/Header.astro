@@ -1,7 +1,9 @@
 ---
 // Site header: brand link, main navigation (with the services mega menu),
 // primary CTA and mobile menu.
-import logo from '../../public/logo.png';
+// 100 px WebP rather than the 501 px PNG used by the press kit and the
+// Organization schema: the header renders it at 50 px on all 39 pages.
+import logo from '../assets/logo-header.webp';
 import { mainNavigation, menuGroups, isCurrentPath, isCurrentSection } from '../config/navigation';
 import { siteConfig } from '../config/site';
 import { buildWhatsAppUrl } from '../scripts/whatsapp';
@@ -18,7 +20,15 @@ const servicesActive = isCurrentSection(allMenuLinks, pathname);
   <div class="header__inner">
     <div class="header__logo">
       <a class="header__logo-link" href="/">
-        <img src={logo.src} alt="logo-avsr" title="Logo AV Seguros Real" class="logo" />
+        {/* Empty alt on purpose: the adjacent text already names the link. */}
+        <img
+          src={logo.src}
+          alt=""
+          width={logo.width}
+          height={logo.height}
+          class="logo"
+          decoding="async"
+        />
         <span class="header__brand">
           AV · <span class="header__brand-sub">Seguros Real</span>
         </span>

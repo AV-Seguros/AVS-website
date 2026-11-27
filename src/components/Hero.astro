@@ -1,13 +1,27 @@
 ---
-import imageHero from "../../public/home/hero-section.jpg";
+import imageHero from "../assets/hero-section.webp";
+import imageHeroMobile from "../assets/hero-section-mobile.webp";
 import LeadForm from "./forms/LeadForm.astro";
 ---
 
 <section id="hero" class="hero relative overflow-hidden" aria-labelledby="hero-title">
+  {/*
+    The hero background is the LCP element: served as WebP (1920 px on desktop,
+    960 px below 768 px), eager, high priority, and with explicit dimensions so
+    the box is reserved before the file arrives.
+  */}
   <picture class="absolute left-0 right-0 bottom-0 top-0 w-full -z-1!">
     <source media="(min-width: 1024px)" srcset={imageHero.src}>
     <source media="(min-width: 768px)" srcset={imageHero.src}>
-    <img src={imageHero.src} alt="Asesor del seguro en tiempo real" loading="lazy">
+    <img
+      src={imageHeroMobile.src}
+      alt="Asesor del seguro en tiempo real"
+      width={imageHeroMobile.width}
+      height={imageHeroMobile.height}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    >
   </picture>
   <div class="hero__container">
     <div class="hero__left">
@@ -35,10 +49,22 @@ import LeadForm from "./forms/LeadForm.astro";
 
       <div class="hero__logos">
         <span class="hero__logo-badge">
-          <img src={`${import.meta.env.BASE_URL}logo-axa.webp`} alt="Logo AXA" class="hero__logo-img" />
+          <img
+            src={`${import.meta.env.BASE_URL}logo-axa.webp`}
+            alt="Logo AXA"
+            width="400"
+            height="400"
+            class="hero__logo-img"
+          />
         </span>
         <span class="hero__logo-badge">
-          <img src={`${import.meta.env.BASE_URL}logo-afirme.jpg`} alt="Logo Afirme" class="hero__logo-img" />
+          <img
+            src={`${import.meta.env.BASE_URL}logo-afirme.webp`}
+            alt="Logo Afirme"
+            width="400"
+            height="400"
+            class="hero__logo-img"
+          />
         </span>
         <br /><br />
         <span class="hero__logo-badge hero__logo-badge--transparent">
