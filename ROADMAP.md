@@ -1,3 +1,69 @@
+# Datos adicionales
+
+- Apuntan a empresas medianas y grandesque tengan vehiculos, gastos medicos o incluso vida, Super importante tener segurode gastos medicos, porque mexico malo
+- Igual el devida, masseguridad a trs trabajdores,y temas familaires, menor presion de trabajadores, evita la rotacion
+- Repartidores de rappi
+- Seguros para flotilla de taxis o de la calle
+- Seguros para tractocamiones
+
+## Claculadorade deducibles
+
+- Cuando esperdidatotal, a mi me van pagar
+- https://www.libroazul.com/inicio/autosusados/guiaprecios
+- ¿Por qué no encuentro un auto 2014 o menor en la sección “guía de precios usados”?
+
+  Para obtener precios de vehículos 2014 hacia atrás, es necesario adquirir la Guía EBC Modelos anteriores.
+  Si desea consultar precios de autos 2014 hacia atrás, le sugerimos adquirir la Guía EBC Modelos anteriores a través de nuestro asistente en el siguiente enlace: Suscripción Guía EBC.
+
+- Formas de pago - Mensual o trimestral es con cargo a tarjeta si o si, debito ocredito,aunque casi todos los agentes dicen credito
+- Nombres de los seguros: Amplia, contra terceros (Solo el dañoque tu hagas o basica)
+- Cristales: Simecae unapiedra, sise rompe, cualquier situacion por ACCIDENTE, te lo cubre. El seguro evalua dependiendo de la situacion
+- Daño parcial es casi igual a cristales, donde me dan una orden para el taller mecanico, que me dicen cuanto mas omenos me cuesta, donde debo de poner el 5%
+- Responsabilidad civil, daños a terceros, bsicamente es la mas importante, de las primeras cuatro la basica no lo traen, pero lo importante inicia aca, esta amparada en 3 millones de pesos por cada siniestro → Dañosaterceros.Tambieninvolucra hosital de las personas
+- Gastos medicos ocupantes, cada individuo puede llegara tener hasta 200k mexicanos, esto se deifne casi siempre en la cantidad de cinturones de seguridad
+- Si van mas personas de las permitidas, te pueden revocar el seguro
+- No cubre mascotas
+- Esta poliza es lo que se pone en estandar, pero igual tener en cuenta que cada seguro puede cambiar, pero casi siempre estos son los valores por defecto
+- RC en estados unidos y canada, es un seguro en estos paises.Que es RC (Responsabilidad Civil), reparacion en mexico de tu propio auto
+- ASISTENCIA EN VIAJES Y VIAL KM "0" → Te quedassin gasolina, teponchas una llanta,asistencia ~ Te mandan a alguien a que te ayuden
+- ASISTENCIA MEDICA
+- ASISTENCIA JURÍDICA → Demandas = Abogado
+- ASISTENCIA FUNERARIA VIAL
+- La herramienta como tal no es solo para el vehiculo como tal, puede ser de cristales, daños a terceros, podemos mejorar la herramienta en base a la situacion
+
+## Herramienta - Que seguro necesito
+
+- Falta agregar Pick-up o tractocamiones
+- Idea del vendedor: Por que no le metemos en ese formulario, q ue le permita ingresar el correo y/o telefono y nombre y qeu se envie de manera automatica al correo electronico
+- Idea del vendedor: Mirar a ver si podemos mejorar el formulario con mas pasos o mas especificaciones y que el formulario este disponible en el Homepage comobuena herramienta de hacer, dice que seria genialq ueestuviera tipoen el hero o algo de facil acceso
+- La opcion "Familia" debe de ser cambiado a gastos medicos o agregar la opcion de vida (Prefieren que esten los dos si es posible) pero si cmabiar elnombre
+
+## Herramienta - Checklist
+
+- Me felicita por que le encanta la idea y quiere analizar la herramienta para mejorarlo
+- Idea del vendedor, dice que podriamos agregar un boton de "Descargar PDF" y dice que es una gran idea y muchisimas gracias
+- Puede ser un formulario diferente para cada tipo de siutacion, vida, medicos, hogar
+
+## Glosario de seguros
+
+- Verificar mas palabrasen basea lacotizacion de Afirme
+- El vendedor va a verificar queotros terminos podemos agregar
+
+## Documentos
+
+- Agregar uno de "Que ahcer encaso de siniestros"
+
+## Jobs - Empleos - Bolsa de Trabajo
+
+- El vendedor quiere agregaruna opcion de "Unete" a AV Seguros Real
+
+## Blog
+
+- Podemos usar lo de la pagina de AXA, pero depronto usando terminos diferentes o redaccion diferente, pero con los mismos
+- Me quiere pasar articulos ya hechos
+
+---
+
 # AV Seguros Real — Website Roadmap
 
 **Current version:** `1.7.0` (complete)
@@ -116,17 +182,17 @@ This milestone is the technical foundation for everything that follows. It is de
 
 **Routes to create**
 
-| Route                          | Page file                             |
-| ------------------------------ | ------------------------------------- |
-| `/`                            | `src/pages/index.astro` (existing)    |
-| `/servicios/`                  | `src/pages/servicios.astro`           |
-| `/quienes-somos/`              | `src/pages/quienes-somos.astro`       |
-| `/contacto/`                   | `src/pages/contacto.astro`            |
-| `/faq/`                        | `src/pages/faq.astro`                 |
-| `/aviso-de-privacidad/`        | `src/pages/aviso-de-privacidad.astro` |
-| `/terminos-y-condiciones/`     | `src/pages/terminos-y-condiciones.astro` |
-| `/404`                         | `src/pages/404.astro`                   |
-| `/gracias/`                    | `src/pages/gracias.astro` (existing, rendered with `noindex`) |
+| Route                      | Page file                                                     |
+| -------------------------- | ------------------------------------------------------------- |
+| `/`                        | `src/pages/index.astro` (existing)                            |
+| `/servicios/`              | `src/pages/servicios.astro`                                   |
+| `/quienes-somos/`          | `src/pages/quienes-somos.astro`                               |
+| `/contacto/`               | `src/pages/contacto.astro`                                    |
+| `/faq/`                    | `src/pages/faq.astro`                                         |
+| `/aviso-de-privacidad/`    | `src/pages/aviso-de-privacidad.astro`                         |
+| `/terminos-y-condiciones/` | `src/pages/terminos-y-condiciones.astro`                      |
+| `/404`                     | `src/pages/404.astro`                                         |
+| `/gracias/`                | `src/pages/gracias.astro` (existing, rendered with `noindex`) |
 
 **Tasks**
 
@@ -321,11 +387,11 @@ This milestone is the technical foundation for everything that follows. It is de
 
 **Routes**
 
-| Route                       | Page file                                |
-| --------------------------- | ---------------------------------------- |
-| `/servicios/`               | `src/pages/servicios.astro`               |
-| `/aviso-de-privacidad/`     | `src/pages/aviso-de-privacidad.astro`     |
-| `/terminos-y-condiciones/`  | `src/pages/terminos-y-condiciones.astro`  |
+| Route                      | Page file                                |
+| -------------------------- | ---------------------------------------- |
+| `/servicios/`              | `src/pages/servicios.astro`              |
+| `/aviso-de-privacidad/`    | `src/pages/aviso-de-privacidad.astro`    |
+| `/terminos-y-condiciones/` | `src/pages/terminos-y-condiciones.astro` |
 
 **Tasks**
 
@@ -416,7 +482,7 @@ Base route: `/blog/`. Content should be useful, accurate and written for real pe
 - Create an Astro content collection (`src/content/blog/`) with a typed schema: `title`, `description`, `publishDate`, `category`, `keywords`, `heroImage` (optional), `draft`.
 - Create `/blog/` index listing published articles (title, description, date, category).
 - Create the article route `/blog/[slug]/` using `BaseLayout` + `SEO` + `Breadcrumbs` + `Article` JSON-LD.
-- Publish the first article: *"¿Qué cobertura de seguro de auto necesito en México?"*
+- Publish the first article: _"¿Qué cobertura de seguro de auto necesito en México?"_
 - Categories defined in a config file: Car insurance, Coverage, Insurance for drivers, Renewals, Claims and accidents, Insurance education.
 
 **Verification:** article builds at its slug, appears on the index, has unique metadata, one H1 and valid `Article` schema.
@@ -425,9 +491,9 @@ Base route: `/blog/`. Content should be useful, accurate and written for real pe
 
 ### `1.4.2` — 3 additional foundational articles
 
-- *"Cobertura limitada vs. cobertura amplia: diferencias"*
-- *"¿Mi seguro de auto privado cubre Uber?"* (links to `/seguro-para-uber/`)
-- *"¿Qué es un deducible?"* (links to the deductible calculator)
+- _"Cobertura limitada vs. cobertura amplia: diferencias"_
+- _"¿Mi seguro de auto privado cubre Uber?"_ (links to `/seguro-para-uber/`)
+- _"¿Qué es un deducible?"_ (links to the deductible calculator)
 
 Each: 700+ words, unique metadata, at least one contextual CTA, internal links to relevant landing pages.
 
@@ -575,6 +641,7 @@ Each: 700+ words, unique metadata, at least one contextual CTA, internal links t
 - `/quienes-somos/` carries the bio built from `site.ts` data and no unverifiable claims.
 
 **Status:** Done in code; the checklist itself is manual. `docs/off-site-presence.md` is the tracked document: the NAP table copied from `site.ts`, the directory checklist (Google Business Profile, Bing Places, CONDUSEF, CNSF, AXA, Afirme, TVAsesores) with a status column per entry, the backlink checklist (driving schools, used-car dealerships, finance blogs, chambers, insurer pages, driver communities, press) with the resulting URL and `follow` status to fill in, and the rules that forbid paid links, invented awards and duplicate profiles. `/prensa/` is the public counterpart: one H1, the advisor's quotable bio (15 years, 40 years of the first generation, cédula CNSF 649610, TVAsesores backing, AXA and Afirme), the facts table, the official logo with a `download` link, and the media contact at `contacto@avsegurosreal.com`, with a `Person` JSON-LD node. `/quienes-somos/` was already carrying the bio from `site.ts` with no unverifiable claims. **Manual, outside the codebase:** registering each directory and requesting each backlink, then recording status, live URL and NAP per entry.
+
 - A spot check of at least three live listings shows identical NAP and a working link back to the site.
 
 ---
@@ -715,23 +782,23 @@ The customer portal and administrative dashboard are separate future products, n
 
 The roadmap is sequential. The first block is a hard dependency chain: nothing else starts until it is complete.
 
-| Priority | Sub-milestone | Scope                                             | Business value                                  |
-| -------- | ------------- | ------------------------------------------------- | ----------------------------------------------- |
-| P0       | `1.1.1`       | Base layout, SEO component, site configuration     | Single foundation for every page                |
-| P0       | `1.1.2`       | Sitemap, robots, canonical, schema, Open Graph     | Makes the site indexable and shareable          |
-| P0       | `1.1.3`       | Skeleton pages for all core routes                 | Establishes the route surface                   |
-| P0       | `1.1.4`       | Navigation, footer, breadcrumbs                    | Makes the site navigable and crawlable          |
-| P0       | `1.1.5`       | Conservative Home refactor (keyword H1, title, meta) | Captures the primary search intent            |
-| P0       | `1.2.1`       | Uber landing page as a complete vertical slice     | Proves the reusable landing-page template       |
-| P0       | `1.2.0` (rest) | DiDi, delivery, car insurance, other insurance types | Capture specific search intentions           |
-| P1       | `1.3.0`       | Interactive tools                                  | Improve engagement and lead quality             |
-| P1       | `1.4.0`       | Education center                                   | Build organic traffic and trust                 |
-| P1       | `1.5.0`       | Assistance tools                                   | Provide practical customer value                |
-| P1       | `1.6.0`       | Conversion optimization                            | Improve lead generation and attribution         |
-| P2       | `1.7.0`       | SEO, performance and accessibility audit            | Improve discoverability and quality             |
-| P2       | `1.8.0`       | Infrastructure                                     | Prepare for future integrations                 |
-| P3       | `1.9.0`       | Advanced experience                                | Expand platform capabilities                    |
-| P3       | `2.0.0`       | Digital platform                                   | Introduce authenticated experiences             |
+| Priority | Sub-milestone  | Scope                                                | Business value                            |
+| -------- | -------------- | ---------------------------------------------------- | ----------------------------------------- |
+| P0       | `1.1.1`        | Base layout, SEO component, site configuration       | Single foundation for every page          |
+| P0       | `1.1.2`        | Sitemap, robots, canonical, schema, Open Graph       | Makes the site indexable and shareable    |
+| P0       | `1.1.3`        | Skeleton pages for all core routes                   | Establishes the route surface             |
+| P0       | `1.1.4`        | Navigation, footer, breadcrumbs                      | Makes the site navigable and crawlable    |
+| P0       | `1.1.5`        | Conservative Home refactor (keyword H1, title, meta) | Captures the primary search intent        |
+| P0       | `1.2.1`        | Uber landing page as a complete vertical slice       | Proves the reusable landing-page template |
+| P0       | `1.2.0` (rest) | DiDi, delivery, car insurance, other insurance types | Capture specific search intentions        |
+| P1       | `1.3.0`        | Interactive tools                                    | Improve engagement and lead quality       |
+| P1       | `1.4.0`        | Education center                                     | Build organic traffic and trust           |
+| P1       | `1.5.0`        | Assistance tools                                     | Provide practical customer value          |
+| P1       | `1.6.0`        | Conversion optimization                              | Improve lead generation and attribution   |
+| P2       | `1.7.0`        | SEO, performance and accessibility audit             | Improve discoverability and quality       |
+| P2       | `1.8.0`        | Infrastructure                                       | Prepare for future integrations           |
+| P3       | `1.9.0`        | Advanced experience                                  | Expand platform capabilities              |
+| P3       | `2.0.0`        | Digital platform                                     | Introduce authenticated experiences       |
 
 ---
 
@@ -823,13 +890,13 @@ These decisions are binding for all subsequent sessions unless explicitly revise
 
 ### Pure JS vs. React island matrix
 
-| Nature of the feature                                                        | Implementation                              |
-| ---------------------------------------------------------------------------- | ------------------------------------------- |
-| Deterministic calculation, no multi-step state (deductible calculator)        | Pure JS, no island                          |
-| String / URL manipulation, message building, attribution params               | Pure JS utility module, no island           |
-| Static checklists, filters, toggles, print views                              | Pure JS on a static Astro page, no island   |
-| Multi-step flows with conditional branching and derived summaries (needs assistant) | React island with `client:visible`      |
-| Anything that must survive navigation or be shared across pages               | Out of scope for the static site; revisit in `1.8.0` |
+| Nature of the feature                                                               | Implementation                                       |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| Deterministic calculation, no multi-step state (deductible calculator)              | Pure JS, no island                                   |
+| String / URL manipulation, message building, attribution params                     | Pure JS utility module, no island                    |
+| Static checklists, filters, toggles, print views                                    | Pure JS on a static Astro page, no island            |
+| Multi-step flows with conditional branching and derived summaries (needs assistant) | React island with `client:visible`                   |
+| Anything that must survive navigation or be shared across pages                     | Out of scope for the static site; revisit in `1.8.0` |
 
 Interactive components that only toggle visibility, validate input or compute a value must not pull in a framework runtime.
 
