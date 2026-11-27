@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { siteConfig } from '../config/site';
+import { buildWhatsAppUrl } from '../scripts/whatsapp';
+
+const PATH = '/prensa/';
+const pageUrl = new URL(PATH, siteConfig.siteUrl).toString();
+
+const whatsappUrl = buildWhatsAppUrl('contacto');
+
+// Media contact: the public mailbox from `site.ts`, never the personal fallback.
+const mediaEmail = siteConfig.email;
+const mediaEmailHref = `mailto:${mediaEmail}?subject=${encodeURIComponent(
+  'Solicitud de prensa · AV Seguros Real',
+)}`;
+
+// Facts a journalist can quote without asking first. They repeat the values used
+// on /quienes-somos/ and in `llms.txt`, so the entity stays consistent.
+const facts = [
+  { label: 'Asesor', value: siteConfig.advisorName },
+  { label: 'Experiencia', value: '15 años de atención directa a clientes' },
+  { label: 'Cédula CNSF', value: '649610' },
+  { label: 'Respaldo', value: 'TVAsesores, 40 años en el sector' },
+  { label: 'Aseguradoras', value: 'AXA y Afirme' },
+  { label: 'Base', value: 'Juárez, Nuevo León' },
+];
+
+// Topics where the advisor can speak from his own practice. No claim beyond it.
+const topics = [
+  'Seguro de auto para conductores de aplicaciones y repartidores.',
+  'Cobertura limitada frente a cobertura amplia: qué cambia en la práctica.',
+  'Deducible, coaseguro y suma asegurada explicados con números.',
+  'Renovación de póliza: qué revisar antes del vencimiento.',
+  'Qué hacer después de un accidente y cómo interviene el ajustador.',
+  'Seguros de vida, hogar, gastos médicos y empresariales para familias y negocios pequeños.',
+];
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: siteConfig.advisorName,
+  jobTitle: 'Asesor de seguros',
+  url: new URL('/quienes-somos/', siteConfig.siteUrl).toString(),
+  telephone: siteConfig.phone,
+  email: siteConfig.email,
+  worksFor: {
+    '@type': 'Organization',
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.city,
+    addressRegion: siteConfig.address.region,
+    postalCode: siteConfig.address.postalCode,
+    addressCountry: siteConfig.address.country,
+  },
+  mainEntityOfPage: pageUrl,
+};
+---
+
+<BaseLayout
+  title="Sala de Prensa · AV Seguros Real"
+  description="Materiales de prensa de AV Seguros Real: biografía del asesor Luis Adolfo Villarreal, logotipo oficial y contacto directo para medios."
+  canonicalPath={PATH}
+  schema={[personSchema]}
+>
+  <main class="mx-auto w-full max-w-[900px] px-6 py-10">
+    <Breadcrumbs trail={[{ label: 'Sala de Prensa', href: PATH }]} />
+
+    <header class="mb-10 max-w-[70ch]">
+      <p class="mb-2 text-xs font-bold uppercase tracking-[0.1em] text-[var(--red)]">
+        Prensa y medios
+      </p>
+      <h1 class="mb-4 text-3xl font-extrabold leading-tight text-[var(--navy)] sm:text-4xl">
+        Sala de Prensa
+      </h1>
+      <p class="text-[1.05rem] leading-relaxed text-[var(--text-muted)]">
+        Materiales para periodistas, editores y directorios: quién es el asesor, cómo se
+        describe la agencia y cómo obtener el logotipo oficial. Todo lo publicado aquí puede
+        citarse tal cual, sin solicitar autorización previa.
+      </p>
+    </header>
+
+    <section class="mb-10" aria-labelledby="bio-title">
+      <h2 id="bio-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        ¿Quién es Luis Adolfo Villarreal?
+      </h2>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Luis Adolfo Villarreal es asesor de seguros en Juárez, Nuevo León, con quince años de
+        atención directa a clientes y cédula 649610 ante la Comisión Nacional de Seguros y
+        Fianzas. Trabaja con AXA y Afirme y cotiza cada caso a mano: revisa el uso del
+        vehículo, la composición de la familia y el presupuesto antes de proponer una
+        cobertura.
+      </p>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Viene de una familia dedicada al mismo oficio. Su papá lleva cuarenta años en el
+        sector —Comercial América, después ING y hoy AXA, con colaboración en Afirme y
+        Quálitas— y Luis entró a la agencia a los quince años como mensajero, pasó por
+        administración y capacitación, y llegó a gerente de ventas antes de dedicarse de
+        tiempo completo a asesorar clientes.
+      </p>
+      <p class="max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        AV Seguros Real opera con el respaldo de TVAsesores, una agencia con cuarenta años de
+        trayectoria. Para la biografía completa, la línea de tiempo familiar y las
+        especialidades, consulta
+        <a href="/quienes-somos/" class="font-semibold text-[var(--red)] hover:underline"
+          >la página del asesor</a
+        >.
+      </p>
+    </section>
+
+    <section class="mb-10" aria-labelledby="datos-title">
+      <h2 id="datos-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Datos para citar
+      </h2>
+      <dl class="grid gap-3 sm:grid-cols-2">
+        {
+          facts.map((fact) => (
+            <div class="rounded-2xl border border-[#e2e8f0] bg-[var(--gray-card)] p-4">
+              <dt class="mb-1 text-xs font-bold uppercase tracking-[0.08em] text-[var(--red)]">
+                {fact.label}
+              </dt>
+              <dd class="text-sm font-semibold leading-relaxed text-[var(--navy)]">
+                {fact.value}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <section class="mb-10" aria-labelledby="temas-title">
+      <h2 id="temas-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Temas sobre los que puede opinar
+      </h2>
+      <p class="mb-4 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Son los temas que atiende a diario con clientes. Las respuestas se limitan a la
+        práctica del asesor y a las condiciones de cada póliza; no se emiten precios ni
+        promesas de cobertura.
+      </p>
+      <ul class="max-w-[70ch] space-y-2">
+        {
+          topics.map((topic) => (
+            <li class="flex gap-3 text-sm leading-relaxed text-[var(--text-muted)]">
+              <i
+                class="fas fa-circle-check mt-1 text-[var(--red-bright)]"
+                aria-hidden="true"
+              />
+              <span>{topic}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mb-10" aria-labelledby="logotipo-title">
+      <h2 id="logotipo-title" class="mb-4 text-2xl font-bold text-[var(--navy)]">
+        Logotipo oficial
+      </h2>
+      <p class="mb-5 max-w-[70ch] leading-relaxed text-[var(--text-muted)]">
+        Descarga el logotipo en PNG de 501 × 501 px, con fondo transparente. Úsalo sin
+        recortar, sin cambiar los colores y sin agregar efectos. Si necesitas otra versión o
+        un formato vectorial, solicítalo por correo.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 rounded-2xl border border-[#e2e8f0] bg-white p-5">
+        <img
+          src="/logo.png"
+          alt="Logotipo de AV Seguros Real"
+          width="88"
+          height="88"
+          loading="lazy"
+          decoding="async"
+          class="h-22 w-22 rounded-xl object-contain"
+        />
+        <div class="flex-1">
+          <p class="mb-1 text-sm font-bold text-[var(--navy)]">AV Seguros Real · PNG</p>
+          <p class="text-xs text-[var(--text-muted)]">
+            501 × 501 px · fondo transparente · 115 KB
+          </p>
+        </div>
+        <a
+          href="/logo.png"
+          download="av-seguros-real-logo.png"
+          class="inline-flex items-center gap-2 rounded-full bg-[var(--navy)] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[var(--navy-light)]"
+        >
+          <i class="fas fa-download" aria-hidden="true"></i>
+          Descargar logotipo
+        </a>
+      </div>
+
+      <p class="mt-4 text-sm text-[var(--text-muted)]">
+        ¿Necesitas el logotipo sobre fondo blanco? Está disponible en
+        <a
+          href="/logo-bg-white.png"
+          download="av-seguros-real-logo-fondo-blanco.png"
+          class="font-semibold text-[var(--red)] hover:underline">versión con fondo blanco</a
+        >.
+      </p>
+    </section>
+
+    <section class="rounded-2xl bg-[var(--navy)] p-6 text-white sm:p-8" aria-labelledby="contacto-title">
+      <h2 id="contacto-title" class="mb-2 text-2xl font-bold">Contacto para medios</h2>
+      <p class="mb-5 max-w-[65ch] text-sm text-[#c9d6e6]">
+        Entrevistas, datos adicionales, imágenes o aclaraciones: escribe directamente al
+        asesor. Indica el medio, el tema y la fecha de publicación para responderte con lo
+        necesario.
+      </p>
+
+      <ul class="mb-6 space-y-2 text-sm">
+        <li class="flex items-center gap-3">
+          <i class="fas fa-envelope text-[#b0c4de]" aria-hidden="true"></i>
+          <a
+            href={mediaEmailHref}
+            class="font-semibold text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
+          >
+            {mediaEmail}
+          </a>
+        </li>
+        <li class="flex items-center gap-3">
+          <i class="fas fa-phone text-[#b0c4de]" aria-hidden="true"></i>
+          <a
+            href={`tel:+${siteConfig.whatsappNumber}`}
+            class="font-semibold text-white underline decoration-[#b0c4de] underline-offset-4 transition hover:decoration-white"
+          >
+            {siteConfig.phone}
+          </a>
+        </li>
+        <li class="flex items-start gap-3 text-[#c9d6e6]">
+          <i class="fas fa-location-dot mt-1 text-[#b0c4de]" aria-hidden="true"></i>
+          <span>
+            {siteConfig.address.street}, {siteConfig.address.city}, {siteConfig.address.region},{' '}
+            {siteConfig.address.postalCode}
+          </span>
+        </li>
+      </ul>
+
+      <a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 rounded-full bg-[#0b6e5f] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#095a4e]"
+      >
+        <i class="fab fa-whatsapp text-lg" aria-hidden="true"></i>
+        Escribir por WhatsApp
+      </a>
+    </section>
+  </main>
+</BaseLayout>
